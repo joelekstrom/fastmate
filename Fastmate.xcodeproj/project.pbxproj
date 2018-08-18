@@ -13,6 +13,7 @@
 		5D39BEE32122383900693D7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEE22122383900693D7E /* main.m */; };
 		5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6E3B362122FF9E00ED16C9 /* WebViewController.m */; };
 		5D6E3B3921230EF200ED16C9 /* NotificationHooks.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3821230EF200ED16C9 /* NotificationHooks.js */; };
+		5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3A212824AF00ED16C9 /* Fastmate.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		5D6E3B352122FF9E00ED16C9 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		5D6E3B362122FF9E00ED16C9 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		5D6E3B3821230EF200ED16C9 /* NotificationHooks.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = NotificationHooks.js; sourceTree = "<group>"; };
+		5D6E3B3A212824AF00ED16C9 /* Fastmate.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fastmate.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				5D6E3B352122FF9E00ED16C9 /* WebViewController.h */,
 				5D6E3B362122FF9E00ED16C9 /* WebViewController.m */,
 				5D6E3B3821230EF200ED16C9 /* NotificationHooks.js */,
+				5D6E3B3A212824AF00ED16C9 /* Fastmate.js */,
 				5D39BEDC2122383900693D7E /* Assets.xcassets */,
 				5D39BEDE2122383900693D7E /* MainMenu.xib */,
 				5D39BEE12122383900693D7E /* Info.plist */,
@@ -137,6 +140,7 @@
 				5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */,
 				5D39BEE02122383900693D7E /* MainMenu.xib in Resources */,
 				5D6E3B3921230EF200ED16C9 /* NotificationHooks.js in Resources */,
+				5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

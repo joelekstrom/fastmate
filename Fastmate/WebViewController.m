@@ -34,6 +34,10 @@
     [self removeObserver:self forKeyPath:@"webView.title"];
 }
 
+- (void)composeNewEmail {
+    [self.webView evaluateJavaScript:@"fastmateCompose()" completionHandler:nil];
+}
+
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     decisionHandler(WKNavigationActionPolicyAllow);
 }
@@ -66,9 +70,12 @@
     self.userContentController = [WKUserContentController new];
     [self.userContentController addScriptMessageHandler:self name:@"Fastmate"];
 
-    NSString *source = [NSString stringWithContentsOfURL:[NSBundle.mainBundle URLForResource:@"NotificationHooks" withExtension:@"js"] encoding:NSUTF8StringEncoding error:nil];
-    WKUserScript *script = [[WKUserScript alloc] initWithSource:source injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
-    [self.userContentController addUserScript:script];
+    NSString *notificationHooksSource = [NSString stringWithContentsOfURL:[NSBundle.mainBundle URLForResource:@"NotificationHooks" withExtension:@"js"] encoding:NSUTF8StringEncoding error:nil];
+    WKUserScript *notificationHooksScript = [[WKUserScript alloc] initWithSource:notificationHooksSource injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+    NSString *fastmateSource = [NSString stringWithContentsOfURL:[NSBundle.mainBundle URLForResource:@"Fastmate" withExtension:@"js"] encoding:NSUTF8StringEncoding error:nil];
+    WKUserScript *fastmateScript = [[WKUserScript alloc] initWithSource:fastmateSource injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+    [self.userContentController addUserScript:notificationHooksScript];
+    [self.userContentController addUserScript:fastmateScript];
 }
 
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {

@@ -14,6 +14,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="mainWebViewController" destination="cZ8-Md-ztT" id="QK7-jo-rhh"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -68,7 +69,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="File" id="bib-Uj-vzu">
                         <items>
-                            <menuItem title="New" keyEquivalent="n" id="Was-JA-tGl">
+                            <menuItem title="New mail" keyEquivalent="n" id="Was-JA-tGl">
                                 <connections>
                                     <action selector="newDocument:" target="-1" id="4Si-XN-c54"/>
                                 </connections>

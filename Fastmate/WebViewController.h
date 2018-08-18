@@ -9,4 +9,6 @@
 
 @interface WebViewController : NSViewController
 
+- (void)composeNewEmail;
+
 @end
