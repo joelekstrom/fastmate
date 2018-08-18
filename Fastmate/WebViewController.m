@@ -27,11 +27,6 @@
     [self.view addSubview:self.webView];
 
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.baseURL]];
-    [self addObserver:self forKeyPath:@"webView.title" options:NSKeyValueObservingOptionNew context:nil];
-}
-
-- (void)dealloc {
-    [self removeObserver:self forKeyPath:@"webView.title"];
 }
 
 - (void)composeNewEmail {
@@ -44,30 +39,6 @@
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     decisionHandler(WKNavigationActionPolicyAllow);
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if (object == self && [keyPath isEqualToString:@"webView.title"]) {
-        [self webViewTitleDidChange:change[NSKeyValueChangeNewKey]];
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-
-- (void)webViewTitleDidChange:(NSString *)newTitle {
-    NSRange unreadCountRange = [newTitle rangeOfString:@"^\\(\\d+\\)" options:NSRegularExpressionSearch];
-    if (unreadCountRange.location == NSNotFound) {
-        [self setUnreadCount:0];
-    } else {
-        NSString *unreadString = [newTitle substringWithRange:unreadCountRange];
-        NSCharacterSet *decimalCharacterSet = [NSCharacterSet decimalDigitCharacterSet];
-        NSInteger unreadCount = [[unreadString stringByTrimmingCharactersInSet:decimalCharacterSet.invertedSet] integerValue];
-        [self setUnreadCount:unreadCount];
-    }
-}
-
-- (void)setUnreadCount:(NSUInteger)unreadCount {
-    [[[NSApplication sharedApplication] dockTile] setBadgeLabel:unreadCount > 0 ? [NSString stringWithFormat:@"%ld", unreadCount] : nil];
 }
 
 - (void)configureUserContentController {

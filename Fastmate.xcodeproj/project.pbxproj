@@ -9,11 +9,12 @@
 /* Begin PBXBuildFile section */
 		5D39BEDB2122383800693D7E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEDA2122383800693D7E /* AppDelegate.m */; };
 		5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D39BEDC2122383900693D7E /* Assets.xcassets */; };
-		5D39BEE02122383900693D7E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D39BEDE2122383900693D7E /* MainMenu.xib */; };
 		5D39BEE32122383900693D7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEE22122383900693D7E /* main.m */; };
 		5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6E3B362122FF9E00ED16C9 /* WebViewController.m */; };
 		5D6E3B3921230EF200ED16C9 /* NotificationHooks.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3821230EF200ED16C9 /* NotificationHooks.js */; };
 		5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3A212824AF00ED16C9 /* Fastmate.js */; };
+		5DA21A162128617900C765BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DA21A142128617900C765BF /* Main.storyboard */; };
+		5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA21A18212865F000C765BF /* UnreadCountObserver.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +22,6 @@
 		5D39BED92122383800693D7E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5D39BEDA2122383800693D7E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		5D39BEDC2122383900693D7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5D39BEDF2122383900693D7E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		5D39BEE12122383900693D7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D39BEE22122383900693D7E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5D39BEE42122383900693D7E /* Fastmate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fastmate.entitlements; sourceTree = "<group>"; };
@@ -29,6 +29,9 @@
 		5D6E3B362122FF9E00ED16C9 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		5D6E3B3821230EF200ED16C9 /* NotificationHooks.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = NotificationHooks.js; sourceTree = "<group>"; };
 		5D6E3B3A212824AF00ED16C9 /* Fastmate.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fastmate.js; sourceTree = "<group>"; };
+		5DA21A152128617900C765BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5DA21A17212865F000C765BF /* UnreadCountObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnreadCountObserver.h; sourceTree = "<group>"; };
+		5DA21A18212865F000C765BF /* UnreadCountObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnreadCountObserver.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,10 +68,12 @@
 				5D39BEDA2122383800693D7E /* AppDelegate.m */,
 				5D6E3B352122FF9E00ED16C9 /* WebViewController.h */,
 				5D6E3B362122FF9E00ED16C9 /* WebViewController.m */,
+				5DA21A17212865F000C765BF /* UnreadCountObserver.h */,
+				5DA21A18212865F000C765BF /* UnreadCountObserver.m */,
 				5D6E3B3821230EF200ED16C9 /* NotificationHooks.js */,
 				5D6E3B3A212824AF00ED16C9 /* Fastmate.js */,
 				5D39BEDC2122383900693D7E /* Assets.xcassets */,
-				5D39BEDE2122383900693D7E /* MainMenu.xib */,
+				5DA21A142128617900C765BF /* Main.storyboard */,
 				5D39BEE12122383900693D7E /* Info.plist */,
 				5D39BEE22122383900693D7E /* main.m */,
 				5D39BEE42122383900693D7E /* Fastmate.entitlements */,
@@ -138,7 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */,
-				5D39BEE02122383900693D7E /* MainMenu.xib in Resources */,
+				5DA21A162128617900C765BF /* Main.storyboard in Resources */,
 				5D6E3B3921230EF200ED16C9 /* NotificationHooks.js in Resources */,
 				5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */,
 			);
@@ -151,6 +156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */,
 				5D39BEE32122383900693D7E /* main.m in Sources */,
 				5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */,
 				5D39BEDB2122383800693D7E /* AppDelegate.m in Sources */,
@@ -160,12 +166,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		5D39BEDE2122383900693D7E /* MainMenu.xib */ = {
+		5DA21A142128617900C765BF /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5D39BEDF2122383900693D7E /* Base */,
+				5DA21A152128617900C765BF /* Base */,
 			);
-			name = MainMenu.xib;
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
