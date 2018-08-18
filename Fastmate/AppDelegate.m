@@ -13,4 +13,8 @@
     [self.mainWebViewController composeNewEmail];
 }
 
+- (IBAction)performFindPanelAction:(id)sender {
+    [self.mainWebViewController focusSearchField];
+}
+
 @end

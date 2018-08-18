@@ -38,6 +38,10 @@
     [self.webView evaluateJavaScript:@"fastmateCompose()" completionHandler:nil];
 }
 
+- (void)focusSearchField {
+    [self.webView evaluateJavaScript:@"fastmateFocusSearch()" completionHandler:nil];
+}
+
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     decisionHandler(WKNavigationActionPolicyAllow);
 }

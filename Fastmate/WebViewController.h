@@ -10,5 +10,6 @@
 @interface WebViewController : NSViewController
 
 - (void)composeNewEmail;
+- (void)focusSearchField;
 
 @end
