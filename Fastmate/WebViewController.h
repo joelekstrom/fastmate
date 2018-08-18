@@ -11,5 +11,6 @@
 
 - (void)composeNewEmail;
 - (void)focusSearchField;
+- (void)handleMailtoURL:(NSURL *)URL;
 
 @end

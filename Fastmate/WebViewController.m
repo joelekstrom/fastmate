@@ -37,6 +37,15 @@
     [self.webView evaluateJavaScript:@"fastmateFocusSearch()" completionHandler:nil];
 }
 
+- (void)handleMailtoURL:(NSURL *)URL {
+    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.baseURL resolvingAgainstBaseURL:NO];
+    components.path = @"/action/compose/";
+    NSString *mailtoString = [URL.absoluteString stringByReplacingOccurrencesOfString:@"mailto:" withString:@""];
+    components.percentEncodedQueryItems = @[[NSURLQueryItem queryItemWithName:@"mailto" value:mailtoString]];
+    NSURL *actionURL = components.URL;
+    [self.webView loadRequest:[NSURLRequest requestWithURL:actionURL]];
+}
+
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     decisionHandler(WKNavigationActionPolicyAllow);
 }

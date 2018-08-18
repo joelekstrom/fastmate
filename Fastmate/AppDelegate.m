@@ -16,6 +16,13 @@
     self.mainWebViewController = (WebViewController *)NSApplication.sharedApplication.mainWindow.contentViewController;
     self.unreadCountObserver = [[UnreadCountObserver alloc] initWithWebViewController:self.mainWebViewController];
     self.statusItem = [NSStatusBar.systemStatusBar statusItemWithLength:NSSquareStatusItemLength];
+    [NSAppleEventManager.sharedAppleEventManager setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
+}
+
+- (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
+    NSAppleEventDescriptor *directObjectDescriptor = [event paramDescriptorForKeyword:keyDirectObject];
+    NSURL *mailtoURL = [NSURL URLWithString:directObjectDescriptor.stringValue];
+    [self.mainWebViewController handleMailtoURL:mailtoURL];
 }
 
 - (IBAction)newDocument:(id)sender {
