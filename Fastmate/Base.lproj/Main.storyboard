@@ -711,7 +711,7 @@
         <!--Fastmate Settings-->
         <scene sceneID="cCg-dO-LFb">
             <objects>
-                <viewController title="Fastmate Settings" showSeguePresentationStyle="single" id="Tjh-E4-m7V" sceneMemberID="viewController">
+                <viewController title="Fastmate Settings" showSeguePresentationStyle="single" id="Tjh-E4-m7V" customClass="SettingsViewController" sceneMemberID="viewController">
                     <view key="view" id="F1O-1e-Ohl">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="222"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -728,15 +728,15 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Jb-9h-IKg">
-                                <rect key="frame" x="30" y="58" width="80" height="18"/>
+                                <rect key="frame" x="30" y="58" width="85" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Menu bar" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Gkr-VU-KSs">
+                                <buttonCell key="cell" type="check" title="Status bar" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Gkr-VU-KSs">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="87m-Z5-n82"/>
                                     <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailInMenuBar" id="y2i-yy-b7L"/>
+                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="87m-Z5-n82"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uEB-WR-Zf2">
@@ -747,8 +747,8 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="qcy-Pk-Sg3"/>
                                     <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailInDock" id="fEU-Ql-2bA"/>
+                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="qcy-Pk-Sg3"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hCF-3X-QnZ">
@@ -759,6 +759,8 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
+                                    <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailCountInDock" id="7b8-rM-ny3"/>
+                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailInDock" id="EBw-M2-C9Z"/>
                                     <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailIndicator" previousBinding="EBw-M2-C9Z" id="hL5-1y-6p4">
                                         <dictionary key="options">
                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -767,33 +769,40 @@
                                             <integer key="NSNullPlaceholder" value="-1"/>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailInDock" id="EBw-M2-C9Z"/>
-                                    <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailCountInDock" id="7b8-rM-ny3"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pow-ta-NJr">
                                 <rect key="frame" x="31" y="138" width="54" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="radio" title="Dock" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="Ma0-Bf-MIS">
+                                <buttonCell key="cell" type="radio" title="Dock" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="Ma0-Bf-MIS">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="showFastmateRadioButtonSelected:" target="Tjh-E4-m7V" id="Sd9-U4-DO3"/>
+                                </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CdL-Bj-uBK">
-                                <rect key="frame" x="31" y="160" width="80" height="18"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="CdL-Bj-uBK">
+                                <rect key="frame" x="31" y="160" width="85" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="radio" title="Menu bar" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="66s-g1-I70">
+                                <buttonCell key="cell" type="radio" title="Status bar" bezelStyle="regularSquare" imagePosition="left" inset="2" id="66s-g1-I70">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="showFastmateRadioButtonSelected:" target="Tjh-E4-m7V" id="ApS-7t-HLg"/>
+                                </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1B0-AS-mZd">
+                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="1B0-AS-mZd">
                                 <rect key="frame" x="31" y="116" width="51" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="radio" title="Both" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="sJJ-lT-buE">
+                                <buttonCell key="cell" type="radio" title="Both" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="sJJ-lT-buE">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="showFastmateRadioButtonSelected:" target="Tjh-E4-m7V" id="5Y0-Qp-K00"/>
+                                </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zBQ-yi-4ax">
                                 <rect key="frame" x="18" y="185" width="115" height="17"/>
@@ -806,6 +815,11 @@
                             </textField>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="showBothRadioButton" destination="1B0-AS-mZd" id="86i-aZ-pw5"/>
+                        <outlet property="showDockIconRadioButton" destination="Pow-ta-NJr" id="i8u-j8-0Gi"/>
+                        <outlet property="showMenuBarIconRadioButton" destination="CdL-Bj-uBK" id="hpl-Tf-zmU"/>
+                    </connections>
                 </viewController>
                 <customObject id="yva-Kj-meo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="aLa-hz-uMh"/>

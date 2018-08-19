@@ -41,7 +41,7 @@ static void *UnreadCountObserverKVOContext = &UnreadCountObserverKVOContext;
     if (object == self && [keyPath isEqualToString:TitleKeyPath]) {
         [self webViewTitleDidChange:change[NSKeyValueChangeNewKey]];
     } else if (object == NSUserDefaults.standardUserDefaults && context == UnreadCountObserverKVOContext) {
-        [self updateMenuBarIndicator];
+        [self updateStatusBarIndicator];
         [self updateDockIndicator];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -63,7 +63,7 @@ static void *UnreadCountObserverKVOContext = &UnreadCountObserverKVOContext;
 - (void)setUnreadCount:(NSUInteger)unreadCount {
     _unreadCount = unreadCount;
     [self updateDockIndicator];
-    [self updateMenuBarIndicator];
+    [self updateStatusBarIndicator];
 }
 
 - (void)updateDockIndicator {
@@ -74,7 +74,17 @@ static void *UnreadCountObserverKVOContext = &UnreadCountObserverKVOContext;
     NSApplication.sharedApplication.dockTile.badgeLabel = badgeLabel;
 }
 
-- (void)updateMenuBarIndicator {
+- (void)updateStatusBarIndicator {
+    self.statusItem.image = [NSImage imageNamed:[self shouldShowStatusBarIndicator] ? @"status-bar-unread" : @"status-bar"];
+}
+
+- (void)setStatusItem:(NSStatusItem *)statusItem {
+    _statusItem = statusItem;
+    [self updateStatusBarIndicator];
+}
+
+- (BOOL)shouldShowStatusBarIndicator {
+    return self.statusItem && self.unreadCount > 0 && [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowMenuBarIndicatorUserDefaultsKey] && [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowIndicatorUserDefaultsKey];
 }
 
 - (BOOL)shouldShowDockIndicator {
