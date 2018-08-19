@@ -92,11 +92,8 @@
     self.userContentController = [WKUserContentController new];
     [self.userContentController addScriptMessageHandler:self name:@"Fastmate"];
 
-    NSString *notificationHooksSource = [NSString stringWithContentsOfURL:[NSBundle.mainBundle URLForResource:@"NotificationHooks" withExtension:@"js"] encoding:NSUTF8StringEncoding error:nil];
-    WKUserScript *notificationHooksScript = [[WKUserScript alloc] initWithSource:notificationHooksSource injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
     NSString *fastmateSource = [NSString stringWithContentsOfURL:[NSBundle.mainBundle URLForResource:@"Fastmate" withExtension:@"js"] encoding:NSUTF8StringEncoding error:nil];
     WKUserScript *fastmateScript = [[WKUserScript alloc] initWithSource:fastmateSource injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
-    [self.userContentController addUserScript:notificationHooksScript];
     [self.userContentController addUserScript:fastmateScript];
 }
 

@@ -14,3 +14,20 @@ function fastmateGetToolbarColor() {
     var color = style.getPropertyValue('background-color');
     return color;
 }
+
+/**
+ Web Notification observering
+
+ Since Web Notifications are not natively supported by WKWebView, we hook into the
+ notification function and post a webkit message handler instead.
+
+ We also set the notification permission to 'granted' since WKWebView doesn't
+ have a built in way to ask for permission.
+*/
+var originalNotification = Notification;
+Notification = function(title, options) {
+    window.webkit.messageHandlers.Fastmate.postMessage('{"title": "' + title + '", "options": ' + JSON.stringify(options) + '}');
+    return originalNotification(title, options);
+}
+
+Object.defineProperty(Notification, 'permission', { value: 'granted', writable: false });
