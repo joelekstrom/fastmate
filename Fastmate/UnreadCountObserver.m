@@ -12,7 +12,7 @@
 static NSString * const TitleKeyPath = @"webViewController.webView.title";
 static NSString * const ShouldShowIndicatorUserDefaultsKey = @"shouldShowUnreadMailIndicator";
 static NSString * const ShouldShowDockIndicatorUserDefaultsKey = @"shouldShowUnreadMailInDock";
-static NSString * const ShouldShowMenuBarIndicatorUserDefaultsKey = @"shouldShowUnreadMailInMenuBar";
+static NSString * const ShouldShowMenuBarIndicatorUserDefaultsKey = @"shouldShowUnreadMailInStatusBar";
 static NSString * const ShouldShowUnreadMailCountUserDefaultsKey = @"shouldShowUnreadMailCountInDock";
 
 static void *UnreadCountObserverKVOContext = &UnreadCountObserverKVOContext;

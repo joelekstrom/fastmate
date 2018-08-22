@@ -1,7 +1,6 @@
 #import "AppDelegate.h"
 #import "WebViewController.h"
 #import "UnreadCountObserver.h"
-#import "SettingsViewController.h"
 
 @interface AppDelegate ()
 
@@ -22,11 +21,11 @@
     NSApplication.sharedApplication.mainWindow.backgroundColor = windowColor ?: [NSColor colorWithRed:0.27 green:0.34 blue:0.49 alpha:1.0];
 
     [self updateStatusItemVisibility];
-    [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"iconVisibility" options:0 context:nil];
+    [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"shouldShowStatusBarIcon" options:0 context:nil];
 }
 
 - (void)dealloc {
-    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:@"iconVisibility"];
+    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:@"shouldShowStatusBarIcon"];
 }
 
 - (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
@@ -44,7 +43,7 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqualToString:@"iconVisibility"]) {
+    if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqualToString:@"shouldShowStatusBarIcon"]) {
         [self updateStatusItemVisibility];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -52,8 +51,7 @@
 }
 
 - (void)updateStatusItemVisibility {
-    FastmateIconVisibility visibility = [NSUserDefaults.standardUserDefaults integerForKey:@"iconVisibility"];
-    if (visibility == FastmateIconVisibilityStatusBar || visibility == FastmateIconVisibilityBoth) {
+    if ([NSUserDefaults.standardUserDefaults boolForKey:@"shouldShowStatusBarIcon"]) {
         self.statusItem = [NSStatusBar.systemStatusBar statusItemWithLength:NSSquareStatusItemLength];
         self.statusItem.target = self;
         self.statusItem.action = @selector(statusItemSelected:);
