@@ -1,9 +1,10 @@
 #import "WebViewController.h"
 @import WebKit;
 
-@interface WebViewController () <WKNavigationDelegate, WKScriptMessageHandler>
+@interface WebViewController () <WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler>
 
 @property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) WKWebView *temporaryWebView;
 @property (nonatomic, strong) WKUserContentController *userContentController;
 @property (nonatomic, strong) NSURL *baseURL;
 
@@ -23,6 +24,7 @@
     self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
     self.webView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     self.webView.navigationDelegate = self;
+    self.webView.UIDelegate = self;
     [self.view addSubview:self.webView];
 
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.baseURL]];
@@ -34,7 +36,19 @@
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    if (webView == self.temporaryWebView) {
+        [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
+        decisionHandler(WKNavigationActionPolicyCancel);
+        self.temporaryWebView = nil;
+        return;
+    }
     decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+- (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
+    self.temporaryWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
+    self.temporaryWebView.navigationDelegate = self;
+    return self.temporaryWebView;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
@@ -105,11 +119,6 @@
     notification.title = dictionary[@"title"];
     notification.subtitle = [dictionary valueForKeyPath:@"options.body"];
     notification.soundName = NSUserNotificationDefaultSoundName;
-
-    if ([dictionary valueForKeyPath:@"options.icon"]) {
-        NSURL *iconURL = [NSURL URLWithString:[dictionary valueForKeyPath:@"options.icon"] relativeToURL:self.baseURL];
-        notification.contentImage = [[NSImage alloc] initWithContentsOfURL:iconURL];
-    }
 
     [NSUserNotificationCenter.defaultUserNotificationCenter deliverNotification:notification];
 }
