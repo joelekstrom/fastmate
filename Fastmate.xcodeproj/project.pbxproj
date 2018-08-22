@@ -12,6 +12,7 @@
 		5D39BEE32122383900693D7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEE22122383900693D7E /* main.m */; };
 		5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6E3B362122FF9E00ED16C9 /* WebViewController.m */; };
 		5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3A212824AF00ED16C9 /* Fastmate.js */; };
+		5D6EF77B212E018700C84B4A /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6EF77A212E018700C84B4A /* MainWindowController.m */; };
 		5DA21A162128617900C765BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DA21A142128617900C765BF /* Main.storyboard */; };
 		5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA21A18212865F000C765BF /* UnreadCountObserver.m */; };
 		5DA21A1C212A1A6F00C765BF /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA21A1B212A1A6F00C765BF /* SettingsViewController.m */; };
@@ -28,6 +29,8 @@
 		5D6E3B352122FF9E00ED16C9 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		5D6E3B362122FF9E00ED16C9 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		5D6E3B3A212824AF00ED16C9 /* Fastmate.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fastmate.js; sourceTree = "<group>"; };
+		5D6EF779212E018700C84B4A /* MainWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindowController.h; sourceTree = "<group>"; };
+		5D6EF77A212E018700C84B4A /* MainWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainWindowController.m; sourceTree = "<group>"; };
 		5DA21A152128617900C765BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5DA21A17212865F000C765BF /* UnreadCountObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnreadCountObserver.h; sourceTree = "<group>"; };
 		5DA21A18212865F000C765BF /* UnreadCountObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnreadCountObserver.m; sourceTree = "<group>"; };
@@ -67,6 +70,8 @@
 			children = (
 				5D39BED92122383800693D7E /* AppDelegate.h */,
 				5D39BEDA2122383800693D7E /* AppDelegate.m */,
+				5D6EF779212E018700C84B4A /* MainWindowController.h */,
+				5D6EF77A212E018700C84B4A /* MainWindowController.m */,
 				5D6E3B352122FF9E00ED16C9 /* WebViewController.h */,
 				5D6E3B362122FF9E00ED16C9 /* WebViewController.m */,
 				5DA21A17212865F000C765BF /* UnreadCountObserver.h */,
@@ -157,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D6EF77B212E018700C84B4A /* MainWindowController.m in Sources */,
 				5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */,
 				5D39BEE32122383900693D7E /* main.m in Sources */,
 				5DA21A1C212A1A6F00C765BF /* SettingsViewController.m in Sources */,

@@ -55,10 +55,17 @@
     FastmateIconVisibility visibility = [NSUserDefaults.standardUserDefaults integerForKey:@"iconVisibility"];
     if (visibility == FastmateIconVisibilityStatusBar || visibility == FastmateIconVisibilityBoth) {
         self.statusItem = [NSStatusBar.systemStatusBar statusItemWithLength:NSSquareStatusItemLength];
+        self.statusItem.target = self;
+        self.statusItem.action = @selector(statusItemSelected:);
         self.unreadCountObserver.statusItem = self.statusItem;
     } else {
         [NSStatusBar.systemStatusBar removeStatusItem:self.statusItem];
     }
+}
+
+- (void)statusItemSelected:(id)sender {
+    [NSApp unhide:sender];
+    [NSApp activateIgnoringOtherApps:YES];
 }
 
 @end
