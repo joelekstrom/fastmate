@@ -37,12 +37,17 @@
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     if (webView == self.temporaryWebView) {
+        // A temporary web view means we caught a link URL which we want to open externally
         [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
         decisionHandler(WKNavigationActionPolicyCancel);
         self.temporaryWebView = nil;
-        return;
+    } else if (navigationAction.request.URL.pathExtension.length > 0 && ![@[@"http", @"https"] containsObject:navigationAction.request.URL.pathExtension]) {
+        // Probably a file URL, open externally
+        [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
+        decisionHandler(WKNavigationActionPolicyCancel);
+    } else {
+        decisionHandler(WKNavigationActionPolicyAllow);
     }
-    decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 - (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
