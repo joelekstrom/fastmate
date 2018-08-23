@@ -11,3 +11,5 @@ A native [Fastmail](https://www.fastmail.com/)-wrapper for Mac.
 - Status bar notifier (has to be enabled in settings)
 - OSX shortcuts (<kbd>⌘N</kbd> for new draft, <kbd>⌘F</kbd> to search mail)
 - Uses the system web stack
+
+![screenshot](screenshot.png)
