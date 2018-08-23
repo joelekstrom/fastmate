@@ -332,7 +332,7 @@
                     <window key="window" title="Fastmate" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="196" y="240" width="800" height="600"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="4cc-xj-aUb"/>
@@ -357,7 +357,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="645" y="250"/>
+            <point key="canvasLocation" x="962" y="250"/>
         </scene>
         <!--Settings Window Controller-->
         <scene sceneID="Cid-V1-ctX">
@@ -380,7 +380,7 @@
                 </windowController>
                 <customObject id="nxM-w1-rFH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="649"/>
+            <point key="canvasLocation" x="75" y="838"/>
         </scene>
         <!--Fastmate Settings-->
         <scene sceneID="cCg-dO-LFb">
@@ -470,7 +470,7 @@
                 <customObject id="yva-Kj-meo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="aLa-hz-uMh"/>
             </objects>
-            <point key="canvasLocation" x="686" y="604"/>
+            <point key="canvasLocation" x="678" y="838"/>
         </scene>
     </scenes>
 </document>
