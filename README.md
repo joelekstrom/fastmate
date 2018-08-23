@@ -13,3 +13,11 @@ A native [Fastmail](https://www.fastmail.com/)-wrapper for Mac.
 - Uses the system web stack
 
 ![screenshot](screenshot.png)
+
+## Privacy
+Your Fastmail login and e-mail are handled entirely by `WKWebView`, meaning that it is pretty much the same as running Fastmail in Safari. Additionally, Fastmate does not make any network requests outside of those that Fastmail do internally. However, Fastmate does have access to the DOM and could potentially read your mail (it doesn't, but the privacy inclined might want to verify the source).
+
+Here's what Fastmate does read:
+- The title of the web page (what's shown in the tab when running Fastmail in your web browser) to show the unread mail counter.
+- Web Notifications - Fastmate has a hook that simply forwards any web notifications to the OSX notification center. It does not read the contents of your notifications.
+- The background color of the Fastmail toolbar, to be able to match your chosen Fastmail-theme.
