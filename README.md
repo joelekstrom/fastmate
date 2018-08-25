@@ -14,6 +14,10 @@ A native [Fastmail](https://www.fastmail.com/)-wrapper for Mac.
 
 ![screenshot](screenshot.png)
 
+## Installation
+
+Pre-built binaries can be found on the [release page](https://github.com/accatyyc/fastmate/releases). To build it yourself you need to have Xcode and either disable code signing or change the bundle identifier to something else prior to compiling.
+
 ## Privacy
 Your Fastmail login and e-mail are handled entirely by `WKWebView`, meaning that it is pretty much the same as running Fastmail in Safari. Additionally, Fastmate does not make any network requests outside of those that Fastmail do internally. However, Fastmate does have access to the DOM and could potentially read your mail (it doesn't, but the privacy inclined might want to verify the source).
 
