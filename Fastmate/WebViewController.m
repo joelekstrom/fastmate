@@ -128,4 +128,18 @@
     [NSUserNotificationCenter.defaultUserNotificationCenter deliverNotification:notification];
 }
 
+- (void)webView:(WKWebView *)webView runOpenPanelWithParameters:(WKOpenPanelParameters *)parameters initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSArray<NSURL *> *URLs))completionHandler {
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    if (@available(macOS 10.13.4, *)) {
+        panel.canChooseDirectories = parameters.allowsDirectories;
+    } else {
+        panel.canChooseDirectories = NO;
+    }
+    panel.allowsMultipleSelection = parameters.allowsMultipleSelection;
+    panel.canCreateDirectories = NO;
+    [panel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse result) {
+        completionHandler(result == NSModalResponseOK ? panel.URLs : nil);
+    }];
+}
+
 @end
