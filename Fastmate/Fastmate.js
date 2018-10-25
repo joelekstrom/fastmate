@@ -1,19 +1,21 @@
-function fastmateCompose() {
-    FastMail.mail.set("screen", "compose");
-}
+var Fastmate = {
+    compose: function() {
+        FastMail.mail.set("screen", "compose");
+    },
 
-function fastmateFocusSearch() {
-    var toolbar = document.getElementsByClassName("app-toolbar")[0];
-    var searchField = toolbar.querySelectorAll("input.v-Text-input")[0];
-    searchField.select();
-}
+    focusSearch: function() {
+        var toolbar = document.getElementsByClassName("app-toolbar")[0];
+        var searchField = toolbar.querySelectorAll("input.v-Text-input")[0];
+        searchField.select();
+    },
 
-function fastmateGetToolbarColor() {
-    var toolbar = document.getElementsByClassName("app-toolbar")[0];
-    var style = window.getComputedStyle(toolbar);
-    var color = style.getPropertyValue('background-color');
-    return color;
-}
+    getToolbarColor: function() {
+        var toolbar = document.getElementsByClassName("app-toolbar")[0];
+        var style = window.getComputedStyle(toolbar);
+        var color = style.getPropertyValue('background-color');
+        return color;
+    }
+};
 
 /**
  Web Notification observering

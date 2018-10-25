@@ -69,15 +69,15 @@
 }
 
 - (void)composeNewEmail {
-    [self.webView evaluateJavaScript:@"fastmateCompose()" completionHandler:nil];
+    [self.webView evaluateJavaScript:@"Fastmate.compose()" completionHandler:nil];
 }
 
 - (void)focusSearchField {
-    [self.webView evaluateJavaScript:@"fastmateFocusSearch()" completionHandler:nil];
+    [self.webView evaluateJavaScript:@"Fastmate.focusSearch()" completionHandler:nil];
 }
 
 - (void)queryToolbarColor {
-    [self.webView evaluateJavaScript:@"fastmateGetToolbarColor()" completionHandler:^(id response, NSError *error) {
+    [self.webView evaluateJavaScript:@"Fastmate.getToolbarColor()" completionHandler:^(id response, NSError *error) {
         NSString *colorString = [response isKindOfClass:NSString.class] ? response : nil;
         if (colorString) {
             colorString = [colorString stringByReplacingOccurrencesOfString:@"rgb(" withString:@""];
