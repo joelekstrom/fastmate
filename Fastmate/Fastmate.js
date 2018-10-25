@@ -6,6 +6,9 @@ var Fastmate = {
     focusSearch: function() {
         var toolbar = document.getElementsByClassName("app-toolbar")[0];
         var searchField = toolbar.querySelectorAll("input.v-Text-input")[0];
+        if (!searchField) {
+            searchField = document.getElementById("v9-input");
+        }
         searchField.select();
     },
 
