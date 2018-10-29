@@ -1,15 +1,24 @@
 var Fastmate = {
+
+    simulateKeyPress: function(key) {
+        var e = new Event("keydown");
+        e.key = key;
+        e.keyCode = e.key.charCodeAt(0);
+        e.which = e.keyCode;
+        e.altKey = false;
+        e.ctrlKey = false;
+        e.shiftKey = false;
+        e.metaKey = false;
+        e.bubbles = true;
+        document.dispatchEvent(e);
+    },
+
     compose: function() {
-        FastMail.mail.set("screen", "compose");
+        Fastmate.simulateKeyPress("c");
     },
 
     focusSearch: function() {
-        var toolbar = document.getElementsByClassName("app-toolbar")[0];
-        var searchField = toolbar.querySelectorAll("input.v-Text-input")[0];
-        if (!searchField) {
-            searchField = document.getElementById("v9-input");
-        }
-        searchField.select();
+        Fastmate.simulateKeyPress("/");
     },
 
     getToolbarColor: function() {
