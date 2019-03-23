@@ -41,8 +41,19 @@
         [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
         decisionHandler(WKNavigationActionPolicyCancel);
         self.temporaryWebView = nil;
-    } else if (navigationAction.request.URL.pathExtension.length > 0 && ![@[@"http", @"https"] containsObject:navigationAction.request.URL.pathExtension]) {
-        // Probably a file URL, open externally
+    } else if ([navigationAction.request.URL.host isEqualToString:@"www.fastmailusercontent.com"]) {
+        NSURLComponents *components = [NSURLComponents componentsWithURL:navigationAction.request.URL resolvingAgainstBaseURL:NO];
+        BOOL shouldDownload = [components.queryItems indexOfObjectPassingTest:^BOOL(NSURLQueryItem *item, NSUInteger index, BOOL *stop) {
+            return [item.name isEqualToString:@"download"] && [item.value isEqualToString:@"1"];
+        }] != NSNotFound;
+        if (shouldDownload) {
+            [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
+            decisionHandler(WKNavigationActionPolicyCancel);
+        } else {
+            decisionHandler(WKNavigationActionPolicyAllow);
+        }
+    } else if (!([navigationAction.request.URL.host hasSuffix:@".fastmail.com"])) {
+        // Link isn't within fastmail.com, open externally
         [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
         decisionHandler(WKNavigationActionPolicyCancel);
     } else {
