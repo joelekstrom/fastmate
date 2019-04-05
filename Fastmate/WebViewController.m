@@ -128,6 +128,14 @@
 }
 
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
+    if ([message.body isEqualToString:@"documentDidChange"]) {
+        [self queryToolbarColor];
+    } else {
+        [self postNotificationForMessage:message];
+    }
+}
+
+- (void)postNotificationForMessage:(WKScriptMessage *)message {
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:[message.body dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
 
     NSUserNotification *notification = [NSUserNotification new];

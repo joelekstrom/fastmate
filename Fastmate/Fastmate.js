@@ -22,7 +22,7 @@ var Fastmate = {
     },
 
     getToolbarColor: function() {
-        var toolbar = document.getElementsByClassName("app-toolbar")[0];
+        var toolbar = document.getElementsByClassName("v-PageHeader")[0];
         var style = window.getComputedStyle(toolbar);
         var color = style.getPropertyValue('background-color');
         return color;
@@ -45,3 +45,16 @@ Notification = function(title, options) {
 }
 
 Object.defineProperty(Notification, 'permission', { value: 'granted', writable: false });
+
+
+/**
+ Observe changes to the DOM
+ */
+var DOMObserver = new MutationObserver(function(mutation) { window.webkit.messageHandlers.Fastmate.postMessage('documentDidChange'); });
+var config = {
+    attributes: true,
+    characterData: true,
+    childList: true,
+    subtree: true,
+};
+DOMObserver.observe(document, config);
