@@ -1,8 +1,9 @@
 #import "AppDelegate.h"
 #import "WebViewController.h"
 #import "UnreadCountObserver.h"
+#import "VersionChecker.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <VersionCheckerDelegate>
 
 @property (nonatomic, strong) WebViewController *mainWebViewController;
 @property (nonatomic, strong) UnreadCountObserver *unreadCountObserver;
@@ -64,6 +65,36 @@
 - (void)statusItemSelected:(id)sender {
     [NSApp unhide:sender];
     [NSApp activateIgnoringOtherApps:YES];
+}
+
+#pragma mark - Version checking
+
+- (IBAction)checkForUpdates:(id)sender {
+    VersionChecker.sharedInstance.delegate = self;
+    [VersionChecker.sharedInstance checkForUpdates];
+}
+
+- (void)versionCheckerDidFindNewVersion:(NSString *)latestVersion withURL:(NSURL *)latestVersionURL {
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert addButtonWithTitle:@"Take me there!"];
+    [alert addButtonWithTitle:@"Cancel"];
+    [alert setMessageText:[NSString stringWithFormat:@"New version available: %@", latestVersion]];
+    [alert setInformativeText:[NSString stringWithFormat:@"You're currently at v%@", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
+    [alert setAlertStyle:NSAlertStyleInformational];
+    [alert beginSheetModalForWindow:self.mainWebViewController.view.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertFirstButtonReturn) {
+            [NSWorkspace.sharedWorkspace openURL:latestVersionURL];
+        }
+    }];
+}
+
+- (void)versionCheckerDidNotFindNewVersion {
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert addButtonWithTitle:@"Nice!"];
+    [alert setMessageText:@"Up to date!"];
+    [alert setInformativeText:[NSString stringWithFormat:@"You're on the latest version. (v%@)", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
+    [alert setAlertStyle:NSAlertStyleInformational];
+    [alert beginSheetModalForWindow:self.mainWebViewController.view.window completionHandler:nil];
 }
 
 @end
