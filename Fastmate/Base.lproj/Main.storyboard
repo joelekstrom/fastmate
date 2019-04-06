@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -329,7 +330,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController showSeguePresentationStyle="single" id="B8D-0N-5wS" customClass="MainWindowController" sceneMemberID="viewController">
-                    <window key="window" title="Fastmate" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="IQv-IB-iLA">
+                    <window key="window" title="Fastmate" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="800" height="600"/>
@@ -363,7 +364,7 @@
         <scene sceneID="Cid-V1-ctX">
             <objects>
                 <windowController showSeguePresentationStyle="single" id="eDa-S8-pJ9" userLabel="Settings Window Controller" sceneMemberID="viewController">
-                    <window key="window" title="Fastmate Settings" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="ZTg-wr-sKR">
+                    <window key="window" title="Fastmate Settings" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="ZTg-wr-sKR">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="222"/>
@@ -385,13 +386,13 @@
         <!--Fastmate Settings-->
         <scene sceneID="cCg-dO-LFb">
             <objects>
-                <viewController title="Fastmate Settings" showSeguePresentationStyle="single" id="Tjh-E4-m7V" sceneMemberID="viewController">
+                <viewController title="Fastmate Settings" showSeguePresentationStyle="single" id="Tjh-E4-m7V" customClass="SettingsViewController" sceneMemberID="viewController">
                     <view key="view" id="F1O-1e-Ohl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="134"/>
+                        <rect key="frame" x="0.0" y="0.0" width="471" height="210"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wHh-Lm-p2V">
-                                <rect key="frame" x="18" y="98" width="114" height="18"/>
+                                <rect key="frame" x="18" y="174" width="114" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Status bar icon" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8gw-B7-OXa">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -402,7 +403,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KAu-cU-cJ0">
-                                <rect key="frame" x="18" y="78" width="151" height="18"/>
+                                <rect key="frame" x="18" y="154" width="151" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Unread mail indicator" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Yfp-Sh-EwB">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -413,7 +414,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Jb-9h-IKg">
-                                <rect key="frame" x="30" y="58" width="85" height="18"/>
+                                <rect key="frame" x="30" y="134" width="85" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Status bar" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="Gkr-VU-KSs">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -432,45 +433,187 @@
                                     <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="87m-Z5-n82"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uEB-WR-Zf2">
-                                <rect key="frame" x="30" y="38" width="54" height="18"/>
+                            <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="MrS-D3-Aff">
+                                <rect key="frame" x="27" y="16" width="427" height="118"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Dock" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="vB6-iF-Oij">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailInDock" id="fEU-Ql-2bA"/>
-                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="qcy-Pk-Sg3"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hCF-3X-QnZ">
-                                <rect key="frame" x="42" y="18" width="94" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Show count" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0RF-sM-YGy">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailCountInDock" id="7b8-rM-ny3"/>
-                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailInDock" id="EBw-M2-C9Z"/>
-                                    <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailIndicator" previousBinding="EBw-M2-C9Z" id="hL5-1y-6p4">
-                                        <dictionary key="options">
-                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                        </dictionary>
-                                    </binding>
-                                </connections>
-                            </button>
+                                <view key="contentView" ambiguous="YES" id="B19-hn-7uA">
+                                    <rect key="frame" x="3" y="3" width="421" height="112"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YCp-1G-ZNC">
+                                            <rect key="frame" x="167" y="5" width="249" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Inbox, Work" drawsBackground="YES" id="IU3-z2-8M1">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailInDock" previousBinding="cjr-cX-JUn" id="dAR-Oi-kIa">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="aLa-hz-uMh" name="enabled3" keyPath="values.shouldShowUnreadMailCountInDock" previousBinding="dAR-Oi-kIa" id="mCA-1o-6OJ">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="aLa-hz-uMh" name="enabled4" keyPath="values.watchedFolderType" previousBinding="mCA-1o-6OJ" id="GFK-xM-7Xc">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                        <string key="NSValueTransformerName">WatchedFolderTypeIsSpecificFolders</string>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="cjr-cX-JUn"/>
+                                                <binding destination="aLa-hz-uMh" name="value" keyPath="values.watchedFolders" id="3r1-pf-9ah">
+                                                    <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                                        <string key="NSNullPlaceholder">Inbox, Work</string>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </textField>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uEB-WR-Zf2">
+                                            <rect key="frame" x="1" y="94" width="54" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Dock" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="vB6-iF-Oij">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailInDock" id="fEU-Ql-2bA"/>
+                                                <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="qcy-Pk-Sg3"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hCF-3X-QnZ">
+                                            <rect key="frame" x="12" y="74" width="94" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Show count" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0RF-sM-YGy">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailCountInDock" id="7b8-rM-ny3"/>
+                                                <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailInDock" id="EBw-M2-C9Z"/>
+                                                <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailIndicator" previousBinding="EBw-M2-C9Z" id="hL5-1y-6p4">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                    </dictionary>
+                                                </binding>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9rs-iI-JCy">
+                                            <rect key="frame" x="19" y="51" width="137" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="radio" title="For selected folder" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="bxF-pF-kcd">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="watchedFolderButtonSelected:" target="Tjh-E4-m7V" id="QZc-oi-pPj"/>
+                                                <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailInDock" previousBinding="bJ1-72-Tah" id="Swy-Sh-Dc9">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="aLa-hz-uMh" name="enabled3" keyPath="values.shouldShowUnreadMailCountInDock" previousBinding="Swy-Sh-Dc9" id="hlw-Wg-eJY">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="bJ1-72-Tah"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="Wyb-wk-zdl">
+                                            <rect key="frame" x="19" y="29" width="105" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="radio" title="For all folders" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="JDx-zD-NwD">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="watchedFolderButtonSelected:" target="Tjh-E4-m7V" id="Z3j-77-HNd"/>
+                                                <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailInDock" previousBinding="Q2Y-3w-q0Q" id="umZ-dw-gJg">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="aLa-hz-uMh" name="enabled3" keyPath="values.shouldShowUnreadMailCountInDock" previousBinding="umZ-dw-gJg" id="5fo-zu-2Tb">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="Q2Y-3w-q0Q"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="uiF-Xi-0cQ">
+                                            <rect key="frame" x="19" y="7" width="142" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="radio" title="For specific folders:" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="Far-VT-IIK">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="watchedFolderButtonSelected:" target="Tjh-E4-m7V" id="SWP-ZB-Y1g"/>
+                                                <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailInDock" previousBinding="G1x-bA-tcj" id="Tk1-Db-6z7">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="aLa-hz-uMh" name="enabled3" keyPath="values.shouldShowUnreadMailCountInDock" previousBinding="Tk1-Db-6z7" id="YGJ-ta-jY2">
+                                                    <dictionary key="options">
+                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                    </dictionary>
+                                                </binding>
+                                                <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="G1x-bA-tcj"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </box>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="allWatchedFoldersButton" destination="Wyb-wk-zdl" id="x37-Mi-41X"/>
+                        <outlet property="defaultWatchedFoldersButton" destination="9rs-iI-JCy" id="ODZ-40-oYP"/>
+                        <outlet property="specificWatchedFoldersButton" destination="uiF-Xi-0cQ" id="8FS-7c-2mX"/>
+                    </connections>
                 </viewController>
                 <customObject id="yva-Kj-meo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="aLa-hz-uMh"/>
             </objects>
-            <point key="canvasLocation" x="678" y="838"/>
+            <point key="canvasLocation" x="673.5" y="876"/>
         </scene>
     </scenes>
 </document>

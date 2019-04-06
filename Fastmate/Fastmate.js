@@ -26,7 +26,20 @@ var Fastmate = {
         var style = window.getComputedStyle(toolbar);
         var color = style.getPropertyValue('background-color');
         return color;
-    }
+    },
+
+    getMailboxUnreadCounts: function() {
+        var names = document.getElementsByClassName("v-MailboxSource-name");
+        var unreadCounts = document.getElementsByClassName("v-MailboxSource-badge");
+        var result = {};
+        for (var i = 0; i < names.length; i++) {
+            var name = names[i].innerHTML;
+            var count = parseInt(unreadCounts[i].innerHTML);
+            count = isNaN(count) ? 0 : count;
+            result[name] = count;
+        }
+        return result;
+    },
 };
 
 /**

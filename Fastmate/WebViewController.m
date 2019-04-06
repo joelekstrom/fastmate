@@ -103,6 +103,16 @@
     }];
 }
 
+- (void)updateUnreadCounts {
+    [self.webView evaluateJavaScript:@"Fastmate.getMailboxUnreadCounts()" completionHandler:^(id response, NSError *error) {
+        if (![response isKindOfClass:[NSDictionary class]]) {
+            self.mailboxes = nil;
+            return;
+        }
+        self.mailboxes = response;
+    }];
+}
+
 - (void)setWindowBackgroundColor:(NSColor *)color {
     NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:color];
     [NSUserDefaults.standardUserDefaults setObject:colorData forKey:@"lastUsedWindowColor"];
@@ -130,6 +140,7 @@
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
     if ([message.body isEqualToString:@"documentDidChange"]) {
         [self queryToolbarColor];
+        [self updateUnreadCounts];
     } else {
         [self postNotificationForMessage:message];
     }

@@ -1,46 +1,52 @@
 #import "UnreadCountObserver.h"
 
+typedef NS_ENUM(NSInteger, WatchedFolderType) {
+    WatchedFolderTypeDefault,
+    WatchedFolderTypeAll,
+    WatchedFolderTypeSpecific
+};
+
 @interface UnreadCountObserver()
 
 @property (nonatomic, weak) WebViewController *webViewController;
-@property (nonatomic, assign) NSUInteger unreadCount;
+@property (nonatomic, readonly) NSUInteger unreadCount;
 
 @end
 
 @implementation UnreadCountObserver
 
-static NSString * const TitleKeyPath = @"webViewController.webView.title";
+static NSString * const MailboxesKeyPath = @"webViewController.mailboxes";
 static NSString * const ShouldShowIndicatorUserDefaultsKey = @"shouldShowUnreadMailIndicator";
 static NSString * const ShouldShowDockIndicatorUserDefaultsKey = @"shouldShowUnreadMailInDock";
 static NSString * const ShouldShowMenuBarIndicatorUserDefaultsKey = @"shouldShowUnreadMailInStatusBar";
 static NSString * const ShouldShowUnreadMailCountUserDefaultsKey = @"shouldShowUnreadMailCountInDock";
+static NSString * const WatchedFolderTypeUserDefaultsKey = @"watchedFolderType";
+static NSString * const WatchedFoldersUserDefaultsKey = @"watchedFolders";
 
-static void *UnreadCountObserverKVOContext = &UnreadCountObserverKVOContext;
+static void *UnreadCountVisibilityKVOContext = &UnreadCountVisibilityKVOContext;
 
 - (instancetype)initWithWebViewController:(WebViewController *)controller {
     if (self = [super init]) {
         self.webViewController = controller;
-        [self addObserver:self forKeyPath:TitleKeyPath options:NSKeyValueObservingOptionNew context:UnreadCountObserverKVOContext];
-        [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:ShouldShowIndicatorUserDefaultsKey options:0 context:UnreadCountObserverKVOContext];
-        [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:ShouldShowDockIndicatorUserDefaultsKey options:0 context:UnreadCountObserverKVOContext];
-        [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:ShouldShowMenuBarIndicatorUserDefaultsKey options:0 context:UnreadCountObserverKVOContext];
-        [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:ShouldShowUnreadMailCountUserDefaultsKey options:0 context:UnreadCountObserverKVOContext];
+        [self addObserver:self forKeyPath:MailboxesKeyPath options:NSKeyValueObservingOptionNew context:UnreadCountVisibilityKVOContext];
+
+        for (NSString *keyPath in @[ShouldShowIndicatorUserDefaultsKey, ShouldShowDockIndicatorUserDefaultsKey, ShouldShowMenuBarIndicatorUserDefaultsKey, ShouldShowUnreadMailCountUserDefaultsKey, WatchedFolderTypeUserDefaultsKey, WatchedFoldersUserDefaultsKey]) {
+            [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:keyPath options:0 context:UnreadCountVisibilityKVOContext];
+        }
     }
     return self;
 }
 
 - (void)dealloc {
-    [self removeObserver:self forKeyPath:TitleKeyPath];
-    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:ShouldShowIndicatorUserDefaultsKey context:UnreadCountObserverKVOContext];
-    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:ShouldShowDockIndicatorUserDefaultsKey context:UnreadCountObserverKVOContext];
-    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:ShouldShowMenuBarIndicatorUserDefaultsKey context:UnreadCountObserverKVOContext];
-    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:ShouldShowUnreadMailCountUserDefaultsKey context:UnreadCountObserverKVOContext];
+    [self removeObserver:self forKeyPath:MailboxesKeyPath];
+
+    for (NSString *keyPath in @[ShouldShowIndicatorUserDefaultsKey, ShouldShowDockIndicatorUserDefaultsKey, ShouldShowMenuBarIndicatorUserDefaultsKey, ShouldShowUnreadMailCountUserDefaultsKey, WatchedFolderTypeUserDefaultsKey, WatchedFoldersUserDefaultsKey]) {
+        [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:keyPath context:UnreadCountVisibilityKVOContext];
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if (object == self && [keyPath isEqualToString:TitleKeyPath]) {
-        [self webViewTitleDidChange:change[NSKeyValueChangeNewKey]];
-    } else if (object == NSUserDefaults.standardUserDefaults && context == UnreadCountObserverKVOContext) {
+    if (context == UnreadCountVisibilityKVOContext) {
         [self updateStatusBarIndicator];
         [self updateDockIndicator];
     } else {
@@ -48,22 +54,55 @@ static void *UnreadCountObserverKVOContext = &UnreadCountObserverKVOContext;
     }
 }
 
-- (void)webViewTitleDidChange:(NSString *)newTitle {
-    NSRange unreadCountRange = [newTitle rangeOfString:@"^\\(\\d+\\)" options:NSRegularExpressionSearch];
+- (WatchedFolderType)watchedFolderType
+{
+    return [NSUserDefaults.standardUserDefaults integerForKey:WatchedFolderTypeUserDefaultsKey];
+}
+
+- (NSArray<NSString *> *)watchedFolders
+{
+    NSString *watchedFoldersString = [NSUserDefaults.standardUserDefaults stringForKey:WatchedFoldersUserDefaultsKey];
+    NSArray *watchedFolders = [watchedFoldersString componentsSeparatedByString:@","];
+    NSMutableArray *normalizedFolders = [NSMutableArray new];
+    for (NSString *folder in watchedFolders) {
+        [normalizedFolders addObject:[folder stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    }
+    return normalizedFolders;
+}
+
+- (NSUInteger)getUnreadCountFromTitle
+{
+    NSString *title = [self.webViewController valueForKeyPath:@"webView.title"];
+    NSRange unreadCountRange = [title rangeOfString:@"^\\(\\d+\\)" options:NSRegularExpressionSearch];
     if (unreadCountRange.location == NSNotFound) {
-        [self setUnreadCount:0];
+        return 0;
     } else {
-        NSString *unreadString = [newTitle substringWithRange:unreadCountRange];
+        NSString *unreadString = [title substringWithRange:unreadCountRange];
         NSCharacterSet *decimalCharacterSet = [NSCharacterSet decimalDigitCharacterSet];
-        NSInteger unreadCount = [[unreadString stringByTrimmingCharactersInSet:decimalCharacterSet.invertedSet] integerValue];
-        [self setUnreadCount:unreadCount];
+        return [[unreadString stringByTrimmingCharactersInSet:decimalCharacterSet.invertedSet] integerValue];
     }
 }
 
-- (void)setUnreadCount:(NSUInteger)unreadCount {
-    _unreadCount = unreadCount;
-    [self updateDockIndicator];
-    [self updateStatusBarIndicator];
+- (NSUInteger)unreadCount
+{
+    NSUInteger totalCount = 0;
+    switch ([self watchedFolderType]) {
+        case WatchedFolderTypeDefault:
+            totalCount = [self getUnreadCountFromTitle];
+            break;
+        case WatchedFolderTypeSpecific: {
+            for (NSString *folder in [self watchedFolders]) {
+                totalCount += self.webViewController.mailboxes[folder].integerValue;
+            }
+            break;
+        }
+        case WatchedFolderTypeAll:
+            for (NSNumber *count in self.webViewController.mailboxes.allValues) {
+                totalCount += count.integerValue;
+            }
+            break;
+    }
+    return totalCount;
 }
 
 - (void)updateDockIndicator {
