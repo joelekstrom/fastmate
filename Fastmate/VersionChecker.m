@@ -34,6 +34,16 @@
     return self;
 }
 
+- (NSDate *)lastUpdateCheckDate
+{
+    NSDate *date = [NSUserDefaults.standardUserDefaults objectForKey:NSStringFromSelector(@selector(lastUpdateCheckDate))];
+    if (date == nil) {
+        date = [NSDate date];
+        [NSUserDefaults.standardUserDefaults setObject:date forKey:NSStringFromSelector(@selector(lastUpdateCheckDate))];
+    }
+    return date;
+}
+
 - (void)checkForUpdates
 {
     [[self.session dataTaskWithURL:[NSURL URLWithString:@"https://github.com/joelekstrom/fastmate/releases/latest"]] resume];
@@ -46,6 +56,8 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
  completionHandler:(void (^)(NSURLRequest *))completionHandler;
 {
     [task cancel];
+    [NSUserDefaults.standardUserDefaults setObject:[NSDate date] forKey:NSStringFromSelector(@selector(lastUpdateCheckDate))];
+
     NSString *currentVersion = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     currentVersion = [NSString stringWithFormat:@"v%@", currentVersion];
     NSString *latestVersion = request.URL.lastPathComponent;

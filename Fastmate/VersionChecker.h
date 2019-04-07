@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface VersionChecker : NSObject
 + (instancetype)sharedInstance;
 - (void)checkForUpdates;
+- (NSDate *)lastUpdateCheckDate;
 @property (nonatomic, weak) id<VersionCheckerDelegate> delegate;
 @end
 

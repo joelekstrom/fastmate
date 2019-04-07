@@ -408,6 +408,17 @@
                                     <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowStatusBarIcon" id="3lx-qh-pyd"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l3Z-PT-73n">
+                                <rect key="frame" x="235" y="174" width="218" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Check for updates automatically" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Pmr-DN-ABx">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="aLa-hz-uMh" name="value" keyPath="values.automaticUpdateChecks" id="eTT-jm-dqC"/>
+                                </connections>
+                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KAu-cU-cJ0">
                                 <rect key="frame" x="18" y="154" width="151" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>

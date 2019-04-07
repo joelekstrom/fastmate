@@ -8,6 +8,7 @@
 @property (nonatomic, strong) WebViewController *mainWebViewController;
 @property (nonatomic, strong) UnreadCountObserver *unreadCountObserver;
 @property (nonatomic, strong) NSStatusItem *statusItem;
+@property (nonatomic, assign) BOOL isAutomaticUpdateCheck;
 
 @end
 
@@ -23,6 +24,11 @@
 
     [self updateStatusItemVisibility];
     [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"shouldShowStatusBarIcon" options:0 context:nil];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+    [NSUserDefaults.standardUserDefaults registerDefaults:@{@"automaticUpdateChecks": @YES, @"shouldShowUnreadMailIndicator": @YES, @"shouldShowUnreadMailInDock": @YES, @"shouldShowUnreadMailCountInDock": @YES}];
+    [self performAutomaticUpdateCheckIfNeeded];
 }
 
 - (void)dealloc {
@@ -69,7 +75,26 @@
 
 #pragma mark - Version checking
 
+- (void)performAutomaticUpdateCheckIfNeeded {
+    BOOL automaticUpdatesEnabled = [NSUserDefaults.standardUserDefaults boolForKey:@"automaticUpdateChecks"];
+    if (!automaticUpdatesEnabled) {
+        return;
+    }
+
+    NSDate *lastUpdateCheckDate = VersionChecker.sharedInstance.lastUpdateCheckDate;
+    NSDateComponents *components = [NSCalendar.currentCalendar components:NSCalendarUnitDay fromDate:lastUpdateCheckDate toDate:NSDate.date options:0];
+    if (components.day >= 7) {
+        self.isAutomaticUpdateCheck = YES;
+        [self checkForUpdates];
+    }
+}
+
 - (IBAction)checkForUpdates:(id)sender {
+    self.isAutomaticUpdateCheck = NO;
+    [self checkForUpdates];
+}
+
+- (void)checkForUpdates {
     VersionChecker.sharedInstance.delegate = self;
     [VersionChecker.sharedInstance checkForUpdates];
 }
@@ -78,23 +103,31 @@
     NSAlert *alert = [[NSAlert alloc] init];
     [alert addButtonWithTitle:@"Take me there!"];
     [alert addButtonWithTitle:@"Cancel"];
-    [alert setMessageText:[NSString stringWithFormat:@"New version available: %@", latestVersion]];
-    [alert setInformativeText:[NSString stringWithFormat:@"You're currently at v%@", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
-    [alert setAlertStyle:NSAlertStyleInformational];
+    alert.messageText = [NSString stringWithFormat:@"New version available: %@", latestVersion];
+    alert.informativeText = [NSString stringWithFormat:@"You're currently at v%@", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    alert.alertStyle = NSAlertStyleInformational;
+    alert.showsSuppressionButton = self.isAutomaticUpdateCheck;
+    alert.suppressionButton.title = @"Don't check for new versions automatically";
     [alert beginSheetModalForWindow:self.mainWebViewController.view.window completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSAlertFirstButtonReturn) {
             [NSWorkspace.sharedWorkspace openURL:latestVersionURL];
+        }
+
+        if (alert.suppressionButton.state == NSOnState) {
+            [NSUserDefaults.standardUserDefaults setBool:NO forKey:@"automaticUpdateChecks"];
         }
     }];
 }
 
 - (void)versionCheckerDidNotFindNewVersion {
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert addButtonWithTitle:@"Nice!"];
-    [alert setMessageText:@"Up to date!"];
-    [alert setInformativeText:[NSString stringWithFormat:@"You're on the latest version. (v%@)", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
-    [alert setAlertStyle:NSAlertStyleInformational];
-    [alert beginSheetModalForWindow:self.mainWebViewController.view.window completionHandler:nil];
+    if (!self.isAutomaticUpdateCheck) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"Nice!"];
+        [alert setMessageText:@"Up to date!"];
+        [alert setInformativeText:[NSString stringWithFormat:@"You're on the latest version. (v%@)", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
+        [alert setAlertStyle:NSAlertStyleInformational];
+        [alert beginSheetModalForWindow:self.mainWebViewController.view.window completionHandler:nil];
+    }
 }
 
 @end
