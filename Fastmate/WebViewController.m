@@ -150,12 +150,16 @@
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:[message.body dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
 
     NSUserNotification *notification = [NSUserNotification new];
-    notification.identifier = message.body;
+    notification.identifier = [dictionary[@"notificationID"] stringValue];
     notification.title = dictionary[@"title"];
     notification.subtitle = [dictionary valueForKeyPath:@"options.body"];
     notification.soundName = NSUserNotificationDefaultSoundName;
 
     [NSUserNotificationCenter.defaultUserNotificationCenter deliverNotification:notification];
+}
+
+- (void)handleNotificationClickWithIdentifier:(NSString *)identifier {
+    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"Fastmate.handleNotificationClick(\"%@\")", identifier] completionHandler:nil];
 }
 
 - (void)webView:(WKWebView *)webView runOpenPanelWithParameters:(WKOpenPanelParameters *)parameters initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSArray<NSURL *> *URLs))completionHandler {

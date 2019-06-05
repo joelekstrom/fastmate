@@ -3,7 +3,7 @@
 #import "UnreadCountObserver.h"
 #import "VersionChecker.h"
 
-@interface AppDelegate () <VersionCheckerDelegate>
+@interface AppDelegate () <VersionCheckerDelegate, NSUserNotificationCenterDelegate>
 
 @property (nonatomic, strong) WebViewController *mainWebViewController;
 @property (nonatomic, strong) UnreadCountObserver *unreadCountObserver;
@@ -24,6 +24,7 @@
 
     [self updateStatusItemVisibility];
     [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"shouldShowStatusBarIcon" options:0 context:nil];
+    [NSUserNotificationCenter.defaultUserNotificationCenter setDelegate:self];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
@@ -128,6 +129,16 @@
         [alert setAlertStyle:NSAlertStyleInformational];
         [alert beginSheetModalForWindow:self.mainWebViewController.view.window completionHandler:nil];
     }
+}
+
+#pragma mark - Notification handling
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
+    [self.mainWebViewController handleNotificationClickWithIdentifier:notification.identifier];
+}
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification {
+    return YES;
 }
 
 @end

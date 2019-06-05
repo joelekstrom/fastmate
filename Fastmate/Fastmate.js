@@ -40,6 +40,13 @@ var Fastmate = {
         }
         return result;
     },
+
+    notificationClickHandlers: {}, // notificationID -> function
+
+    handleNotificationClick: function(id) {
+        var handler = Fastmate.notificationClickHandlers[id]();
+        if (handler) handler();
+    },
 };
 
 /**
@@ -52,9 +59,13 @@ var Fastmate = {
  have a built in way to ask for permission.
 */
 var originalNotification = Notification;
+var notificationID = 0;
 Notification = function(title, options) {
-    window.webkit.messageHandlers.Fastmate.postMessage('{"title": "' + title + '", "options": ' + JSON.stringify(options) + '}');
-    return originalNotification(title, options);
+    ++notificationID;
+    var n = new originalNotification(title, options);
+    Object.defineProperty(n, "onclick", { set: function(value) { Fastmate.notificationClickHandlers[notificationID.toString()] = value; }});
+    window.webkit.messageHandlers.Fastmate.postMessage('{"title": "' + title + '", "options": ' + JSON.stringify(options) + ', "notificationID": ' + notificationID + '}');
+    return n;
 }
 
 Object.defineProperty(Notification, 'permission', { value: 'granted', writable: false });
