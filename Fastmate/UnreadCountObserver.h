@@ -3,7 +3,7 @@
 
 @interface UnreadCountObserver : NSObject
 
-- (instancetype)initWithWebViewController:(WebViewController *)controller;
+@property (nonatomic, strong) WebViewController *webViewController;
 @property (nonatomic, weak) NSStatusItem *statusItem;
 
 @end

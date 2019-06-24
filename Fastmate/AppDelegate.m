@@ -5,7 +5,6 @@
 
 @interface AppDelegate () <VersionCheckerDelegate, NSUserNotificationCenterDelegate>
 
-@property (nonatomic, strong) WebViewController *mainWebViewController;
 @property (nonatomic, strong) UnreadCountObserver *unreadCountObserver;
 @property (nonatomic, strong) NSStatusItem *statusItem;
 @property (nonatomic, assign) BOOL isAutomaticUpdateCheck;
@@ -15,8 +14,6 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
-    self.mainWebViewController = (WebViewController *)NSApplication.sharedApplication.mainWindow.contentViewController;
-    self.unreadCountObserver = [[UnreadCountObserver alloc] initWithWebViewController:self.mainWebViewController];
     [NSAppleEventManager.sharedAppleEventManager setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 
     NSColor *windowColor = [NSKeyedUnarchiver unarchiveObjectWithData:[NSUserDefaults.standardUserDefaults dataForKey:@"lastUsedWindowColor"]];
@@ -25,6 +22,18 @@
     [self updateStatusItemVisibility];
     [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"shouldShowStatusBarIcon" options:0 context:nil];
     [NSUserNotificationCenter.defaultUserNotificationCenter setDelegate:self];
+}
+
+- (void)setMainWebViewController:(WebViewController *)mainWebViewController {
+    _mainWebViewController = mainWebViewController;
+    self.unreadCountObserver.webViewController = mainWebViewController;
+}
+
+- (UnreadCountObserver *)unreadCountObserver {
+    if (_unreadCountObserver == nil) {
+        _unreadCountObserver = [UnreadCountObserver new];
+    }
+    return _unreadCountObserver;
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {

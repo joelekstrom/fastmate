@@ -8,7 +8,6 @@ typedef NS_ENUM(NSInteger, WatchedFolderType) {
 
 @interface UnreadCountObserver()
 
-@property (nonatomic, weak) WebViewController *webViewController;
 @property (nonatomic, readonly) NSUInteger unreadCount;
 
 @end
@@ -25,9 +24,8 @@ static NSString * const WatchedFoldersUserDefaultsKey = @"watchedFolders";
 
 static void *UnreadCountVisibilityKVOContext = &UnreadCountVisibilityKVOContext;
 
-- (instancetype)initWithWebViewController:(WebViewController *)controller {
+- (instancetype)init {
     if (self = [super init]) {
-        self.webViewController = controller;
         [self addObserver:self forKeyPath:MailboxesKeyPath options:NSKeyValueObservingOptionNew context:UnreadCountVisibilityKVOContext];
 
         for (NSString *keyPath in @[ShouldShowIndicatorUserDefaultsKey, ShouldShowDockIndicatorUserDefaultsKey, ShouldShowMenuBarIndicatorUserDefaultsKey, ShouldShowUnreadMailCountUserDefaultsKey, WatchedFolderTypeUserDefaultsKey, WatchedFoldersUserDefaultsKey]) {
