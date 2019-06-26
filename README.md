@@ -29,3 +29,7 @@ Here's what Fastmate does read:
 
 Fastmate by default sends one network request outside of what Fastmail sends internally - it pings https://github.com/joelekstrom/fastmate/releases/latest
 once a week to inform you if a new version is available. You can opt out of this in the settings.
+
+## Disclaimer
+Fastmate is not affilated with Fastmail in any way. This is a project I work on in my free time,
+and both the binaries and source code are available for free and for anyone to use.

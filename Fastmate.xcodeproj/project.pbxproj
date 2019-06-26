@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5D14A8EA22C425B400A5ACE9 /* Credits.rtf */; };
 		5D39BEDB2122383800693D7E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEDA2122383800693D7E /* AppDelegate.m */; };
 		5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D39BEDC2122383900693D7E /* Assets.xcassets */; };
 		5D39BEE32122383900693D7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEE22122383900693D7E /* main.m */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D14A8EA22C425B400A5ACE9 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		5D39BED62122383800693D7E /* Fastmate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fastmate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D39BED92122383800693D7E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5D39BEDA2122383800693D7E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				5D39BEE12122383900693D7E /* Info.plist */,
 				5D39BEE22122383900693D7E /* main.m */,
 				5D39BEE42122383900693D7E /* Fastmate.entitlements */,
+				5D14A8EA22C425B400A5ACE9 /* Credits.rtf */,
 			);
 			path = Fastmate;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 				5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */,
 				5DA21A162128617900C765BF /* Main.storyboard in Resources */,
 				5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */,
+				5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
