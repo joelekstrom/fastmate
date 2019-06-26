@@ -29,13 +29,18 @@ var Fastmate = {
     },
 
     getMailboxUnreadCounts: function() {
-        var names = document.getElementsByClassName("v-MailboxSource-name");
-        var unreadCounts = document.getElementsByClassName("v-MailboxSource-badge");
+        var mailboxes = document.getElementsByClassName("v-MailboxSource");
         var result = {};
-        for (var i = 0; i < names.length; i++) {
-            var name = names[i].innerHTML;
-            var count = parseInt(unreadCounts[i].innerHTML);
-            count = isNaN(count) ? 0 : count;
+        for (var i = 0; i < mailboxes.length; ++i) {
+            var mailbox = mailboxes[i];
+            var labelElement = mailbox.getElementsByClassName("app-source-name")[0];
+            var badgeElement = mailbox.getElementsByClassName("v-MailboxSource-badge")[0];
+            var name = labelElement.innerHTML;
+            var count = 0;
+            if (badgeElement) {
+                var c = parseInt(badgeElement.innerHTML);
+                count = isNaN(c) ? 0 : c;
+            }
             result[name] = count;
         }
         return result;
