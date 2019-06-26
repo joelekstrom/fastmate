@@ -6,15 +6,16 @@
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) WKWebView *temporaryWebView;
 @property (nonatomic, strong) WKUserContentController *userContentController;
-@property (nonatomic, strong) NSURL *baseURL;
+@property (nonatomic, readonly) NSURL *baseURL;
 
 @end
+
+static NSString * const ShouldUseFastmailBetaUserDefaultsKey = @"shouldUseFastmailBeta";
 
 @implementation WebViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.baseURL = [NSURL URLWithString:@"https://www.fastmail.com"];
     [self configureUserContentController];
 
     WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
@@ -29,10 +30,17 @@
 
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.baseURL]];
     [self addObserver:self forKeyPath:@"webView.URL" options:NSKeyValueObservingOptionNew context:nil];
+    [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:ShouldUseFastmailBetaUserDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (NSURL *)baseURL {
+    BOOL shouldUseFastmailBeta = [NSUserDefaults.standardUserDefaults boolForKey:ShouldUseFastmailBetaUserDefaultsKey];
+    return shouldUseFastmailBeta ? [NSURL URLWithString:@"https://beta.fastmail.com"] : [NSURL URLWithString:@"https://www.fastmail.com"];
 }
 
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"webView.URL"];
+    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:ShouldUseFastmailBetaUserDefaultsKey];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
@@ -70,6 +78,8 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if (object == self && [keyPath isEqualToString:@"webView.URL"]) {
         [self webViewDidChangeURL:change[NSKeyValueChangeNewKey]];
+    } else if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqualToString:ShouldUseFastmailBetaUserDefaultsKey]) {
+        [self.webView loadRequest:[NSURLRequest requestWithURL:self.baseURL]];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
