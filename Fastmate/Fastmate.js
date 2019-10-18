@@ -52,6 +52,10 @@ var Fastmate = {
         var handler = Fastmate.notificationClickHandlers[id]();
         if (handler) handler();
     },
+    
+    adjustV67Width: function() {
+        document.getElementById("v67").style.maxWidth = "100%";
+    },
 };
 
 /**
