@@ -87,6 +87,7 @@ static NSString * const ShouldUseFastmailBetaUserDefaultsKey = @"shouldUseFastma
 
 - (void)webViewDidChangeURL:(NSURL *)newURL {
     [self queryToolbarColor];
+    [self adjustV67Width];
 }
 
 - (void)composeNewEmail {
@@ -219,6 +220,10 @@ static NSString * const ShouldUseFastmailBetaUserDefaultsKey = @"shouldUseFastma
     [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
         completionHandler(returnCode == NSAlertFirstButtonReturn ? textField.stringValue : defaultText);
     }];
+}
+
+- (void)adjustV67Width {
+    [self.webView evaluateJavaScript:@"Fastmate.adjustV67Width()" completionHandler:nil];
 }
 
 @end
