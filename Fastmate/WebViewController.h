@@ -6,6 +6,7 @@
 - (void)focusSearchField;
 - (void)handleMailtoURL:(NSURL *)URL;
 - (void)handleNotificationClickWithIdentifier:(NSString *)identifier;
+- (void)reload;
 
 @property (nonatomic, strong) NSDictionary<NSString *, NSNumber *> *mailboxes; // Name -> unreadCount
 

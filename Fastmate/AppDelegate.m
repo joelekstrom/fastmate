@@ -39,6 +39,21 @@
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     [NSUserDefaults.standardUserDefaults registerDefaults:@{@"automaticUpdateChecks": @YES, @"shouldShowUnreadMailIndicator": @YES, @"shouldShowUnreadMailInDock": @YES, @"shouldShowUnreadMailCountInDock": @YES, @"shouldUseFastmailBeta": @NO}];
     [self performAutomaticUpdateCheckIfNeeded];
+    [self reloadMainWindowIfNeeded];
+}
+
+/**
+ Does a clean reload of the main window if a set amount of time has passed since the last activation.
+ This is a mitigation for an observation that Fastmail feels slightly slow/laggy after Fastmate
+ has been in the background overnight, for example
+ */
+- (void)reloadMainWindowIfNeeded {
+    static NSDate *lastActivation = nil;
+    const NSTimeInterval minimumTimeInactiveForReload = 4 * 3600;
+    if ([NSDate.date timeIntervalSinceDate:lastActivation] > minimumTimeInactiveForReload) {
+        [self.mainWebViewController reload];
+    }
+    lastActivation = NSDate.date;
 }
 
 - (void)dealloc {

@@ -33,6 +33,10 @@ static NSString * const ShouldUseFastmailBetaUserDefaultsKey = @"shouldUseFastma
     [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:ShouldUseFastmailBetaUserDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
 }
 
+- (void)reload {
+    [self.webView reload];
+}
+
 - (NSURL *)baseURL {
     BOOL shouldUseFastmailBeta = [NSUserDefaults.standardUserDefaults boolForKey:ShouldUseFastmailBetaUserDefaultsKey];
     return shouldUseFastmailBeta ? [NSURL URLWithString:@"https://beta.fastmail.com"] : [NSURL URLWithString:@"https://www.fastmail.com"];
