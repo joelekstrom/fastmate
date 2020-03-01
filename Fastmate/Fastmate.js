@@ -58,6 +58,9 @@ var Fastmate = {
     },
 };
 
+// Catch the print function so we can forward it to PrintManager
+print = function() { window.webkit.messageHandlers.Fastmate.postMessage("print"); };
+
 /**
  Web Notification observering
 

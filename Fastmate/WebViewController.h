@@ -1,6 +1,10 @@
 #import <Cocoa/Cocoa.h>
 
+@class WKWebView;
+
 @interface WebViewController : NSViewController
+
+@property (nonatomic, readonly) WKWebView *webView;
 
 - (void)composeNewEmail;
 - (void)focusSearchField;

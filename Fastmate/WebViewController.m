@@ -1,4 +1,5 @@
 #import "WebViewController.h"
+#import "PrintManager.h"
 @import WebKit;
 
 @interface WebViewController () <WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler>
@@ -156,6 +157,8 @@ static NSString * const ShouldUseFastmailBetaUserDefaultsKey = @"shouldUseFastma
     if ([message.body isEqualToString:@"documentDidChange"]) {
         [self queryToolbarColor];
         [self updateUnreadCounts];
+    } else if ([message.body isEqualToString:@"print"]) {
+        [PrintManager.sharedInstance printWebView:self.webView];
     } else {
         [self postNotificationForMessage:message];
     }

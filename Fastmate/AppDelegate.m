@@ -2,6 +2,7 @@
 #import "WebViewController.h"
 #import "UnreadCountObserver.h"
 #import "VersionChecker.h"
+#import "PrintManager.h"
 
 @interface AppDelegate () <VersionCheckerDelegate, NSUserNotificationCenterDelegate>
 
@@ -63,6 +64,10 @@
 
 - (IBAction)performFindPanelAction:(id)sender {
     [self.mainWebViewController focusSearchField];
+}
+
+- (IBAction)print:(id)sender {
+    [[PrintManager sharedInstance] printWebView:self.mainWebViewController.webView];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
