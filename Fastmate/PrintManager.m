@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) WebView *webView;
 @property (nonatomic, strong) NSPrintInfo *printInfo;
+@property (nonatomic, copy) NSString *emailTitle;
 
 @end
 
@@ -43,6 +44,13 @@
     self.webView.shouldUpdateWhileOffscreen = true;
     self.webView.frameLoadDelegate = self;
 
+    // Get e-mail title to set default name of PDF
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"– (.*) \\| Fastmail" options:0 error:nil];
+    NSTextCheckingResult *result = [regex firstMatchInString:sourceView.title options:0 range:NSMakeRange(0, sourceView.title.length)];
+    if (result && result.numberOfRanges > 1) {
+        self.emailTitle = [sourceView.title substringWithRange:[result rangeAtIndex:1]];
+    }
+
     [sourceView evaluateJavaScript:@"document.documentElement.outerHTML.toString()"
                  completionHandler:^(NSString *HTML, NSError *error) {
         [self.webView.mainFrame loadHTMLString:HTML baseURL:NSBundle.mainBundle.resourceURL];
@@ -58,6 +66,7 @@
         sender.frameLoadDelegate = nil;
         NSWindow *window = NSApp.mainWindow ?: NSApp.windows.firstObject;
         NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:frame.frameView.documentView printInfo:self.printInfo];
+        printOperation.jobTitle = self.emailTitle;
         [printOperation runOperationModalForWindow:window delegate:self didRunSelector:@selector(printOperationDidFinish) contextInfo:nil];
     }
 }
