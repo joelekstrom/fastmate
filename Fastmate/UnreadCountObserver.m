@@ -71,14 +71,14 @@ static void *UnreadCountVisibilityKVOContext = &UnreadCountVisibilityKVOContext;
 - (NSUInteger)getUnreadCountFromTitle
 {
     NSString *title = [self.webViewController valueForKeyPath:@"webView.title"];
-    NSRange unreadCountRange = [title rangeOfString:@"^\\(\\d+\\)" options:NSRegularExpressionSearch];
-    if (unreadCountRange.location == NSNotFound) {
-        return 0;
-    } else {
-        NSString *unreadString = [title substringWithRange:unreadCountRange];
-        NSCharacterSet *decimalCharacterSet = [NSCharacterSet decimalDigitCharacterSet];
-        return [[unreadString stringByTrimmingCharactersInSet:decimalCharacterSet.invertedSet] integerValue];
+
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^(\\d+) •" options:NSRegularExpressionAnchorsMatchLines error:nil];
+    NSTextCheckingResult *result = [regex firstMatchInString:title options:0 range:NSMakeRange(0, title.length)];
+    if (result && result.numberOfRanges > 1) {
+        NSString *unreadCountString = [title substringWithRange:[result rangeAtIndex:1]];
+        return unreadCountString.integerValue;
     }
+    return 0;
 }
 
 - (NSUInteger)unreadCount
