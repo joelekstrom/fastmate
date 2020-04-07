@@ -4,7 +4,9 @@
 #import "VersionChecker.h"
 #import "PrintManager.h"
 
-@interface AppDelegate () <VersionCheckerDelegate, NSUserNotificationCenterDelegate>
+@import UserNotifications;
+
+@interface AppDelegate () <VersionCheckerDelegate, NSUserNotificationCenterDelegate, UNUserNotificationCenterDelegate>
 
 @property (nonatomic, strong) UnreadCountObserver *unreadCountObserver;
 @property (nonatomic, strong) NSStatusItem *statusItem;
@@ -25,6 +27,10 @@
     [NSUserNotificationCenter.defaultUserNotificationCenter setDelegate:self];
 
     [NSWorkspace.sharedWorkspace.notificationCenter addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
+
+    if (@available(macOS 10.14, *)) {
+        UNUserNotificationCenter.currentNotificationCenter.delegate = self;
+    }
 }
 
 - (void)workspaceDidWake:(NSNotification *)notification {
@@ -151,7 +157,7 @@
     }
 }
 
-#pragma mark - Notification handling
+#pragma mark - NSUserNotificationCenterDelegate
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
     [self.mainWebViewController handleNotificationClickWithIdentifier:notification.identifier];
@@ -159,6 +165,16 @@
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification {
     return YES;
+}
+
+#pragma mark - UNUserNotificationCenterDelegate
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(macos(10.14)) {
+    NSString *identifier = response.notification.request.identifier;
+    [self.mainWebViewController handleNotificationClickWithIdentifier:identifier];
+    completionHandler();
 }
 
 @end

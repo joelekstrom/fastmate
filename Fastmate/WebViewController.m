@@ -1,6 +1,7 @@
 #import "WebViewController.h"
 #import "PrintManager.h"
 @import WebKit;
+@import UserNotifications;
 
 @interface WebViewController () <WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler>
 
@@ -167,13 +168,24 @@ static NSString * const ShouldUseFastmailBetaUserDefaultsKey = @"shouldUseFastma
 - (void)postNotificationForMessage:(WKScriptMessage *)message {
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:[message.body dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
 
-    NSUserNotification *notification = [NSUserNotification new];
-    notification.identifier = [dictionary[@"notificationID"] stringValue];
-    notification.title = dictionary[@"title"];
-    notification.subtitle = [dictionary valueForKeyPath:@"options.body"];
-    notification.soundName = NSUserNotificationDefaultSoundName;
+    if (@available(macOS 10.14, *)) {
+        UNMutableNotificationContent *content = [UNMutableNotificationContent new];
+        content.title = dictionary[@"title"];
+        content.subtitle = [dictionary valueForKeyPath:@"options.body"];
 
-    [NSUserNotificationCenter.defaultUserNotificationCenter deliverNotification:notification];
+        UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:[dictionary[@"notificationID"] stringValue]
+                                                                              content:content
+                                                                              trigger:nil];
+
+        [UNUserNotificationCenter.currentNotificationCenter addNotificationRequest:request withCompletionHandler:nil];
+    } else {
+        NSUserNotification *notification = [NSUserNotification new];
+        notification.identifier = [dictionary[@"notificationID"] stringValue];
+        notification.title = dictionary[@"title"];
+        notification.subtitle = [dictionary valueForKeyPath:@"options.body"];
+        notification.soundName = NSUserNotificationDefaultSoundName;
+        [NSUserNotificationCenter.defaultUserNotificationCenter deliverNotification:notification];
+    }
 }
 
 - (void)handleNotificationClickWithIdentifier:(NSString *)identifier {
