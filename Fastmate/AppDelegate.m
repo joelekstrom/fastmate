@@ -50,7 +50,14 @@
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
-    [NSUserDefaults.standardUserDefaults registerDefaults:@{@"automaticUpdateChecks": @YES, @"shouldShowUnreadMailIndicator": @YES, @"shouldShowUnreadMailInDock": @YES, @"shouldShowUnreadMailCountInDock": @YES, @"shouldUseFastmailBeta": @NO}];
+    [NSUserDefaults.standardUserDefaults registerDefaults:@{
+        @"automaticUpdateChecks": @YES,
+        @"shouldShowUnreadMailIndicator": @YES,
+        @"shouldShowUnreadMailInDock": @YES,
+        @"shouldShowUnreadMailCountInDock": @YES,
+        @"shouldUseFastmailBeta": @NO,
+        @"shouldUseTransparentTitleBar": @YES,
+    }];
     [self performAutomaticUpdateCheckIfNeeded];
 }
 

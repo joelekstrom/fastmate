@@ -21,6 +21,25 @@
         NSRect frame = NSRectFromString(lastWindowFrame);
         [self.window setFrame:frame display:NO];
     }
+
+    [self updateTitleBarStyle];
+    [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"shouldUseTransparentTitleBar" options:0 context:nil];
+}
+
+- (void)dealloc {
+    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:@"shouldUseTransparentTitleBar"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqualToString:@"shouldUseTransparentTitleBar"]) {
+        [self updateTitleBarStyle];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (void)updateTitleBarStyle {
+    self.window.titlebarAppearsTransparent = [NSUserDefaults.standardUserDefaults boolForKey:@"shouldUseTransparentTitleBar"];
 }
 
 - (BOOL)windowShouldClose:(NSWindow *)sender {

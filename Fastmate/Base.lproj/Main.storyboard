@@ -341,7 +341,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController showSeguePresentationStyle="single" id="B8D-0N-5wS" customClass="MainWindowController" sceneMemberID="viewController">
-                    <window key="window" title="Fastmate" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="IQv-IB-iLA">
+                    <window key="window" title="Fastmate" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" titleVisibility="hidden" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="800" height="600"/>
@@ -412,13 +412,23 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wHh-Lm-p2V">
-                                                    <rect key="frame" x="15" y="143" width="149" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Show status bar icon" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8gw-B7-OXa">
+                                                    <rect key="frame" x="15" y="143" width="114" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Status bar icon" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8gw-B7-OXa">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
                                                     <connections>
                                                         <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowStatusBarIcon" id="3lx-qh-pyd"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JZP-eC-7zx">
+                                                    <rect key="frame" x="15" y="121" width="145" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Transparent title bar" bezelStyle="regularSquare" imagePosition="left" inset="2" id="bJx-Lb-CNa">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldUseTransparentTitleBar" id="3dS-dj-dv6"/>
                                                     </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="l3Z-PT-73n">
@@ -432,7 +442,7 @@
                                                     </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="am0-9G-NfW">
-                                                    <rect key="frame" x="15" y="121" width="157" height="18"/>
+                                                    <rect key="frame" x="15" y="99" width="157" height="18"/>
                                                     <buttonCell key="cell" type="check" title="Use beta.fastmail.com" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MDM-GW-3pA">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
@@ -442,9 +452,9 @@
                                                     </connections>
                                                 </button>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DCx-lT-0rb">
-                                                    <rect key="frame" x="33" y="105" width="403" height="14"/>
+                                                    <rect key="frame" x="33" y="83" width="403" height="14"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Be aware that Fastmate might not work properly when running beta versions" id="R8M-jQ-qg0">
-                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                        <font key="font" metaFont="message" size="11"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -453,12 +463,14 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DCx-lT-0rb" secondAttribute="trailing" constant="17" id="9Fp-aT-KAz"/>
                                                 <constraint firstItem="am0-9G-NfW" firstAttribute="leading" secondItem="wHh-Lm-p2V" secondAttribute="leading" id="9G3-S4-fH0"/>
+                                                <constraint firstItem="JZP-eC-7zx" firstAttribute="leading" secondItem="wHh-Lm-p2V" secondAttribute="leading" id="BqG-AJ-3RP"/>
+                                                <constraint firstItem="JZP-eC-7zx" firstAttribute="top" secondItem="wHh-Lm-p2V" secondAttribute="bottom" constant="8" id="DbM-e6-1v4"/>
                                                 <constraint firstItem="wHh-Lm-p2V" firstAttribute="top" secondItem="73O-7K-AJB" secondAttribute="top" constant="3" id="IYI-ha-8QS"/>
+                                                <constraint firstItem="am0-9G-NfW" firstAttribute="top" secondItem="JZP-eC-7zx" secondAttribute="bottom" constant="8" id="Oq3-e1-vMT"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="am0-9G-NfW" secondAttribute="trailing" constant="17" id="YR4-5e-XXP"/>
                                                 <constraint firstItem="l3Z-PT-73n" firstAttribute="leading" secondItem="73O-7K-AJB" secondAttribute="leading" constant="17" id="dMB-aU-WVS"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wHh-Lm-p2V" secondAttribute="trailing" constant="17" id="f62-54-Xus"/>
                                                 <constraint firstItem="DCx-lT-0rb" firstAttribute="top" secondItem="am0-9G-NfW" secondAttribute="bottom" constant="4" id="fLN-uX-ocI"/>
-                                                <constraint firstItem="am0-9G-NfW" firstAttribute="top" secondItem="wHh-Lm-p2V" secondAttribute="bottom" constant="8" id="hO7-fg-lCb"/>
                                                 <constraint firstItem="wHh-Lm-p2V" firstAttribute="leading" secondItem="73O-7K-AJB" secondAttribute="leading" constant="17" id="mT4-Tg-rwy"/>
                                                 <constraint firstItem="DCx-lT-0rb" firstAttribute="leading" secondItem="am0-9G-NfW" secondAttribute="leading" constant="18" id="nsy-yH-VpI"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="l3Z-PT-73n" secondAttribute="trailing" constant="17" id="tL4-gR-Eit"/>
