@@ -1,8 +1,13 @@
 #import "MainWindowController.h"
 #import "WebViewController.h"
+#import "KVOBlockObserver.h"
+#import "UserDefaultsKeys.h"
 #import "AppDelegate.h"
 
 @interface MainWindowController () <NSWindowDelegate>
+
+@property (nonatomic, strong) id titleBarSettingObserver;
+@property (nonatomic, strong) id titleObserver;
 
 @end
 
@@ -16,30 +21,20 @@
     // so inform the app delegate
     AppDelegate *appDelegate = (AppDelegate *)NSApplication.sharedApplication.delegate;
     appDelegate.mainWebViewController = (WebViewController *)self.contentViewController;
-    NSString *lastWindowFrame = [NSUserDefaults.standardUserDefaults objectForKey:@"mainWindowFrame"];
+
+    NSColor *windowColor = [NSKeyedUnarchiver unarchiveObjectWithData:[NSUserDefaults.standardUserDefaults dataForKey:WindowBackgroundColorKey]];
+    self.window.backgroundColor = windowColor ?: [NSColor colorWithRed:0.27 green:0.34 blue:0.49 alpha:1.0];
+
+    NSString *lastWindowFrame = [NSUserDefaults.standardUserDefaults objectForKey:MainWindowFrameKey];
     if (lastWindowFrame) {
         NSRect frame = NSRectFromString(lastWindowFrame);
         [self.window setFrame:frame display:NO];
     }
 
-    [self updateTitleBarStyle];
-    [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"shouldUseTransparentTitleBar" options:0 context:nil];
-}
+    self.titleBarSettingObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldUseTransparentTitleBarKey block:^(BOOL transparent) {
+        self.window.titlebarAppearsTransparent = transparent;
+    }];
 
-- (void)dealloc {
-    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:@"shouldUseTransparentTitleBar"];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqualToString:@"shouldUseTransparentTitleBar"]) {
-        [self updateTitleBarStyle];
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-
-- (void)updateTitleBarStyle {
-    self.window.titlebarAppearsTransparent = [NSUserDefaults.standardUserDefaults boolForKey:@"shouldUseTransparentTitleBar"];
 }
 
 - (BOOL)windowShouldClose:(NSWindow *)sender {
@@ -49,7 +44,7 @@
 
 - (void)windowDidResize:(NSNotification *)notification {
     if (self.windowLoaded) {
-        [NSUserDefaults.standardUserDefaults setObject:NSStringFromRect(self.window.frame) forKey:@"mainWindowFrame"];
+        [NSUserDefaults.standardUserDefaults setObject:NSStringFromRect(self.window.frame) forKey:MainWindowFrameKey];
     }
 }
 

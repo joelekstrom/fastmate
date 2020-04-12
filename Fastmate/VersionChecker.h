@@ -1,10 +1,3 @@
-//
-//  VersionChecker.h
-//  Fastmate
-//
-//  Created by Joel Ekström on 2019-04-06.
-//
-
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN

@@ -1,13 +1,6 @@
-//
-//  PrintController.h
-//  Fastmate
-//
-//  Created by Joel Ekström on 2020-03-01.
-//
-
 #import <Foundation/Foundation.h>
 
-@class WKWebView, PrintManager;
+@class WKWebView;
 
 NS_ASSUME_NONNULL_BEGIN
 

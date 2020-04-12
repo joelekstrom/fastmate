@@ -1,4 +1,5 @@
 #import "SettingsViewController.h"
+#import "UserDefaultsKeys.h"
 
 @interface SettingsViewController ()
 
@@ -12,13 +13,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSUInteger type = [NSUserDefaults.standardUserDefaults integerForKey:@"watchedFolderType"];
+    WatchedFolderType type = [NSUserDefaults.standardUserDefaults integerForKey:WatchedFolderTypeKey];
     NSArray *buttons = @[self.defaultWatchedFoldersButton, self.allWatchedFoldersButton, self.specificWatchedFoldersButton];
     [buttons[type] setState:NSControlStateValueOn];
 }
 
 - (IBAction)watchedFolderButtonSelected:(NSButton *)sender {
-    [NSUserDefaults.standardUserDefaults setInteger:sender.tag forKey:@"watchedFolderType"];
+    [NSUserDefaults.standardUserDefaults setInteger:sender.tag forKey:WatchedFolderTypeKey];
 }
 
 @end

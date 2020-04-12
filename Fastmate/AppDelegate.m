@@ -1,6 +1,8 @@
 #import "AppDelegate.h"
 #import "WebViewController.h"
 #import "UnreadCountObserver.h"
+#import "KVOBlockObserver.h"
+#import "UserDefaultsKeys.h"
 #import "VersionChecker.h"
 #import "PrintManager.h"
 
@@ -11,6 +13,7 @@
 @property (nonatomic, strong) UnreadCountObserver *unreadCountObserver;
 @property (nonatomic, strong) NSStatusItem *statusItem;
 @property (nonatomic, assign) BOOL isAutomaticUpdateCheck;
+@property (nonatomic, strong) id statusBarIconObserver;
 
 @end
 
@@ -19,18 +22,17 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     [NSAppleEventManager.sharedAppleEventManager setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 
-    NSColor *windowColor = [NSKeyedUnarchiver unarchiveObjectWithData:[NSUserDefaults.standardUserDefaults dataForKey:@"lastUsedWindowColor"]];
-    NSApplication.sharedApplication.mainWindow.backgroundColor = windowColor ?: [NSColor colorWithRed:0.27 green:0.34 blue:0.49 alpha:1.0];
-
-    [self updateStatusItemVisibility];
-    [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:@"shouldShowStatusBarIcon" options:0 context:nil];
-    [NSUserNotificationCenter.defaultUserNotificationCenter setDelegate:self];
-
     [NSWorkspace.sharedWorkspace.notificationCenter addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
 
     if (@available(macOS 10.14, *)) {
         UNUserNotificationCenter.currentNotificationCenter.delegate = self;
+    } else {
+        [NSUserNotificationCenter.defaultUserNotificationCenter setDelegate:self];
     }
+
+    self.statusBarIconObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldShowStatusBarIconKey block:^(BOOL visible) {
+        [self setStatusItemVisible:visible];
+    }];
 }
 
 - (void)workspaceDidWake:(NSNotification *)notification {
@@ -51,18 +53,15 @@
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     [NSUserDefaults.standardUserDefaults registerDefaults:@{
-        @"automaticUpdateChecks": @YES,
-        @"shouldShowUnreadMailIndicator": @YES,
-        @"shouldShowUnreadMailInDock": @YES,
-        @"shouldShowUnreadMailCountInDock": @YES,
-        @"shouldUseFastmailBeta": @NO,
-        @"shouldUseTransparentTitleBar": @YES,
+        AutomaticUpdateChecksKey: @YES,
+        ShouldShowUnreadMailIndicatorKey: @YES,
+        ShouldShowUnreadMailInDockKey: @YES,
+        ShouldShowUnreadMailCountInDockKey: @YES,
+        ShouldUseFastmailBetaKey: @NO,
+        ShouldUseTransparentTitleBarKey: @YES,
     }];
-    [self performAutomaticUpdateCheckIfNeeded];
-}
 
-- (void)dealloc {
-    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:@"shouldShowStatusBarIcon"];
+    [self performAutomaticUpdateCheckIfNeeded];
 }
 
 - (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
@@ -83,16 +82,8 @@
     [[PrintManager sharedInstance] printWebView:self.mainWebViewController.webView];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqualToString:@"shouldShowStatusBarIcon"]) {
-        [self updateStatusItemVisibility];
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-
-- (void)updateStatusItemVisibility {
-    if ([NSUserDefaults.standardUserDefaults boolForKey:@"shouldShowStatusBarIcon"]) {
+- (void)setStatusItemVisible:(BOOL)visible {
+    if (visible) {
         self.statusItem = [NSStatusBar.systemStatusBar statusItemWithLength:NSSquareStatusItemLength];
         self.statusItem.target = self;
         self.statusItem.action = @selector(statusItemSelected:);
@@ -110,8 +101,7 @@
 #pragma mark - Version checking
 
 - (void)performAutomaticUpdateCheckIfNeeded {
-    BOOL automaticUpdatesEnabled = [NSUserDefaults.standardUserDefaults boolForKey:@"automaticUpdateChecks"];
-    if (!automaticUpdatesEnabled) {
+    if (![NSUserDefaults.standardUserDefaults boolForKey:AutomaticUpdateChecksKey]) {
         return;
     }
 
@@ -148,7 +138,7 @@
         }
 
         if (alert.suppressionButton.state == NSOnState) {
-            [NSUserDefaults.standardUserDefaults setBool:NO forKey:@"automaticUpdateChecks"];
+            [NSUserDefaults.standardUserDefaults setBool:NO forKey:AutomaticUpdateChecksKey];
         }
     }];
 }

@@ -1,10 +1,3 @@
-//
-//  VersionChecker.m
-//  Fastmate
-//
-//  Created by Joel Ekström on 2019-04-06.
-//
-
 #import "VersionChecker.h"
 
 @interface VersionChecker() <NSURLSessionTaskDelegate>

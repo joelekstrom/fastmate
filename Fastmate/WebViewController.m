@@ -1,4 +1,6 @@
 #import "WebViewController.h"
+#import "KVOBlockObserver.h"
+#import "UserDefaultsKeys.h"
 #import "PrintManager.h"
 @import WebKit;
 @import UserNotifications;
@@ -8,11 +10,11 @@
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) WKWebView *temporaryWebView;
 @property (nonatomic, strong) WKUserContentController *userContentController;
-@property (nonatomic, readonly) NSURL *baseURL;
+@property (nonatomic, strong) id baseURLObserver;
+@property (nonatomic, strong) id currentURLObserver;
+@property (nonatomic, strong) NSURL *baseURL;
 
 @end
-
-static NSString * const ShouldUseFastmailBetaUserDefaultsKey = @"shouldUseFastmailBeta";
 
 @implementation WebViewController
 
@@ -30,23 +32,21 @@ static NSString * const ShouldUseFastmailBetaUserDefaultsKey = @"shouldUseFastma
     self.webView.UIDelegate = self;
     [self.view addSubview:self.webView];
 
-    [self.webView loadRequest:[NSURLRequest requestWithURL:self.baseURL]];
-    [self addObserver:self forKeyPath:@"webView.URL" options:NSKeyValueObservingOptionNew context:nil];
-    [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:ShouldUseFastmailBetaUserDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
+    self.currentURLObserver = [KVOBlockObserver observe:self keyPath:@"webView.URL" block:^(id _Nonnull value) {
+        [self queryToolbarColor];
+        [self adjustV67Width];
+    }];
+
+    __weak typeof(self) weakSelf = self;
+    self.baseURLObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldUseFastmailBetaKey block:^(BOOL useBeta) {
+        NSString *baseURLString = useBeta ? @"https://beta.fastmail.com" : @"https://www.fastmail.com";
+        weakSelf.baseURL = [NSURL URLWithString:baseURLString];
+        [weakSelf.webView loadRequest:[NSURLRequest requestWithURL:weakSelf.baseURL]];
+    }];
 }
 
 - (void)reload {
     [self.webView reload];
-}
-
-- (NSURL *)baseURL {
-    BOOL shouldUseFastmailBeta = [NSUserDefaults.standardUserDefaults boolForKey:ShouldUseFastmailBetaUserDefaultsKey];
-    return shouldUseFastmailBeta ? [NSURL URLWithString:@"https://beta.fastmail.com"] : [NSURL URLWithString:@"https://www.fastmail.com"];
-}
-
-- (void)dealloc {
-    [self removeObserver:self forKeyPath:@"webView.URL"];
-    [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:ShouldUseFastmailBetaUserDefaultsKey];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
@@ -79,21 +79,6 @@ static NSString * const ShouldUseFastmailBetaUserDefaultsKey = @"shouldUseFastma
     self.temporaryWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
     self.temporaryWebView.navigationDelegate = self;
     return self.temporaryWebView;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if (object == self && [keyPath isEqualToString:@"webView.URL"]) {
-        [self webViewDidChangeURL:change[NSKeyValueChangeNewKey]];
-    } else if (object == NSUserDefaults.standardUserDefaults && [keyPath isEqualToString:ShouldUseFastmailBetaUserDefaultsKey]) {
-        [self.webView loadRequest:[NSURLRequest requestWithURL:self.baseURL]];
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-
-- (void)webViewDidChangeURL:(NSURL *)newURL {
-    [self queryToolbarColor];
-    [self adjustV67Width];
 }
 
 - (void)composeNewEmail {
@@ -132,7 +117,7 @@ static NSString * const ShouldUseFastmailBetaUserDefaultsKey = @"shouldUseFastma
 
 - (void)setWindowBackgroundColor:(NSColor *)color {
     NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:color];
-    [NSUserDefaults.standardUserDefaults setObject:colorData forKey:@"lastUsedWindowColor"];
+    [NSUserDefaults.standardUserDefaults setObject:colorData forKey:WindowBackgroundColorKey];
     self.view.window.backgroundColor = color;
 }
 

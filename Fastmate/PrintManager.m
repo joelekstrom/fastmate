@@ -1,10 +1,3 @@
-//
-//  PrintController.m
-//  Fastmate
-//
-//  Created by Joel Ekström on 2020-03-01.
-//
-
 #import "PrintManager.h"
 @import WebKit;
 

@@ -1,65 +1,53 @@
 #import "UnreadCountObserver.h"
-
-typedef NS_ENUM(NSInteger, WatchedFolderType) {
-    WatchedFolderTypeDefault,
-    WatchedFolderTypeAll,
-    WatchedFolderTypeSpecific
-};
+#import "KVOBlockObserver.h"
+#import "UserDefaultsKeys.h"
 
 @interface UnreadCountObserver()
 
 @property (nonatomic, readonly) NSUInteger unreadCount;
+@property (nonatomic, strong) NSArray *observers;
 
 @end
 
 @implementation UnreadCountObserver
 
-static NSString * const MailboxesKeyPath = @"webViewController.mailboxes";
-static NSString * const ShouldShowIndicatorUserDefaultsKey = @"shouldShowUnreadMailIndicator";
-static NSString * const ShouldShowDockIndicatorUserDefaultsKey = @"shouldShowUnreadMailInDock";
-static NSString * const ShouldShowMenuBarIndicatorUserDefaultsKey = @"shouldShowUnreadMailInStatusBar";
-static NSString * const ShouldShowUnreadMailCountUserDefaultsKey = @"shouldShowUnreadMailCountInDock";
-static NSString * const WatchedFolderTypeUserDefaultsKey = @"watchedFolderType";
-static NSString * const WatchedFoldersUserDefaultsKey = @"watchedFolders";
-
-static void *UnreadCountVisibilityKVOContext = &UnreadCountVisibilityKVOContext;
-
 - (instancetype)init {
     if (self = [super init]) {
-        [self addObserver:self forKeyPath:MailboxesKeyPath options:NSKeyValueObservingOptionNew context:UnreadCountVisibilityKVOContext];
-
-        for (NSString *keyPath in @[ShouldShowIndicatorUserDefaultsKey, ShouldShowDockIndicatorUserDefaultsKey, ShouldShowMenuBarIndicatorUserDefaultsKey, ShouldShowUnreadMailCountUserDefaultsKey, WatchedFolderTypeUserDefaultsKey, WatchedFoldersUserDefaultsKey]) {
-            [NSUserDefaults.standardUserDefaults addObserver:self forKeyPath:keyPath options:0 context:UnreadCountVisibilityKVOContext];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self registerObservers];
+        });
     }
     return self;
 }
 
-- (void)dealloc {
-    [self removeObserver:self forKeyPath:MailboxesKeyPath];
-
-    for (NSString *keyPath in @[ShouldShowIndicatorUserDefaultsKey, ShouldShowDockIndicatorUserDefaultsKey, ShouldShowMenuBarIndicatorUserDefaultsKey, ShouldShowUnreadMailCountUserDefaultsKey, WatchedFolderTypeUserDefaultsKey, WatchedFoldersUserDefaultsKey]) {
-        [NSUserDefaults.standardUserDefaults removeObserver:self forKeyPath:keyPath context:UnreadCountVisibilityKVOContext];
-    }
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if (context == UnreadCountVisibilityKVOContext) {
+- (void)registerObservers {
+    void (^updateBlock)(id) = ^(id _) {
         [self updateStatusBarIndicator];
         [self updateDockIndicator];
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
+    };
+
+    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+    self.observers = @[
+        [[KVOBlockObserver alloc] initWithObject:defaults keyPath:ShouldShowUnreadMailIndicatorKey block:updateBlock],
+        [[KVOBlockObserver alloc] initWithObject:defaults keyPath:ShouldShowUnreadMailInDockKey block:updateBlock],
+        [[KVOBlockObserver alloc] initWithObject:defaults keyPath:ShouldShowUnreadMailCountInDockKey block:updateBlock],
+        [[KVOBlockObserver alloc] initWithObject:defaults keyPath:ShouldShowStatusBarIconKey block:updateBlock],
+        [[KVOBlockObserver alloc] initWithObject:defaults keyPath:ShouldShowUnreadMailInStatusBarKey block:updateBlock],
+        [[KVOBlockObserver alloc] initWithObject:defaults keyPath:WatchedFolderTypeKey block:updateBlock],
+        [[KVOBlockObserver alloc] initWithObject:defaults keyPath:WatchedFoldersKey block:updateBlock],
+        [[KVOBlockObserver alloc] initWithObject:self keyPath:@"webViewController.mailboxes" block:updateBlock],
+    ];
+    updateBlock(nil);
 }
 
 - (WatchedFolderType)watchedFolderType
 {
-    return [NSUserDefaults.standardUserDefaults integerForKey:WatchedFolderTypeUserDefaultsKey];
+    return [NSUserDefaults.standardUserDefaults integerForKey:WatchedFolderTypeKey];
 }
 
 - (NSArray<NSString *> *)watchedFolders
 {
-    NSString *watchedFoldersString = [NSUserDefaults.standardUserDefaults stringForKey:WatchedFoldersUserDefaultsKey];
+    NSString *watchedFoldersString = [NSUserDefaults.standardUserDefaults stringForKey:WatchedFoldersKey];
     NSArray *watchedFolders = [watchedFoldersString componentsSeparatedByString:@","];
     NSMutableArray *normalizedFolders = [NSMutableArray new];
     for (NSString *folder in watchedFolders) {
@@ -121,15 +109,20 @@ static void *UnreadCountVisibilityKVOContext = &UnreadCountVisibilityKVOContext;
 }
 
 - (BOOL)shouldShowStatusBarIndicator {
-    return self.statusItem && self.unreadCount > 0 && [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowMenuBarIndicatorUserDefaultsKey] && [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowIndicatorUserDefaultsKey];
+    return self.statusItem
+        && self.unreadCount > 0
+        && [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowUnreadMailInStatusBarKey]
+        && [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowUnreadMailIndicatorKey];
 }
 
 - (BOOL)shouldShowDockIndicator {
-    return self.unreadCount > 0 && [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowDockIndicatorUserDefaultsKey] && [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowIndicatorUserDefaultsKey];
+    return self.unreadCount > 0
+        && [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowUnreadMailInDockKey]
+        && [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowUnreadMailIndicatorKey];
 }
 
 - (BOOL)shouldShowCountInDock {
-    return [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowUnreadMailCountUserDefaultsKey];
+    return [NSUserDefaults.standardUserDefaults boolForKey:ShouldShowUnreadMailCountInDockKey];
 }
 
 @end
