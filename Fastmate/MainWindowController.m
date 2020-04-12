@@ -33,8 +33,14 @@
 
     self.titleBarSettingObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldUseTransparentTitleBarKey block:^(BOOL transparent) {
         self.window.titlebarAppearsTransparent = transparent;
+        self.window.titleVisibility = transparent ? NSWindowTitleHidden : NSWindowTitleVisible;
     }];
 
+    self.titleObserver = [KVOBlockObserver observe:self keyPath:@"contentViewController.webView.title" block:^(id  _Nonnull value) {
+        if ([value isKindOfClass:NSString.class]) {
+            self.window.title = value;
+        }
+    }];
 }
 
 - (BOOL)windowShouldClose:(NSWindow *)sender {
