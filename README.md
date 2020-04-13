@@ -18,6 +18,9 @@ A native [Fastmail](https://www.fastmail.com/)-wrapper for Mac.
 
 Pre-built binaries can be found on the [release page](https://github.com/joelekstrom/fastmate/releases). To build it yourself you need to have Xcode and either disable code signing or change the bundle identifier to something else prior to compiling.
 
+## Enabling push notifications
+For Fastmate to receive push notifications for new e-mail, it has to be enabled within the _Fastmail_ settings from within Fastmate. It's disabled by default. Click the Fastmail logo in the top left of the window -> Settings -> Notifications -> check "Show a notification" for new messages.
+
 ## Privacy
 Your Fastmail login and e-mail are handled entirely by `WKWebView`, meaning that it is pretty much the same as running Fastmail in Safari. Fastmate does have access to the DOM and could potentially read your mail (it doesn't, but the privacy inclined might want to verify the source).
 
