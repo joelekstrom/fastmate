@@ -86,11 +86,11 @@ Object.defineProperty(Notification, 'permission', { value: 'granted', writable: 
 /**
  Observe changes to the DOM
  */
-var DOMObserver = new MutationObserver(function(mutation) { window.webkit.messageHandlers.Fastmate.postMessage('documentDidChange'); });
+var DOMObserver = new MutationObserver(function(mutations) { window.webkit.messageHandlers.Fastmate.postMessage('documentDidChange'); });
 var config = {
-    attributes: true,
+    attributes: false,
     characterData: true,
     childList: true,
     subtree: true,
 };
-DOMObserver.observe(document, config);
+DOMObserver.observe(document.body, config);
