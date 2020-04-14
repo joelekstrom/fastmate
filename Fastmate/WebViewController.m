@@ -13,6 +13,7 @@
 @property (nonatomic, strong) id baseURLObserver;
 @property (nonatomic, strong) id currentURLObserver;
 @property (nonatomic, strong) NSURL *baseURL;
+@property (nonatomic, strong) NSTextField *linkPreviewTextField;
 
 @end
 
@@ -133,6 +134,7 @@
 - (void)configureUserContentController {
     self.userContentController = [WKUserContentController new];
     [self.userContentController addScriptMessageHandler:self name:@"Fastmate"];
+    [self.userContentController addScriptMessageHandler:self name:@"LinkHover"];
 
     NSString *fastmateSource = [NSString stringWithContentsOfURL:[NSBundle.mainBundle URLForResource:@"Fastmate" withExtension:@"js"] encoding:NSUTF8StringEncoding error:nil];
     WKUserScript *fastmateScript = [[WKUserScript alloc] initWithSource:fastmateSource injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
@@ -140,13 +142,27 @@
 }
 
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
-    if ([message.body isEqualToString:@"documentDidChange"]) {
+    if ([message.name isEqualToString:@"LinkHover"]) {
+        [self handleLinkHoverMessage:message];
+    }
+
+    else if ([message.body isEqualToString:@"documentDidChange"]) {
         [self queryToolbarColor];
         [self updateUnreadCounts];
     } else if ([message.body isEqualToString:@"print"]) {
         [PrintManager.sharedInstance printWebView:self.webView];
     } else {
         [self postNotificationForMessage:message];
+    }
+}
+
+- (void)handleLinkHoverMessage:(WKScriptMessage *)message {
+    if ([message.body isKindOfClass:NSString.class]) {
+        self.linkPreviewTextField.stringValue = [NSString stringWithFormat:@" %@ ", message.body];
+        self.linkPreviewTextField.hidden = NO;
+        self.linkPreviewTextField.layer.zPosition = 10;
+    } else {
+        self.linkPreviewTextField.hidden = YES;
     }
 }
 
@@ -228,6 +244,28 @@
 
 - (void)adjustV67Width {
     [self.webView evaluateJavaScript:@"Fastmate.adjustV67Width()" completionHandler:nil];
+}
+
+- (NSTextField *)linkPreviewTextField {
+    if (!_linkPreviewTextField) {
+        _linkPreviewTextField = [NSTextField labelWithString:@""];
+        _linkPreviewTextField.wantsLayer = YES;
+        _linkPreviewTextField.drawsBackground = NO;
+
+        _linkPreviewTextField.layer.backgroundColor = [NSColor.darkGrayColor colorWithAlphaComponent:0.8].CGColor;
+        _linkPreviewTextField.layer.borderColor = [NSColor.whiteColor colorWithAlphaComponent:0.65].CGColor;
+        _linkPreviewTextField.layer.borderWidth = 1;
+        _linkPreviewTextField.layer.cornerRadius = 3.5;
+        _linkPreviewTextField.textColor = [NSColor whiteColor];
+        _linkPreviewTextField.translatesAutoresizingMaskIntoConstraints = NO;
+        _linkPreviewTextField.cell.lineBreakMode = NSLineBreakByTruncatingMiddle;
+        [_linkPreviewTextField setContentCompressionResistancePriority:NSLayoutPriorityDefaultLow forOrientation:NSLayoutConstraintOrientationHorizontal];
+        [self.view addSubview:_linkPreviewTextField];
+        [_linkPreviewTextField.widthAnchor constraintLessThanOrEqualToAnchor:self.view.widthAnchor multiplier:0.75].active = YES;
+        [self.view.rightAnchor constraintEqualToAnchor:_linkPreviewTextField.rightAnchor constant:4].active = YES;
+        [self.view.bottomAnchor constraintEqualToAnchor:_linkPreviewTextField.bottomAnchor constant:2].active = YES;
+    }
+    return _linkPreviewTextField;
 }
 
 @end

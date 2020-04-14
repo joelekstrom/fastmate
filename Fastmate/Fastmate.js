@@ -56,6 +56,30 @@ var Fastmate = {
     adjustV67Width: function() {
         document.getElementById("v67").style.maxWidth = "100%";
     },
+
+    documentDidChange: function() {
+        window.webkit.messageHandlers.Fastmate.postMessage('documentDidChange');
+        Fastmate.addLinkMouseListeners()
+    },
+
+    // Adds mouse enter/exit listeners to all <a> elements inside the e-mail message body
+    addLinkMouseListeners: function() {
+        var messageBody = document.getElementsByClassName("v-Message-body")[0];
+        if (messageBody == null) {
+            return;
+        }
+
+        var linkNodes = messageBody.getElementsByTagName("a");
+        Array.prototype.forEach.call(linkNodes, function(link) {
+            var href = link.href;
+            link.addEventListener('mouseenter', e => {
+                window.webkit.messageHandlers.LinkHover.postMessage(href);
+            });
+            link.addEventListener('mouseleave', e => {
+                window.webkit.messageHandlers.LinkHover.postMessage(null);
+            });
+        });
+    },
 };
 
 // Catch the print function so we can forward it to PrintManager
@@ -86,7 +110,7 @@ Object.defineProperty(Notification, 'permission', { value: 'granted', writable: 
 /**
  Observe changes to the DOM
  */
-var DOMObserver = new MutationObserver(function(mutations) { window.webkit.messageHandlers.Fastmate.postMessage('documentDidChange'); });
+var DOMObserver = new MutationObserver(function(mutations) { Fastmate.documentDidChange(); });
 var config = {
     attributes: false,
     characterData: true,
