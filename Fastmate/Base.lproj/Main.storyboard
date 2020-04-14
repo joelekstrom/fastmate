@@ -411,70 +411,101 @@
                                             <rect key="frame" x="10" y="33" width="489" height="162"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wHh-Lm-p2V">
-                                                    <rect key="frame" x="15" y="143" width="114" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Status bar icon" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8gw-B7-OXa">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                    <connections>
-                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowStatusBarIcon" id="3lx-qh-pyd"/>
-                                                    </connections>
-                                                </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JZP-eC-7zx">
-                                                    <rect key="frame" x="15" y="121" width="145" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Transparent title bar" bezelStyle="regularSquare" imagePosition="left" inset="2" id="bJx-Lb-CNa">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                    <connections>
-                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldUseTransparentTitleBar" id="3dS-dj-dv6"/>
-                                                    </connections>
-                                                </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="l3Z-PT-73n">
-                                                    <rect key="frame" x="15" y="15" width="297" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Check for updates automatically once a week" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Pmr-DN-ABx">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                    <connections>
-                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.automaticUpdateChecks" id="eTT-jm-dqC"/>
-                                                    </connections>
-                                                </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="am0-9G-NfW">
-                                                    <rect key="frame" x="15" y="99" width="157" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Use beta.fastmail.com" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MDM-GW-3pA">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                    <connections>
-                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldUseFastmailBeta" id="sHt-1u-HaF"/>
-                                                    </connections>
-                                                </button>
-                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DCx-lT-0rb">
-                                                    <rect key="frame" x="33" y="83" width="403" height="14"/>
-                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Be aware that Fastmate might not work properly when running beta versions" id="R8M-jQ-qg0">
-                                                        <font key="font" metaFont="controlContent" size="11"/>
-                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                    </textFieldCell>
-                                                </textField>
+                                                <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1mu-qt-Cqa">
+                                                    <rect key="frame" x="20" y="26" width="449" height="126"/>
+                                                    <subviews>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wHh-Lm-p2V">
+                                                            <rect key="frame" x="-2" y="110" width="114" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Status bar icon" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8gw-B7-OXa">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowStatusBarIcon" id="3lx-qh-pyd"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JZP-eC-7zx">
+                                                            <rect key="frame" x="-2" y="88" width="145" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Transparent title bar" bezelStyle="regularSquare" imagePosition="left" inset="2" id="bJx-Lb-CNa">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldUseTransparentTitleBar" id="3dS-dj-dv6"/>
+                                                            </connections>
+                                                        </button>
+                                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Prd-t9-ja9">
+                                                            <rect key="frame" x="0.0" y="50" width="417" height="32"/>
+                                                            <subviews>
+                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="am0-9G-NfW">
+                                                                    <rect key="frame" x="-2" y="16" width="157" height="18"/>
+                                                                    <buttonCell key="cell" type="check" title="Use beta.fastmail.com" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MDM-GW-3pA">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldUseFastmailBeta" id="sHt-1u-HaF"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DCx-lT-0rb">
+                                                                    <rect key="frame" x="16" y="0.0" width="403" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Be aware that Fastmate might not work properly when running beta versions" id="R8M-jQ-qg0">
+                                                                        <font key="font" metaFont="message" size="11"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="DCx-lT-0rb" firstAttribute="leading" secondItem="am0-9G-NfW" secondAttribute="leading" constant="18" id="cja-gq-7Ci"/>
+                                                            </constraints>
+                                                            <visibilityPriorities>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                            </visibilityPriorities>
+                                                            <customSpacing>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                            </customSpacing>
+                                                        </stackView>
+                                                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="Fa1-6f-X9j" userLabel="Spacer">
+                                                            <rect key="frame" x="0.0" y="22" width="163" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="20" id="CcB-U8-G2y"/>
+                                                            </constraints>
+                                                        </customView>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="l3Z-PT-73n">
+                                                            <rect key="frame" x="-2" y="-2" width="297" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Check for updates automatically once a week" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Pmr-DN-ABx">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="aLa-hz-uMh" name="value" keyPath="values.automaticUpdateChecks" id="eTT-jm-dqC"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DCx-lT-0rb" secondAttribute="trailing" constant="17" id="9Fp-aT-KAz"/>
-                                                <constraint firstItem="am0-9G-NfW" firstAttribute="leading" secondItem="wHh-Lm-p2V" secondAttribute="leading" id="9G3-S4-fH0"/>
-                                                <constraint firstItem="JZP-eC-7zx" firstAttribute="leading" secondItem="wHh-Lm-p2V" secondAttribute="leading" id="BqG-AJ-3RP"/>
-                                                <constraint firstItem="JZP-eC-7zx" firstAttribute="top" secondItem="wHh-Lm-p2V" secondAttribute="bottom" constant="8" id="DbM-e6-1v4"/>
-                                                <constraint firstItem="wHh-Lm-p2V" firstAttribute="top" secondItem="73O-7K-AJB" secondAttribute="top" constant="3" id="IYI-ha-8QS"/>
-                                                <constraint firstItem="am0-9G-NfW" firstAttribute="top" secondItem="JZP-eC-7zx" secondAttribute="bottom" constant="8" id="Oq3-e1-vMT"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="am0-9G-NfW" secondAttribute="trailing" constant="17" id="YR4-5e-XXP"/>
-                                                <constraint firstItem="l3Z-PT-73n" firstAttribute="leading" secondItem="73O-7K-AJB" secondAttribute="leading" constant="17" id="dMB-aU-WVS"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wHh-Lm-p2V" secondAttribute="trailing" constant="17" id="f62-54-Xus"/>
-                                                <constraint firstItem="DCx-lT-0rb" firstAttribute="top" secondItem="am0-9G-NfW" secondAttribute="bottom" constant="4" id="fLN-uX-ocI"/>
-                                                <constraint firstItem="wHh-Lm-p2V" firstAttribute="leading" secondItem="73O-7K-AJB" secondAttribute="leading" constant="17" id="mT4-Tg-rwy"/>
-                                                <constraint firstItem="DCx-lT-0rb" firstAttribute="leading" secondItem="am0-9G-NfW" secondAttribute="leading" constant="18" id="nsy-yH-VpI"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="l3Z-PT-73n" secondAttribute="trailing" constant="17" id="tL4-gR-Eit"/>
-                                                <constraint firstAttribute="bottom" secondItem="l3Z-PT-73n" secondAttribute="bottom" constant="17" id="uH6-1k-6e5"/>
+                                                <constraint firstAttribute="trailing" secondItem="1mu-qt-Cqa" secondAttribute="trailing" constant="20" id="Xh9-Sj-6xJ"/>
+                                                <constraint firstItem="1mu-qt-Cqa" firstAttribute="leading" secondItem="73O-7K-AJB" secondAttribute="leading" constant="20" id="bKx-4t-Lrp"/>
+                                                <constraint firstItem="1mu-qt-Cqa" firstAttribute="top" secondItem="73O-7K-AJB" secondAttribute="top" constant="10" id="d1x-9G-Lcd"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="1mu-qt-Cqa" secondAttribute="bottom" constant="20" id="z2o-O7-bPr"/>
                                             </constraints>
                                         </view>
                                     </tabViewItem>
@@ -728,7 +759,7 @@
                 <customObject id="yva-Kj-meo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="aLa-hz-uMh"/>
             </objects>
-            <point key="canvasLocation" x="693.5" y="886.5"/>
+            <point key="canvasLocation" x="693.5" y="857"/>
         </scene>
     </scenes>
 </document>
