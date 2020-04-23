@@ -139,6 +139,22 @@
     NSString *fastmateSource = [NSString stringWithContentsOfURL:[NSBundle.mainBundle URLForResource:@"Fastmate" withExtension:@"js"] encoding:NSUTF8StringEncoding error:nil];
     WKUserScript *fastmateScript = [[WKUserScript alloc] initWithSource:fastmateSource injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
     [self.userContentController addUserScript:fastmateScript];
+
+    [self loadUserScripts];
+}
+
+- (void)loadUserScripts {
+    NSString *userScriptsDirectoryPath = [NSHomeDirectory() stringByAppendingPathComponent:@"userscripts"];
+    NSDirectoryEnumerator<NSString *> *enumerator = [NSFileManager.defaultManager enumeratorAtPath:userScriptsDirectoryPath];
+    for (NSString *fileName in enumerator) {
+        if (![fileName.pathExtension isEqualToString:@"js"]) {
+            continue;
+        }
+
+        NSString *scriptContent = [NSString stringWithContentsOfFile:[userScriptsDirectoryPath stringByAppendingPathComponent:fileName] encoding:NSUTF8StringEncoding error:nil];
+        WKUserScript *script = [[WKUserScript alloc] initWithSource:scriptContent injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+        [self.userContentController addUserScript:script];
+    }
 }
 
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {

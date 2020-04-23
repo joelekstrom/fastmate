@@ -33,6 +33,10 @@
     self.statusBarIconObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldShowStatusBarIconKey block:^(BOOL visible) {
         [self setStatusItemVisible:visible];
     }];
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self createUserScriptsFolderIfNeeded];
+    });
 }
 
 - (void)workspaceDidWake:(NSNotification *)notification {
@@ -152,6 +156,28 @@
         [alert setAlertStyle:NSAlertStyleInformational];
         [alert beginSheetModalForWindow:self.mainWebViewController.view.window completionHandler:nil];
     }
+}
+
+- (void)createUserScriptsFolderIfNeeded {
+    NSString *userScriptsFolderPath = [NSHomeDirectory() stringByAppendingPathComponent:@"userscripts"];
+    BOOL folderExists = NO;
+    [NSFileManager.defaultManager fileExistsAtPath:userScriptsFolderPath isDirectory:&folderExists];
+
+    if (folderExists) {
+        return;
+    }
+
+    [NSFileManager.defaultManager createDirectoryAtPath:userScriptsFolderPath withIntermediateDirectories:NO attributes:nil error:nil];
+    [self addUserScriptsREADMEInFolder:userScriptsFolderPath];
+}
+
+- (void)addUserScriptsREADMEInFolder:(NSString *)folderPath {
+    NSString *readmeFilePath = [folderPath stringByAppendingPathComponent:@"README.txt"];
+
+    NSString *text = @""
+    "Fastmate user scripts\n\n"
+    "Put JavaScript files in this folder (.js), and Fastmate will load them at document end after loading the Fastmail website.\n";
+    [NSFileManager.defaultManager createFileAtPath:readmeFilePath contents:[text dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
 }
 
 #pragma mark - NSUserNotificationCenterDelegate

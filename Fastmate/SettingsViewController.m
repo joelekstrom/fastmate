@@ -22,6 +22,10 @@
     [NSUserDefaults.standardUserDefaults setInteger:sender.tag forKey:WatchedFolderTypeKey];
 }
 
+- (IBAction)openUserScriptsFolder:(id)sender {
+    [NSWorkspace.sharedWorkspace openFile:[NSHomeDirectory() stringByAppendingPathComponent:@"userscripts"]];
+}
+
 @end
 
 // This simply transforms the tag of a button to a bool, to check if the
