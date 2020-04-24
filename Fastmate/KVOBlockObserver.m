@@ -10,7 +10,7 @@
 @implementation KVOBlockObserver
 
 - (instancetype)initWithObject:(id)object keyPath:(NSString *)keyPath block:(void (^)(id value))block {
-    if (self == [super init]) {
+    if (self = [super init]) {
         _object = object;
         _context = (__bridge void *)(self);
         _block = block;

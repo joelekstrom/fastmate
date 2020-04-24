@@ -4,8 +4,11 @@
 
 @interface UnreadCountObserver()
 
-@property (nonatomic, readonly) NSUInteger unreadCount;
+@property (nonatomic, assign) NSUInteger unreadCount;
 @property (nonatomic, strong) NSArray *observers;
+
+@property (nonatomic, copy) NSString *webViewTitle;
+@property (nonatomic, copy) NSDictionary<NSString *, NSNumber *> *mailBoxes;
 
 @end
 
@@ -22,8 +25,7 @@
 
 - (void)registerObservers {
     void (^updateBlock)(id) = ^(id _) {
-        [self updateStatusBarIndicator];
-        [self updateDockIndicator];
+        [self updateUnreadCount];
     };
 
     NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
@@ -35,18 +37,21 @@
         [[KVOBlockObserver alloc] initWithObject:defaults keyPath:ShouldShowUnreadMailInStatusBarKey block:updateBlock],
         [[KVOBlockObserver alloc] initWithObject:defaults keyPath:WatchedFolderTypeKey block:updateBlock],
         [[KVOBlockObserver alloc] initWithObject:defaults keyPath:WatchedFoldersKey block:updateBlock],
-        [[KVOBlockObserver alloc] initWithObject:self keyPath:@"webViewController.mailboxes" block:updateBlock],
+        [[KVOBlockObserver alloc] initWithObject:self keyPath:@"webViewController.mailboxes" block:^(NSDictionary *mailboxes) {
+            self.mailBoxes = mailboxes;
+        }],
+        [[KVOBlockObserver alloc] initWithObject:self keyPath:@"webViewController.webView.title" block:^(NSString *title) {
+            self.webViewTitle = title;
+        }],
     ];
     updateBlock(nil);
 }
 
-- (WatchedFolderType)watchedFolderType
-{
+- (WatchedFolderType)watchedFolderType {
     return [NSUserDefaults.standardUserDefaults integerForKey:WatchedFolderTypeKey];
 }
 
-- (NSArray<NSString *> *)watchedFolders
-{
+- (NSArray<NSString *> *)watchedFolders {
     NSString *watchedFoldersString = [NSUserDefaults.standardUserDefaults stringForKey:WatchedFoldersKey];
     NSArray *watchedFolders = [watchedFoldersString componentsSeparatedByString:@","];
     NSMutableArray *normalizedFolders = [NSMutableArray new];
@@ -56,25 +61,39 @@
     return normalizedFolders;
 }
 
-- (NSUInteger)getUnreadCountFromTitle
-{
-    NSString *title = [self.webViewController valueForKeyPath:@"webView.title"];
+- (void)setWebViewTitle:(NSString *)title {
+    if (![_webViewTitle isEqualToString:title]) {
+        _webViewTitle = title;
+        [self updateUnreadCount];
+    }
+}
+
+- (void)setMailBoxes:(NSDictionary<NSString *,NSNumber *> *)mailBoxes {
+    if (![_mailBoxes isEqualToDictionary:mailBoxes]) {
+        _mailBoxes = mailBoxes;
+        [self updateUnreadCount];
+    }
+}
+
+- (NSUInteger)titleUnreadCount {
+    if (self.webViewTitle == nil) {
+        return 0;
+    }
 
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^(\\d+) •" options:NSRegularExpressionAnchorsMatchLines error:nil];
-    NSTextCheckingResult *result = [regex firstMatchInString:title options:0 range:NSMakeRange(0, title.length)];
+    NSTextCheckingResult *result = [regex firstMatchInString:self.webViewTitle options:0 range:NSMakeRange(0, self.webViewTitle.length)];
     if (result && result.numberOfRanges > 1) {
-        NSString *unreadCountString = [title substringWithRange:[result rangeAtIndex:1]];
+        NSString *unreadCountString = [self.webViewTitle substringWithRange:[result rangeAtIndex:1]];
         return unreadCountString.integerValue;
     }
     return 0;
 }
 
-- (NSUInteger)unreadCount
-{
+- (void)updateUnreadCount {
     NSUInteger totalCount = 0;
     switch ([self watchedFolderType]) {
         case WatchedFolderTypeDefault:
-            totalCount = [self getUnreadCountFromTitle];
+            totalCount = self.titleUnreadCount;
             break;
         case WatchedFolderTypeSpecific: {
             for (NSString *folder in [self watchedFolders]) {
@@ -88,7 +107,10 @@
             }
             break;
     }
-    return totalCount;
+
+    self.unreadCount = totalCount;
+    [self updateDockIndicator];
+    [self updateStatusBarIndicator];
 }
 
 - (void)updateDockIndicator {
