@@ -25,7 +25,10 @@
     [NSWorkspace.sharedWorkspace.notificationCenter addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
 
     if (@available(macOS 10.14, *)) {
-        UNUserNotificationCenter.currentNotificationCenter.delegate = self;
+        [UNUserNotificationCenter.currentNotificationCenter requestAuthorizationWithOptions:UNAuthorizationOptionBadge | UNAuthorizationOptionAlert | UNAuthorizationOptionSound
+                                                                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            UNUserNotificationCenter.currentNotificationCenter.delegate = self;
+        }];
     } else {
         [NSUserNotificationCenter.defaultUserNotificationCenter setDelegate:self];
     }
