@@ -1,14 +1,13 @@
 #import "AppDelegate.h"
-#import "WebViewController.h"
 #import "UnreadCountObserver.h"
+#import "NotificationCenter.h"
+#import "WebViewController.h"
 #import "KVOBlockObserver.h"
 #import "UserDefaultsKeys.h"
 #import "VersionChecker.h"
 #import "PrintManager.h"
 
-@import UserNotifications;
-
-@interface AppDelegate () <VersionCheckerDelegate, NSUserNotificationCenterDelegate, UNUserNotificationCenterDelegate>
+@interface AppDelegate () <VersionCheckerDelegate, NotificationCenterDelegate>
 
 @property (nonatomic, strong) UnreadCountObserver *unreadCountObserver;
 @property (nonatomic, strong) NSStatusItem *statusItem;
@@ -19,19 +18,13 @@
 
 @implementation AppDelegate
 
+- (void)applicationWillFinishLaunching:(NSNotification *)notification {
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     [NSAppleEventManager.sharedAppleEventManager setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 
     [NSWorkspace.sharedWorkspace.notificationCenter addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
-
-    if (@available(macOS 10.14, *)) {
-        [UNUserNotificationCenter.currentNotificationCenter requestAuthorizationWithOptions:UNAuthorizationOptionBadge | UNAuthorizationOptionAlert | UNAuthorizationOptionSound
-                                                                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
-            UNUserNotificationCenter.currentNotificationCenter.delegate = self;
-        }];
-    } else {
-        [NSUserNotificationCenter.defaultUserNotificationCenter setDelegate:self];
-    }
 
     self.statusBarIconObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldShowStatusBarIconKey block:^(BOOL visible) {
         [self setStatusItemVisible:visible];
@@ -40,7 +33,11 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self createUserScriptsFolderIfNeeded];
     });
+
+    NotificationCenter.sharedInstance.delegate = self;
+    [NotificationCenter.sharedInstance registerForNotifications];
 }
+
 
 - (void)workspaceDidWake:(NSNotification *)notification {
     [self.mainWebViewController reload];
@@ -183,24 +180,10 @@
     [NSFileManager.defaultManager createFileAtPath:readmeFilePath contents:[text dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
 }
 
-#pragma mark - NSUserNotificationCenterDelegate
+#pragma mark - NotificationCenterDelegate
 
-- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
-    [self.mainWebViewController handleNotificationClickWithIdentifier:notification.identifier];
-}
-
-- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification {
-    return YES;
-}
-
-#pragma mark - UNUserNotificationCenterDelegate
-
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center
-didReceiveNotificationResponse:(UNNotificationResponse *)response
-         withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(macos(10.14)) {
-    NSString *identifier = response.notification.request.identifier;
+- (void)notificationCenter:(NotificationCenter *)center notificationClickedWithIdentifier:(NSString *)identifier {
     [self.mainWebViewController handleNotificationClickWithIdentifier:identifier];
-    completionHandler();
 }
 
 @end

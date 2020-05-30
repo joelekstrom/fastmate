@@ -19,6 +19,7 @@
 		5DA21A162128617900C765BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DA21A142128617900C765BF /* Main.storyboard */; };
 		5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA21A18212865F000C765BF /* UnreadCountObserver.m */; };
 		5DC2AF2D225933BE004C94E5 /* VersionChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC2AF2C225933BE004C94E5 /* VersionChecker.m */; };
+		5DC5E5952457F96D00C30171 /* NotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC5E5942457F96D00C30171 /* NotificationCenter.m */; };
 		5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCFE8782258CEC5006B1A21 /* SettingsViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,8 @@
 		5DA21A18212865F000C765BF /* UnreadCountObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnreadCountObserver.m; sourceTree = "<group>"; };
 		5DC2AF2B225933BE004C94E5 /* VersionChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VersionChecker.h; sourceTree = "<group>"; };
 		5DC2AF2C225933BE004C94E5 /* VersionChecker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VersionChecker.m; sourceTree = "<group>"; };
+		5DC5E5932457F96D00C30171 /* NotificationCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationCenter.h; sourceTree = "<group>"; };
+		5DC5E5942457F96D00C30171 /* NotificationCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationCenter.m; sourceTree = "<group>"; };
 		5DCFE8772258CEC5006B1A21 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		5DCFE8782258CEC5006B1A21 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,6 +100,8 @@
 				5D8DDE2B2443AD4800747135 /* UserDefaultsKeys.h */,
 				5D8DDE28244399BD00747135 /* KVOBlockObserver.h */,
 				5D8DDE29244399BD00747135 /* KVOBlockObserver.m */,
+				5DC5E5932457F96D00C30171 /* NotificationCenter.h */,
+				5DC5E5942457F96D00C30171 /* NotificationCenter.m */,
 				5D6E3B3A212824AF00ED16C9 /* Fastmate.js */,
 				5D39BEDC2122383900693D7E /* Assets.xcassets */,
 				5DA21A142128617900C765BF /* Main.storyboard */,
@@ -184,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */,
+				5DC5E5952457F96D00C30171 /* NotificationCenter.m in Sources */,
 				5D6EF77B212E018700C84B4A /* MainWindowController.m in Sources */,
 				5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */,
 				5D39BEE32122383900693D7E /* main.m in Sources */,
@@ -326,7 +332,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = QG9T4DR8QU;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Fastmate/Info.plist;
@@ -349,7 +355,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = QG9T4DR8QU;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Fastmate/Info.plist;
