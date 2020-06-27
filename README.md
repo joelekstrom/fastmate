@@ -1,5 +1,5 @@
 # Fastmate
-<img src="Fastmate/Assets.xcassets/AppIcon.appiconset/fastmate-3.png" alt="Fastmate logo" height="80" width="80" />
+<img src="Fastmate/Assets.xcassets/AppIcon.appiconset/fastmate-256.png" alt="Fastmate logo" height="80" width="80" />
 
 A native [Fastmail](https://www.fastmail.com/)-wrapper for Mac.
 
