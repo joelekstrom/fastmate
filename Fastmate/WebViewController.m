@@ -56,7 +56,7 @@
         [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
         decisionHandler(WKNavigationActionPolicyCancel);
         self.temporaryWebView = nil;
-    } else if ([navigationAction.request.URL.host isEqualToString:@"www.fastmailusercontent.com"]) {
+    } else if ([navigationAction.request.URL.host hasSuffix:@".fastmailusercontent.com"]) {
         NSURLComponents *components = [NSURLComponents componentsWithURL:navigationAction.request.URL resolvingAgainstBaseURL:NO];
         BOOL shouldDownload = [components.queryItems indexOfObjectPassingTest:^BOOL(NSURLQueryItem *item, NSUInteger index, BOOL *stop) {
             return [item.name isEqualToString:@"download"] && [item.value isEqualToString:@"1"];
