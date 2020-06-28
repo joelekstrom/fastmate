@@ -135,13 +135,14 @@
     alert.informativeText = [NSString stringWithFormat:@"You're currently at v%@", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
     alert.alertStyle = NSAlertStyleInformational;
     alert.showsSuppressionButton = self.isAutomaticUpdateCheck;
-    alert.suppressionButton.title = @"Don't check for new versions automatically";
+    alert.suppressionButton.title = @"Check for new versions automatically";
+    alert.suppressionButton.state = NSControlStateValueOn;
     [alert beginSheetModalForWindow:self.mainWebViewController.view.window completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == NSAlertFirstButtonReturn) {
             [NSWorkspace.sharedWorkspace openURL:latestVersionURL];
         }
 
-        if (alert.suppressionButton.state == NSOnState) {
+        if (alert.suppressionButton.state == NSOffState) {
             [NSUserDefaults.standardUserDefaults setBool:NO forKey:AutomaticUpdateChecksKey];
         }
     }];
