@@ -14,13 +14,14 @@
 		5D39BEE32122383900693D7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEE22122383900693D7E /* main.m */; };
 		5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6E3B362122FF9E00ED16C9 /* WebViewController.m */; };
 		5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3A212824AF00ED16C9 /* Fastmate.js */; };
-		5D6EF77B212E018700C84B4A /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6EF77A212E018700C84B4A /* MainWindowController.m */; };
 		5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8DDE29244399BD00747135 /* KVOBlockObserver.m */; };
 		5DA21A162128617900C765BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DA21A142128617900C765BF /* Main.storyboard */; };
 		5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA21A18212865F000C765BF /* UnreadCountObserver.m */; };
 		5DC2AF2D225933BE004C94E5 /* VersionChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC2AF2C225933BE004C94E5 /* VersionChecker.m */; };
 		5DC5E5952457F96D00C30171 /* NotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC5E5942457F96D00C30171 /* NotificationCenter.m */; };
 		5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCFE8782258CEC5006B1A21 /* SettingsViewController.m */; };
+		5DF6E4AB24AB737F000A7B0D /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AA24AB737F000A7B0D /* WindowController.swift */; };
+		5DF6E4AD24AC5EEE000A7B0D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AC24AC5EEE000A7B0D /* Settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,8 +38,6 @@
 		5D6E3B352122FF9E00ED16C9 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		5D6E3B362122FF9E00ED16C9 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		5D6E3B3A212824AF00ED16C9 /* Fastmate.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fastmate.js; sourceTree = "<group>"; };
-		5D6EF779212E018700C84B4A /* MainWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindowController.h; sourceTree = "<group>"; };
-		5D6EF77A212E018700C84B4A /* MainWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainWindowController.m; sourceTree = "<group>"; };
 		5D8DDE28244399BD00747135 /* KVOBlockObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KVOBlockObserver.h; sourceTree = "<group>"; };
 		5D8DDE29244399BD00747135 /* KVOBlockObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KVOBlockObserver.m; sourceTree = "<group>"; };
 		5D8DDE2B2443AD4800747135 /* UserDefaultsKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserDefaultsKeys.h; sourceTree = "<group>"; };
@@ -51,6 +50,9 @@
 		5DC5E5942457F96D00C30171 /* NotificationCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationCenter.m; sourceTree = "<group>"; };
 		5DCFE8772258CEC5006B1A21 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		5DCFE8782258CEC5006B1A21 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		5DF6E4A724AB70F3000A7B0D /* Fastmate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Fastmate-Bridging-Header.h"; sourceTree = "<group>"; };
+		5DF6E4AA24AB737F000A7B0D /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
+		5DF6E4AC24AC5EEE000A7B0D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +87,7 @@
 			children = (
 				5D39BED92122383800693D7E /* AppDelegate.h */,
 				5D39BEDA2122383800693D7E /* AppDelegate.m */,
-				5D6EF779212E018700C84B4A /* MainWindowController.h */,
-				5D6EF77A212E018700C84B4A /* MainWindowController.m */,
+				5DF6E4AA24AB737F000A7B0D /* WindowController.swift */,
 				5D6E3B352122FF9E00ED16C9 /* WebViewController.h */,
 				5D6E3B362122FF9E00ED16C9 /* WebViewController.m */,
 				5D0F8E93240B910A00287BD1 /* PrintManager.h */,
@@ -102,6 +103,7 @@
 				5D8DDE29244399BD00747135 /* KVOBlockObserver.m */,
 				5DC5E5932457F96D00C30171 /* NotificationCenter.h */,
 				5DC5E5942457F96D00C30171 /* NotificationCenter.m */,
+				5DF6E4AC24AC5EEE000A7B0D /* Settings.swift */,
 				5D6E3B3A212824AF00ED16C9 /* Fastmate.js */,
 				5D39BEDC2122383900693D7E /* Assets.xcassets */,
 				5DA21A142128617900C765BF /* Main.storyboard */,
@@ -109,6 +111,7 @@
 				5D39BEE22122383900693D7E /* main.m */,
 				5D39BEE42122383900693D7E /* Fastmate.entitlements */,
 				5D14A8EA22C425B400A5ACE9 /* Credits.rtf */,
+				5DF6E4A724AB70F3000A7B0D /* Fastmate-Bridging-Header.h */,
 			);
 			path = Fastmate;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 				TargetAttributes = {
 					5D39BED52122383800693D7E = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1150;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 1;
@@ -189,8 +193,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */,
+				5DF6E4AB24AB737F000A7B0D /* WindowController.swift in Sources */,
+				5DF6E4AD24AC5EEE000A7B0D /* Settings.swift in Sources */,
 				5DC5E5952457F96D00C30171 /* NotificationCenter.m in Sources */,
-				5D6EF77B212E018700C84B4A /* MainWindowController.m in Sources */,
 				5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */,
 				5D39BEE32122383900693D7E /* main.m in Sources */,
 				5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */,
@@ -328,6 +333,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Fastmate/Fastmate.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -340,10 +346,13 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.ekstrom.Fastmate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Fastmate/Fastmate-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -351,6 +360,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Fastmate/Fastmate.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -363,10 +373,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.ekstrom.Fastmate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Fastmate/Fastmate-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

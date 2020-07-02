@@ -119,7 +119,6 @@
 - (void)setWindowBackgroundColor:(NSColor *)color {
     NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:color];
     [NSUserDefaults.standardUserDefaults setObject:colorData forKey:WindowBackgroundColorKey];
-    self.view.window.backgroundColor = color;
 }
 
 - (void)handleMailtoURL:(NSURL *)URL {

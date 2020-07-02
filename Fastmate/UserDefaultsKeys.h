@@ -17,7 +17,7 @@ typedef NS_ENUM(NSUInteger, WatchedFolderType) {
 #define ShouldUseTransparentTitleBarKey     @"shouldUseTransparentTitleBar"
 #define WatchedFolderTypeKey                @"watchedFolderType"
 #define WatchedFoldersKey                   @"watchedFolders"
-#define WindowBackgroundColorKey            @"lastUsedWindowColor"
+#define WindowBackgroundColorKey            @"windowBackgroundColor"
 #define MainWindowFrameKey                  @"mainWindowFrame"
 
 #endif /* UserDefaultsKeys_h */
