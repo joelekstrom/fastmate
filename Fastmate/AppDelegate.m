@@ -4,15 +4,18 @@
 #import "WebViewController.h"
 #import "KVOBlockObserver.h"
 #import "UserDefaultsKeys.h"
-#import "VersionChecker.h"
 #import "PrintManager.h"
+#import "Fastmate-Swift.h"
 
-@interface AppDelegate () <VersionCheckerDelegate, NotificationCenterDelegate>
+@interface AppDelegate () <NotificationCenterDelegate>
 
 @property (nonatomic, strong) UnreadCountObserver *unreadCountObserver;
 @property (nonatomic, strong) NSStatusItem *statusItem;
 @property (nonatomic, assign) BOOL isAutomaticUpdateCheck;
 @property (nonatomic, strong) id statusBarIconObserver;
+
+// Temporary forwards app delegate methods to this object as they are migrated to swift
+@property (nonatomic, strong) FastmateAppDelegate *forwardingSwiftDelegate;
 
 @end
 
@@ -22,6 +25,9 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
+    self.forwardingSwiftDelegate = [[FastmateAppDelegate alloc] init];
+    [self.forwardingSwiftDelegate applicationDidFinishLaunching:notification];
+
     [NSAppleEventManager.sharedAppleEventManager setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 
     [NSWorkspace.sharedWorkspace.notificationCenter addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
@@ -64,8 +70,6 @@
         ShouldUseFastmailBetaKey: @NO,
         ShouldUseTransparentTitleBarKey: @YES,
     }];
-
-    [self performAutomaticUpdateCheckIfNeeded];
 }
 
 - (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
@@ -102,61 +106,8 @@
     [NSApp activateIgnoringOtherApps:YES];
 }
 
-#pragma mark - Version checking
-
-- (void)performAutomaticUpdateCheckIfNeeded {
-    if (![NSUserDefaults.standardUserDefaults boolForKey:AutomaticUpdateChecksKey]) {
-        return;
-    }
-
-    NSDate *lastUpdateCheckDate = VersionChecker.sharedInstance.lastUpdateCheckDate;
-    NSDateComponents *components = [NSCalendar.currentCalendar components:NSCalendarUnitDay fromDate:lastUpdateCheckDate toDate:NSDate.date options:0];
-    if (components.day >= 7) {
-        self.isAutomaticUpdateCheck = YES;
-        [self checkForUpdates];
-    }
-}
-
 - (IBAction)checkForUpdates:(id)sender {
-    self.isAutomaticUpdateCheck = NO;
-    [self checkForUpdates];
-}
-
-- (void)checkForUpdates {
-    VersionChecker.sharedInstance.delegate = self;
-    [VersionChecker.sharedInstance checkForUpdates];
-}
-
-- (void)versionCheckerDidFindNewVersion:(NSString *)latestVersion withURL:(NSURL *)latestVersionURL {
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert addButtonWithTitle:@"Take me there!"];
-    [alert addButtonWithTitle:@"Cancel"];
-    alert.messageText = [NSString stringWithFormat:@"New version available: %@", latestVersion];
-    alert.informativeText = [NSString stringWithFormat:@"You're currently at v%@", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-    alert.alertStyle = NSAlertStyleInformational;
-    alert.showsSuppressionButton = self.isAutomaticUpdateCheck;
-    alert.suppressionButton.title = @"Check for new versions automatically";
-    alert.suppressionButton.state = NSControlStateValueOn;
-    [alert beginSheetModalForWindow:self.mainWebViewController.view.window completionHandler:^(NSModalResponse returnCode) {
-        if (returnCode == NSAlertFirstButtonReturn) {
-            [NSWorkspace.sharedWorkspace openURL:latestVersionURL];
-        }
-
-        if (alert.suppressionButton.state == NSOffState) {
-            [NSUserDefaults.standardUserDefaults setBool:NO forKey:AutomaticUpdateChecksKey];
-        }
-    }];
-}
-
-- (void)versionCheckerDidNotFindNewVersion {
-    if (!self.isAutomaticUpdateCheck) {
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert addButtonWithTitle:@"Nice!"];
-        [alert setMessageText:@"Up to date!"];
-        [alert setInformativeText:[NSString stringWithFormat:@"You're on the latest version. (v%@)", [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
-        [alert setAlertStyle:NSAlertStyleInformational];
-        [alert beginSheetModalForWindow:self.mainWebViewController.view.window completionHandler:nil];
-    }
+    [self.forwardingSwiftDelegate checkForUpdatesWithSender:sender];
 }
 
 - (void)createUserScriptsFolderIfNeeded {

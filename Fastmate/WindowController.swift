@@ -4,7 +4,7 @@ import WebKit
 
 class WindowController: NSWindowController, NSWindowDelegate {
 
-    private var subscriptions = [AnyCancellable]()
+    private var subscriptions = Set<AnyCancellable>()
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -33,13 +33,14 @@ class WindowController: NSWindowController, NSWindowDelegate {
             .sink(receiveValue: { window.setFrame($0, display: false) })
             .store(in: &subscriptions)
 
-        settings.$shouldUseTransparentTitleBar.publisher
+        let transparentTitleBarPublisher = settings.$shouldUseTransparentTitleBar.publisher
             .removeDuplicates()
+
+        transparentTitleBarPublisher
             .assign(to: \NSWindow.titlebarAppearsTransparent, on: window)
             .store(in: &subscriptions)
 
-        settings.$shouldUseTransparentTitleBar.publisher
-            .removeDuplicates()
+        transparentTitleBarPublisher
             .map { (transparent) -> NSWindow.TitleVisibility in transparent ? .hidden : .visible }
             .assign(to: \.titleVisibility, on: window)
             .store(in: &subscriptions)

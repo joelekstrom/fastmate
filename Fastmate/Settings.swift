@@ -1,6 +1,14 @@
 import Foundation
 import Combine
 
+enum UserDefaultsKey: String {
+    case shouldUseTransparentTitleBar
+    case mainWindowFrame
+    case windowBackgroundColor
+    case lastUpdateCheckDate
+    case automaticUpdateChecks
+}
+
 class Settings {
     static var shared = Settings()
 
@@ -13,16 +21,16 @@ class Settings {
     @UserDefault(key: .windowBackgroundColor, defaultValue: Settings.defaultWindowBackgroundColor)
     var windowBackgroundColor: Data
 
+    @UserDefault(key: .lastUpdateCheckDate, defaultValue: Date.distantPast)
+    var lastUpdateCheckDate: Date
+
+    @UserDefault(key: .automaticUpdateChecks, defaultValue: true)
+    var automaticUpdateChecks: Bool
+
     private static var defaultWindowBackgroundColor: Data {
         let color = NSColor(red: 0.14, green: 0.22, blue: 0.35, alpha: 1.0)
         return try! NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
     }
-}
-
-enum UserDefaultsKey: String {
-    case shouldUseTransparentTitleBar
-    case mainWindowFrame
-    case windowBackgroundColor
 }
 
 protocol PropertyListValue {}
