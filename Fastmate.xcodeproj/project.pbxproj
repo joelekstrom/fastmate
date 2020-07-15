@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5D03BFBA24BADF6D00069CD2 /* RedirectTrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03BFB924BADF6D00069CD2 /* RedirectTrap.swift */; };
+		5D03C05F24BE5CD300069CD2 /* Logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D03C05624BE5CD200069CD2 /* Logic.framework */; };
+		5D03C06624BE5CD300069CD2 /* LogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03C06524BE5CD300069CD2 /* LogicTests.swift */; };
+		5D03C06824BE5CD300069CD2 /* Logic.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D03C05824BE5CD200069CD2 /* Logic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D03C06B24BE5CD300069CD2 /* Logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D03C05624BE5CD200069CD2 /* Logic.framework */; };
+		5D03C06C24BE5CD300069CD2 /* Logic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D03C05624BE5CD200069CD2 /* Logic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5D03C07424BE5CFA00069CD2 /* RedirectTrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03BFB924BADF6D00069CD2 /* RedirectTrap.swift */; };
 		5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0F8E94240B910A00287BD1 /* PrintManager.m */; };
 		5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5D14A8EA22C425B400A5ACE9 /* Credits.rtf */; };
 		5D39BEDB2122383800693D7E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEDA2122383800693D7E /* AppDelegate.m */; };
@@ -27,8 +32,52 @@
 		5DF6E4AF24AE8F9B000A7B0D /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AE24AE8F9B000A7B0D /* VersionChecker.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5D03C06024BE5CD300069CD2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5D39BECE2122383700693D7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D03C05524BE5CD200069CD2;
+			remoteInfo = Logic;
+		};
+		5D03C06224BE5CD300069CD2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5D39BECE2122383700693D7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D39BED52122383800693D7E;
+			remoteInfo = Fastmate;
+		};
+		5D03C06924BE5CD300069CD2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5D39BECE2122383700693D7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D03C05524BE5CD200069CD2;
+			remoteInfo = Logic;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5D03C06D24BE5CD300069CD2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5D03C06C24BE5CD300069CD2 /* Logic.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		5D03BFB924BADF6D00069CD2 /* RedirectTrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectTrap.swift; sourceTree = "<group>"; };
+		5D03C05624BE5CD200069CD2 /* Logic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Logic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D03C05824BE5CD200069CD2 /* Logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logic.h; sourceTree = "<group>"; };
+		5D03C05924BE5CD200069CD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5D03C05E24BE5CD200069CD2 /* LogicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D03C06524BE5CD300069CD2 /* LogicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogicTests.swift; sourceTree = "<group>"; };
+		5D03C06724BE5CD300069CD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D0F8E93240B910A00287BD1 /* PrintManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrintManager.h; sourceTree = "<group>"; };
 		5D0F8E94240B910A00287BD1 /* PrintManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrintManager.m; sourceTree = "<group>"; };
 		5D14A8EA22C425B400A5ACE9 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
@@ -61,10 +110,26 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5D03C05324BE5CD200069CD2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D03C05B24BE5CD200069CD2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D03C05F24BE5CD300069CD2 /* Logic.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5D39BED32122383800693D7E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D03C06B24BE5CD300069CD2 /* Logic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,10 +146,30 @@
 			name = "Version checking";
 			sourceTree = "<group>";
 		};
+		5D03C05724BE5CD200069CD2 /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				5D03C05824BE5CD200069CD2 /* Logic.h */,
+				5D03C05924BE5CD200069CD2 /* Info.plist */,
+			);
+			path = Logic;
+			sourceTree = "<group>";
+		};
+		5D03C06424BE5CD300069CD2 /* LogicTests */ = {
+			isa = PBXGroup;
+			children = (
+				5D03C06524BE5CD300069CD2 /* LogicTests.swift */,
+				5D03C06724BE5CD300069CD2 /* Info.plist */,
+			);
+			path = LogicTests;
+			sourceTree = "<group>";
+		};
 		5D39BECD2122383700693D7E = {
 			isa = PBXGroup;
 			children = (
 				5D39BED82122383800693D7E /* Fastmate */,
+				5D03C05724BE5CD200069CD2 /* Logic */,
+				5D03C06424BE5CD300069CD2 /* LogicTests */,
 				5D39BED72122383800693D7E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -93,6 +178,8 @@
 			isa = PBXGroup;
 			children = (
 				5D39BED62122383800693D7E /* Fastmate.app */,
+				5D03C05624BE5CD200069CD2 /* Logic.framework */,
+				5D03C05E24BE5CD200069CD2 /* LogicTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,7 +220,55 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		5D03C05124BE5CD200069CD2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D03C06824BE5CD300069CD2 /* Logic.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		5D03C05524BE5CD200069CD2 /* Logic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5D03C07224BE5CD300069CD2 /* Build configuration list for PBXNativeTarget "Logic" */;
+			buildPhases = (
+				5D03C05124BE5CD200069CD2 /* Headers */,
+				5D03C05224BE5CD200069CD2 /* Sources */,
+				5D03C05324BE5CD200069CD2 /* Frameworks */,
+				5D03C05424BE5CD200069CD2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Logic;
+			productName = Logic;
+			productReference = 5D03C05624BE5CD200069CD2 /* Logic.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		5D03C05D24BE5CD200069CD2 /* LogicTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5D03C07324BE5CD300069CD2 /* Build configuration list for PBXNativeTarget "LogicTests" */;
+			buildPhases = (
+				5D03C05A24BE5CD200069CD2 /* Sources */,
+				5D03C05B24BE5CD200069CD2 /* Frameworks */,
+				5D03C05C24BE5CD200069CD2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5D03C06124BE5CD300069CD2 /* PBXTargetDependency */,
+				5D03C06324BE5CD300069CD2 /* PBXTargetDependency */,
+			);
+			name = LogicTests;
+			productName = LogicTests;
+			productReference = 5D03C05E24BE5CD200069CD2 /* LogicTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		5D39BED52122383800693D7E /* Fastmate */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5D39BEE72122383900693D7E /* Build configuration list for PBXNativeTarget "Fastmate" */;
@@ -141,10 +276,12 @@
 				5D39BED22122383800693D7E /* Sources */,
 				5D39BED32122383800693D7E /* Frameworks */,
 				5D39BED42122383800693D7E /* Resources */,
+				5D03C06D24BE5CD300069CD2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5D03C06A24BE5CD300069CD2 /* PBXTargetDependency */,
 			);
 			name = Fastmate;
 			productName = Fastmate;
@@ -157,8 +294,15 @@
 		5D39BECE2122383700693D7E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1150;
 				TargetAttributes = {
+					5D03C05524BE5CD200069CD2 = {
+						CreatedOnToolsVersion = 11.5;
+					};
+					5D03C05D24BE5CD200069CD2 = {
+						CreatedOnToolsVersion = 11.5;
+					};
 					5D39BED52122383800693D7E = {
 						CreatedOnToolsVersion = 9.4.1;
 						LastSwiftMigration = 1150;
@@ -184,11 +328,27 @@
 			projectRoot = "";
 			targets = (
 				5D39BED52122383800693D7E /* Fastmate */,
+				5D03C05524BE5CD200069CD2 /* Logic */,
+				5D03C05D24BE5CD200069CD2 /* LogicTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5D03C05424BE5CD200069CD2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D03C05C24BE5CD200069CD2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5D39BED42122383800693D7E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -203,6 +363,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5D03C05224BE5CD200069CD2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D03C07424BE5CFA00069CD2 /* RedirectTrap.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D03C05A24BE5CD200069CD2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D03C06624BE5CD300069CD2 /* LogicTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5D39BED22122383800693D7E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -218,13 +394,30 @@
 				5D39BEE32122383900693D7E /* main.m in Sources */,
 				5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */,
 				5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */,
-				5D03BFBA24BADF6D00069CD2 /* RedirectTrap.swift in Sources */,
 				5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */,
 				5D39BEDB2122383800693D7E /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5D03C06124BE5CD300069CD2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5D03C05524BE5CD200069CD2 /* Logic */;
+			targetProxy = 5D03C06024BE5CD300069CD2 /* PBXContainerItemProxy */;
+		};
+		5D03C06324BE5CD300069CD2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5D39BED52122383800693D7E /* Fastmate */;
+			targetProxy = 5D03C06224BE5CD300069CD2 /* PBXContainerItemProxy */;
+		};
+		5D03C06A24BE5CD300069CD2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5D03C05524BE5CD200069CD2 /* Logic */;
+			targetProxy = 5D03C06924BE5CD300069CD2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5DA21A142128617900C765BF /* Main.storyboard */ = {
@@ -238,6 +431,116 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5D03C06E24BE5CD300069CD2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = QG9T4DR8QU;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Logic/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ekstrom.Logic;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		5D03C06F24BE5CD300069CD2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = QG9T4DR8QU;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Logic/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ekstrom.Logic;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5D03C07024BE5CD300069CD2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = QG9T4DR8QU;
+				INFOPLIST_FILE = LogicTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ekstrom.LogicTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5D03C07124BE5CD300069CD2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = QG9T4DR8QU;
+				INFOPLIST_FILE = LogicTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ekstrom.LogicTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		5D39BEE52122383900693D7E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -351,6 +654,7 @@
 		5D39BEE82122383900693D7E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Fastmate/Fastmate.entitlements;
@@ -379,6 +683,7 @@
 		5D39BEE92122383900693D7E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Fastmate/Fastmate.entitlements;
@@ -407,6 +712,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5D03C07224BE5CD300069CD2 /* Build configuration list for PBXNativeTarget "Logic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5D03C06E24BE5CD300069CD2 /* Debug */,
+				5D03C06F24BE5CD300069CD2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5D03C07324BE5CD300069CD2 /* Build configuration list for PBXNativeTarget "LogicTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5D03C07024BE5CD300069CD2 /* Debug */,
+				5D03C07124BE5CD300069CD2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5D39BED12122383700693D7E /* Build configuration list for PBXProject "Fastmate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

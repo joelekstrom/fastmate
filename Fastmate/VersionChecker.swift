@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import Logic
 
 struct Versions {
     typealias Error = RedirectTrap.Error

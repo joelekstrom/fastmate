@@ -2,7 +2,7 @@ import Foundation
 import Combine
 
 // A publisher that takes a redirect response from a dataTaskPublisher and returns the Location URL
-fileprivate extension Publisher where Output == URLSession.DataTaskPublisher.Output {
+extension Publisher where Output == URLSession.DataTaskPublisher.Output {
     typealias Error = RedirectTrap.Error
 
     func extractRedirectURL() -> AnyPublisher<URL, Error> {
@@ -19,17 +19,17 @@ fileprivate extension Publisher where Output == URLSession.DataTaskPublisher.Out
     }
 }
 
-enum RedirectTrap {
+public enum RedirectTrap {
 
     // For a given URL, performs a request but stops at the first redirect response and
     // returns the Location-URL
-    static func publisher(for url: URL) -> AnyPublisher<URL, Error> {
+    public static func publisher(for url: URL) -> AnyPublisher<URL, Error> {
         session.dataTaskPublisher(for: url)
             .extractRedirectURL()
             .eraseToAnyPublisher()
     }
 
-    enum Error: Swift.Error {
+    public enum Error: Swift.Error {
         case didNotRedirect
         case requestFailed(reason: Swift.Error)
 
