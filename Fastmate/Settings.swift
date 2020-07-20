@@ -1,4 +1,4 @@
-import Foundation
+import Cocoa
 import Combine
 
 enum UserDefaultsKey: String {
@@ -7,6 +7,18 @@ enum UserDefaultsKey: String {
     case windowBackgroundColor
     case lastUpdateCheckDate
     case automaticUpdateChecks
+    case watchedFolderType
+
+    case shouldShowUnreadMailIndicator
+    case shouldShowUnreadMailInDock
+    case shouldShowUnreadMailCountInDock
+    case shouldShowUnreadMailInStatusBar
+}
+
+enum WatchedFolderType: Int {
+    case inbox
+    case all
+    case specific
 }
 
 class Settings {
@@ -26,6 +38,21 @@ class Settings {
 
     @UserDefault(key: .automaticUpdateChecks, defaultValue: true)
     var automaticUpdateChecks: Bool
+
+    @UserDefault(key: .watchedFolderType, defaultValue: WatchedFolderType.inbox.rawValue)
+    var watchedFolderType: Int
+
+    @UserDefault(key: .shouldShowUnreadMailIndicator, defaultValue: true)
+    var shouldShowUnreadMailIndicator: Bool
+
+    @UserDefault(key: .shouldShowUnreadMailInDock, defaultValue: true)
+    var shouldShowUnreadMailInDock: Bool
+
+    @UserDefault(key: .shouldShowUnreadMailCountInDock, defaultValue: true)
+    var shouldShowUnreadMailCountInDock: Bool
+
+    @UserDefault(key: .shouldShowUnreadMailInStatusBar, defaultValue: true)
+    var shouldShowUnreadMailInStatusBar: Bool
 
     private static var defaultWindowBackgroundColor: Data {
         let color = NSColor(red: 0.14, green: 0.22, blue: 0.35, alpha: 1.0)

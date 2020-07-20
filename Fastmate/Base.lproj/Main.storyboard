@@ -396,22 +396,22 @@
         <!--Fastmate Settings-->
         <scene sceneID="cCg-dO-LFb">
             <objects>
-                <viewController title="Fastmate Settings" showSeguePresentationStyle="single" id="Tjh-E4-m7V" customClass="SettingsViewController" sceneMemberID="viewController">
+                <viewController title="Fastmate Settings" showSeguePresentationStyle="single" id="Tjh-E4-m7V" customClass="SettingsViewController" customModule="Fastmate" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="F1O-1e-Ohl">
-                        <rect key="frame" x="0.0" y="0.0" width="535" height="253"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="253"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="kKl-dg-XhU">
-                                <rect key="frame" x="13" y="10" width="509" height="229"/>
+                                <rect key="frame" x="13" y="10" width="574" height="229"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="" id="hnf-kG-bEx">
                                         <view key="view" id="73O-7K-AJB">
-                                            <rect key="frame" x="10" y="33" width="489" height="183"/>
+                                            <rect key="frame" x="10" y="33" width="554" height="183"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1mu-qt-Cqa">
-                                                    <rect key="frame" x="20" y="20" width="449" height="153"/>
+                                                    <rect key="frame" x="20" y="20" width="514" height="153"/>
                                                     <subviews>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wHh-Lm-p2V">
                                                             <rect key="frame" x="-2" y="137" width="114" height="18"/>
@@ -449,7 +449,7 @@
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DCx-lT-0rb">
                                                                     <rect key="frame" x="16" y="0.0" width="403" height="14"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Be aware that Fastmate might not work properly when running beta versions" id="R8M-jQ-qg0">
-                                                                        <font key="font" metaFont="message" size="11"/>
+                                                                        <font key="font" metaFont="controlContent" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
@@ -473,15 +473,12 @@
                                                                 <constraint firstAttribute="height" constant="5" id="Rxd-XH-5nB"/>
                                                             </constraints>
                                                         </customView>
-                                                        <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A5m-hB-YIt">
-                                                            <rect key="frame" x="162" y="28" width="125" height="32"/>
+                                                        <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A5m-hB-YIt" customClass="PublishedButton" customModule="Fastmate" customModuleProvider="target">
+                                                            <rect key="frame" x="195" y="28" width="125" height="32"/>
                                                             <buttonCell key="cell" type="push" title="User scripts..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="D1o-Zq-KvC">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                 <font key="font" metaFont="system"/>
                                                             </buttonCell>
-                                                            <connections>
-                                                                <action selector="openUserScriptsFolder:" target="Tjh-E4-m7V" id="bE7-vb-1kF"/>
-                                                            </connections>
                                                         </button>
                                                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="Fa1-6f-X9j" userLabel="Spacer">
                                                             <rect key="frame" x="0.0" y="22" width="163" height="5"/>
@@ -533,232 +530,169 @@
                                     </tabViewItem>
                                     <tabViewItem label="Unread mail" identifier="" id="uyZ-0O-rpQ">
                                         <view key="view" id="Khe-zp-uTT">
-                                            <rect key="frame" x="10" y="33" width="489" height="162"/>
+                                            <rect key="frame" x="10" y="33" width="554" height="183"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KAu-cU-cJ0">
-                                                    <rect key="frame" x="15" y="143" width="186" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Show unread mail indicator" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Yfp-Sh-EwB">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                    <connections>
-                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailIndicator" id="jwa-ef-wvY"/>
-                                                    </connections>
-                                                </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Jb-9h-IKg">
-                                                    <rect key="frame" x="33" y="121" width="98" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="In status bar" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="Gkr-VU-KSs">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                    <connections>
-                                                        <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowStatusBarIcon" previousBinding="87m-Z5-n82" id="EYy-B4-P7B">
-                                                            <dictionary key="options">
-                                                                <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                <integer key="NSNullPlaceholder" value="-1"/>
-                                                            </dictionary>
-                                                        </binding>
-                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailInStatusBar" id="DRI-s4-u5z"/>
-                                                        <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="87m-Z5-n82"/>
-                                                    </connections>
-                                                </button>
-                                                <box title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="MrS-D3-Aff">
-                                                    <rect key="frame" x="29" y="4" width="446" height="116"/>
-                                                    <view key="contentView" id="B19-hn-7uA">
-                                                        <rect key="frame" x="3" y="3" width="440" height="110"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        <subviews>
-                                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YCp-1G-ZNC">
-                                                                <rect key="frame" x="186" y="5" width="249" height="21"/>
-                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Inbox, Work" drawsBackground="YES" id="IU3-z2-8M1">
-                                                                    <font key="font" metaFont="system"/>
-                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                </textFieldCell>
-                                                                <connections>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled3" keyPath="values.shouldShowUnreadMailCountInDock" previousBinding="dAR-Oi-kIa" id="mCA-1o-6OJ">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailInDock" previousBinding="cjr-cX-JUn" id="dAR-Oi-kIa">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="cjr-cX-JUn"/>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled4" keyPath="values.watchedFolderType" previousBinding="mCA-1o-6OJ" id="GFK-xM-7Xc">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                            <string key="NSValueTransformerName">WatchedFolderTypeIsSpecificFolders</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="aLa-hz-uMh" name="value" keyPath="values.watchedFolders" id="3r1-pf-9ah">
-                                                                        <dictionary key="options">
-                                                                            <bool key="NSContinuouslyUpdatesValue" value="YES"/>
-                                                                            <string key="NSNullPlaceholder">Inbox, Work</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                </connections>
-                                                            </textField>
-                                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uEB-WR-Zf2">
-                                                                <rect key="frame" x="1" y="92" width="68" height="18"/>
-                                                                <buttonCell key="cell" type="check" title="In Dock" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="vB6-iF-Oij">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <connections>
-                                                                    <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailInDock" id="fEU-Ql-2bA"/>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="qcy-Pk-Sg3"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hCF-3X-QnZ">
-                                                                <rect key="frame" x="19" y="70" width="94" height="18"/>
-                                                                <buttonCell key="cell" type="check" title="Show count" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0RF-sM-YGy">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <connections>
-                                                                    <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailCountInDock" id="7b8-rM-ny3"/>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailInDock" id="EBw-M2-C9Z"/>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailIndicator" previousBinding="EBw-M2-C9Z" id="hL5-1y-6p4">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                </connections>
-                                                            </button>
-                                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9rs-iI-JCy">
-                                                                <rect key="frame" x="38" y="47" width="137" height="18"/>
-                                                                <buttonCell key="cell" type="radio" title="For selected folder" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="bxF-pF-kcd">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <connections>
-                                                                    <action selector="watchedFolderButtonSelected:" target="Tjh-E4-m7V" id="QZc-oi-pPj"/>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled3" keyPath="values.shouldShowUnreadMailCountInDock" previousBinding="Swy-Sh-Dc9" id="hlw-Wg-eJY">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailInDock" previousBinding="bJ1-72-Tah" id="Swy-Sh-Dc9">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="bJ1-72-Tah"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="Wyb-wk-zdl">
-                                                                <rect key="frame" x="38" y="27" width="105" height="18"/>
-                                                                <buttonCell key="cell" type="radio" title="For all folders" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="JDx-zD-NwD">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <connections>
-                                                                    <action selector="watchedFolderButtonSelected:" target="Tjh-E4-m7V" id="Z3j-77-HNd"/>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled3" keyPath="values.shouldShowUnreadMailCountInDock" previousBinding="umZ-dw-gJg" id="5fo-zu-2Tb">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailInDock" previousBinding="Q2Y-3w-q0Q" id="umZ-dw-gJg">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="Q2Y-3w-q0Q"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="uiF-Xi-0cQ">
-                                                                <rect key="frame" x="38" y="7" width="142" height="18"/>
-                                                                <buttonCell key="cell" type="radio" title="For specific folders:" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="Far-VT-IIK">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <connections>
-                                                                    <action selector="watchedFolderButtonSelected:" target="Tjh-E4-m7V" id="SWP-ZB-Y1g"/>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled3" keyPath="values.shouldShowUnreadMailCountInDock" previousBinding="Tk1-Db-6z7" id="YGJ-ta-jY2">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailInDock" previousBinding="G1x-bA-tcj" id="Tk1-Db-6z7">
-                                                                        <dictionary key="options">
-                                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="G1x-bA-tcj"/>
-                                                                </connections>
-                                                            </button>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstItem="uEB-WR-Zf2" firstAttribute="top" secondItem="B19-hn-7uA" secondAttribute="top" constant="2" id="0L9-Wp-9xR"/>
-                                                            <constraint firstAttribute="bottom" secondItem="YCp-1G-ZNC" secondAttribute="bottom" constant="5" id="1Jg-bl-Ha2"/>
-                                                            <constraint firstItem="YCp-1G-ZNC" firstAttribute="firstBaseline" secondItem="uiF-Xi-0cQ" secondAttribute="firstBaseline" id="8SL-11-3OT"/>
-                                                            <constraint firstItem="uiF-Xi-0cQ" firstAttribute="leading" secondItem="Wyb-wk-zdl" secondAttribute="leading" id="8ym-5g-eX7"/>
-                                                            <constraint firstItem="9rs-iI-JCy" firstAttribute="leading" secondItem="hCF-3X-QnZ" secondAttribute="leading" constant="18" id="R5h-5R-YtD"/>
-                                                            <constraint firstItem="uEB-WR-Zf2" firstAttribute="leading" secondItem="B19-hn-7uA" secondAttribute="leading" constant="3" id="W5Z-bC-Rv9"/>
-                                                            <constraint firstItem="Wyb-wk-zdl" firstAttribute="leading" secondItem="9rs-iI-JCy" secondAttribute="leading" id="Zsp-nF-O71"/>
-                                                            <constraint firstAttribute="trailing" secondItem="YCp-1G-ZNC" secondAttribute="trailing" constant="5" id="dCl-kT-M9B"/>
-                                                            <constraint firstItem="hCF-3X-QnZ" firstAttribute="leading" secondItem="uEB-WR-Zf2" secondAttribute="leading" constant="18" id="gJM-tn-5B2"/>
-                                                            <constraint firstItem="YCp-1G-ZNC" firstAttribute="leading" secondItem="uiF-Xi-0cQ" secondAttribute="trailing" constant="8" id="hM4-G5-64f"/>
-                                                            <constraint firstItem="hCF-3X-QnZ" firstAttribute="top" secondItem="uEB-WR-Zf2" secondAttribute="bottom" constant="8" id="jHI-U9-sZS"/>
-                                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Wyb-wk-zdl" secondAttribute="trailing" constant="17" id="mOD-H5-wDS"/>
-                                                            <constraint firstItem="uiF-Xi-0cQ" firstAttribute="top" secondItem="Wyb-wk-zdl" secondAttribute="bottom" constant="4" id="oHb-H7-Fwp"/>
-                                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hCF-3X-QnZ" secondAttribute="trailing" constant="17" id="oij-0E-lvo"/>
-                                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uEB-WR-Zf2" secondAttribute="trailing" constant="3" id="rfd-5g-HAh"/>
-                                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9rs-iI-JCy" secondAttribute="trailing" constant="17" id="vvl-7v-dwT"/>
-                                                            <constraint firstItem="9rs-iI-JCy" firstAttribute="top" secondItem="hCF-3X-QnZ" secondAttribute="bottom" constant="8" id="w0h-WT-r9E"/>
-                                                            <constraint firstItem="Wyb-wk-zdl" firstAttribute="top" secondItem="9rs-iI-JCy" secondAttribute="bottom" constant="4" id="xhP-Bj-ipl"/>
-                                                        </constraints>
-                                                    </view>
-                                                </box>
+                                                <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VN6-ze-Je1">
+                                                    <rect key="frame" x="20" y="45" width="514" height="130"/>
+                                                    <subviews>
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oM7-IG-ZWv">
+                                                            <rect key="frame" x="-2" y="114" width="136" height="16"/>
+                                                            <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Show unread mail for:" id="VjA-Vf-CCg">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z0l-ng-o6Y">
+                                                            <rect key="frame" x="140" y="0.0" width="374" height="130"/>
+                                                            <subviews>
+                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9rs-iI-JCy" customClass="PublishedButton" customModule="Fastmate" customModuleProvider="target">
+                                                                    <rect key="frame" x="-1" y="113" width="115" height="18"/>
+                                                                    <buttonCell key="cell" type="radio" title="Selected folder" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="bxF-pF-kcd">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                </button>
+                                                                <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="Wyb-wk-zdl" customClass="PublishedButton" customModule="Fastmate" customModuleProvider="target">
+                                                                    <rect key="frame" x="-1" y="92" width="83" height="18"/>
+                                                                    <buttonCell key="cell" type="radio" title="All folders" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="JDx-zD-NwD">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                </button>
+                                                                <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kaa-rT-pJ8">
+                                                                    <rect key="frame" x="0.0" y="67" width="374" height="21"/>
+                                                                    <subviews>
+                                                                        <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="uiF-Xi-0cQ" customClass="PublishedButton" customModule="Fastmate" customModuleProvider="target">
+                                                                            <rect key="frame" x="-1" y="2" width="120" height="18"/>
+                                                                            <buttonCell key="cell" type="radio" title="Specific folders:" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="Far-VT-IIK">
+                                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                                <font key="font" metaFont="system"/>
+                                                                            </buttonCell>
+                                                                        </button>
+                                                                        <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YCp-1G-ZNC">
+                                                                            <rect key="frame" x="125" y="0.0" width="249" height="21"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Inbox, Work" drawsBackground="YES" id="IU3-z2-8M1">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                            <connections>
+                                                                                <binding destination="aLa-hz-uMh" name="value" keyPath="values.watchedFolders" id="3r1-pf-9ah">
+                                                                                    <dictionary key="options">
+                                                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                                                                        <string key="NSNullPlaceholder">Inbox, Work</string>
+                                                                                    </dictionary>
+                                                                                </binding>
+                                                                            </connections>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="YCp-1G-ZNC" firstAttribute="firstBaseline" secondItem="uiF-Xi-0cQ" secondAttribute="firstBaseline" id="JgQ-hh-MRU"/>
+                                                                    </constraints>
+                                                                    <visibilityPriorities>
+                                                                        <integer value="1000"/>
+                                                                        <integer value="1000"/>
+                                                                    </visibilityPriorities>
+                                                                    <customSpacing>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                    </customSpacing>
+                                                                </stackView>
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="JsT-Ua-SQp" userLabel="Spacer">
+                                                                    <rect key="frame" x="0.0" y="57" width="163" height="5"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="5" id="82F-7Q-rvv"/>
+                                                                    </constraints>
+                                                                </customView>
+                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Jb-9h-IKg">
+                                                                    <rect key="frame" x="-2" y="36" width="98" height="18"/>
+                                                                    <buttonCell key="cell" type="check" title="In status bar" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="Gkr-VU-KSs">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowStatusBarIcon" previousBinding="87m-Z5-n82" id="EYy-B4-P7B">
+                                                                            <dictionary key="options">
+                                                                                <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                                <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                                <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                                <integer key="NSNullPlaceholder" value="-1"/>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailInStatusBar" id="DRI-s4-u5z"/>
+                                                                        <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="87m-Z5-n82"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uEB-WR-Zf2">
+                                                                    <rect key="frame" x="-2" y="17" width="68" height="18"/>
+                                                                    <buttonCell key="cell" type="check" title="In Dock" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="vB6-iF-Oij">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailInDock" id="fEU-Ql-2bA"/>
+                                                                        <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailIndicator" id="qcy-Pk-Sg3"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hCF-3X-QnZ">
+                                                                    <rect key="frame" x="15" y="-2" width="94" height="18"/>
+                                                                    <buttonCell key="cell" type="check" title="Show count" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0RF-sM-YGy">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldShowUnreadMailCountInDock" id="7b8-rM-ny3"/>
+                                                                        <binding destination="aLa-hz-uMh" name="enabled" keyPath="values.shouldShowUnreadMailInDock" id="EBw-M2-C9Z"/>
+                                                                        <binding destination="aLa-hz-uMh" name="enabled2" keyPath="values.shouldShowUnreadMailIndicator" previousBinding="EBw-M2-C9Z" id="hL5-1y-6p4">
+                                                                            <dictionary key="options">
+                                                                                <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                                <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                                <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                                <integer key="NSNullPlaceholder" value="-1"/>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="hCF-3X-QnZ" firstAttribute="leading" secondItem="uEB-WR-Zf2" secondAttribute="leading" constant="17" id="miF-AV-5Kf"/>
+                                                            </constraints>
+                                                            <visibilityPriorities>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                            </visibilityPriorities>
+                                                            <customSpacing>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                            </customSpacing>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KAu-cU-cJ0" secondAttribute="trailing" constant="17" id="0pa-cN-Ni2"/>
-                                                <constraint firstItem="KAu-cU-cJ0" firstAttribute="leading" secondItem="Khe-zp-uTT" secondAttribute="leading" constant="17" id="64P-lC-m0m"/>
-                                                <constraint firstItem="1Jb-9h-IKg" firstAttribute="leading" secondItem="KAu-cU-cJ0" secondAttribute="leading" constant="18" id="Dkz-8E-v4S"/>
-                                                <constraint firstItem="uEB-WR-Zf2" firstAttribute="top" secondItem="1Jb-9h-IKg" secondAttribute="bottom" constant="8" id="Ezn-Bi-tJ8"/>
-                                                <constraint firstItem="MrS-D3-Aff" firstAttribute="leading" secondItem="1Jb-9h-IKg" secondAttribute="leading" constant="-3" id="IOt-5D-Lcy"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1Jb-9h-IKg" secondAttribute="trailing" constant="17" id="Pcl-YN-WWD"/>
-                                                <constraint firstAttribute="trailing" secondItem="MrS-D3-Aff" secondAttribute="trailing" constant="17" id="SR8-A1-dhw"/>
-                                                <constraint firstItem="1Jb-9h-IKg" firstAttribute="top" secondItem="KAu-cU-cJ0" secondAttribute="bottom" constant="8" id="fHc-4F-N7x"/>
-                                                <constraint firstItem="KAu-cU-cJ0" firstAttribute="top" secondItem="Khe-zp-uTT" secondAttribute="top" constant="3" id="iIx-gu-Wda"/>
-                                                <constraint firstAttribute="bottom" secondItem="MrS-D3-Aff" secondAttribute="bottom" constant="8" id="tAm-YQ-uQp"/>
+                                                <constraint firstAttribute="trailing" secondItem="VN6-ze-Je1" secondAttribute="trailing" constant="20" id="9lO-3b-dWe"/>
+                                                <constraint firstItem="VN6-ze-Je1" firstAttribute="leading" secondItem="Khe-zp-uTT" secondAttribute="leading" constant="20" id="Tca-pP-Bm6"/>
+                                                <constraint firstItem="VN6-ze-Je1" firstAttribute="top" secondItem="Khe-zp-uTT" secondAttribute="top" constant="8" id="kz8-o7-UKv"/>
                                             </constraints>
                                         </view>
                                     </tabViewItem>
@@ -773,15 +707,17 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="allWatchedFoldersButton" destination="Wyb-wk-zdl" id="x37-Mi-41X"/>
-                        <outlet property="defaultWatchedFoldersButton" destination="9rs-iI-JCy" id="ODZ-40-oYP"/>
-                        <outlet property="specificWatchedFoldersButton" destination="uiF-Xi-0cQ" id="8FS-7c-2mX"/>
+                        <outlet property="userScriptsFolderButton" destination="A5m-hB-YIt" id="chr-A9-NZB"/>
+                        <outlet property="watchedFolderTypeButtonAll" destination="Wyb-wk-zdl" id="x37-Mi-41X"/>
+                        <outlet property="watchedFolderTypeButtonInbox" destination="9rs-iI-JCy" id="ODZ-40-oYP"/>
+                        <outlet property="watchedFolderTypeButtonSpecific" destination="uiF-Xi-0cQ" id="8FS-7c-2mX"/>
+                        <outlet property="watchedFoldersTextField" destination="YCp-1G-ZNC" id="Mi3-6z-ByH"/>
                     </connections>
                 </viewController>
                 <customObject id="yva-Kj-meo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="aLa-hz-uMh"/>
             </objects>
-            <point key="canvasLocation" x="693.5" y="855"/>
+            <point key="canvasLocation" x="693.5" y="921"/>
         </scene>
     </scenes>
 </document>

@@ -1,6 +1,7 @@
 import Cocoa
 import Combine
 import WebKit
+import Logic
 
 class WindowController: NSWindowController, NSWindowDelegate {
 
