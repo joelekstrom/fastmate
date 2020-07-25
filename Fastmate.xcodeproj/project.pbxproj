@@ -16,6 +16,7 @@
 		5D03C07824C1880100069CD2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03C07524C0EF4A00069CD2 /* SettingsViewController.swift */; };
 		5D03C07924C1880700069CD2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AC24AC5EEE000A7B0D /* Settings.swift */; };
 		5D03C07B24CC0FD500069CD2 /* ButtonPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03C07A24CC0FD500069CD2 /* ButtonPublisher.swift */; };
+		5D03C07D24CC970500069CD2 /* UnreadCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03C07C24CC970500069CD2 /* UnreadCount.swift */; };
 		5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0F8E94240B910A00287BD1 /* PrintManager.m */; };
 		5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5D14A8EA22C425B400A5ACE9 /* Credits.rtf */; };
 		5D39BEDB2122383800693D7E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEDA2122383800693D7E /* AppDelegate.m */; };
@@ -27,7 +28,6 @@
 		5D8D0F9F24B528D0004CD59F /* FastmateAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D0F9E24B528D0004CD59F /* FastmateAppDelegate.swift */; };
 		5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8DDE29244399BD00747135 /* KVOBlockObserver.m */; };
 		5DA21A162128617900C765BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DA21A142128617900C765BF /* Main.storyboard */; };
-		5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA21A18212865F000C765BF /* UnreadCountObserver.m */; };
 		5DC5E5952457F96D00C30171 /* NotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC5E5942457F96D00C30171 /* NotificationCenter.m */; };
 		5DF6E4AB24AB737F000A7B0D /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AA24AB737F000A7B0D /* WindowController.swift */; };
 		5DF6E4AF24AE8F9B000A7B0D /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AE24AE8F9B000A7B0D /* VersionChecker.swift */; };
@@ -81,6 +81,7 @@
 		5D03C06724BE5CD300069CD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D03C07524C0EF4A00069CD2 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		5D03C07A24CC0FD500069CD2 /* ButtonPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonPublisher.swift; sourceTree = "<group>"; };
+		5D03C07C24CC970500069CD2 /* UnreadCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadCount.swift; sourceTree = "<group>"; };
 		5D0F8E93240B910A00287BD1 /* PrintManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrintManager.h; sourceTree = "<group>"; };
 		5D0F8E94240B910A00287BD1 /* PrintManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrintManager.m; sourceTree = "<group>"; };
 		5D14A8EA22C425B400A5ACE9 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
@@ -100,8 +101,6 @@
 		5D8DDE29244399BD00747135 /* KVOBlockObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KVOBlockObserver.m; sourceTree = "<group>"; };
 		5D8DDE2B2443AD4800747135 /* UserDefaultsKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserDefaultsKeys.h; sourceTree = "<group>"; };
 		5DA21A152128617900C765BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		5DA21A17212865F000C765BF /* UnreadCountObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnreadCountObserver.h; sourceTree = "<group>"; };
-		5DA21A18212865F000C765BF /* UnreadCountObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnreadCountObserver.m; sourceTree = "<group>"; };
 		5DC5E5932457F96D00C30171 /* NotificationCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationCenter.h; sourceTree = "<group>"; };
 		5DC5E5942457F96D00C30171 /* NotificationCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationCenter.m; sourceTree = "<group>"; };
 		5DF6E4A724AB70F3000A7B0D /* Fastmate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Fastmate-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -196,9 +195,8 @@
 				5D6E3B362122FF9E00ED16C9 /* WebViewController.m */,
 				5D0F8E93240B910A00287BD1 /* PrintManager.h */,
 				5D0F8E94240B910A00287BD1 /* PrintManager.m */,
-				5DA21A17212865F000C765BF /* UnreadCountObserver.h */,
-				5DA21A18212865F000C765BF /* UnreadCountObserver.m */,
 				5D03C07524C0EF4A00069CD2 /* SettingsViewController.swift */,
+				5D03C07C24CC970500069CD2 /* UnreadCount.swift */,
 				5D8DDE2B2443AD4800747135 /* UserDefaultsKeys.h */,
 				5D8DDE28244399BD00747135 /* KVOBlockObserver.h */,
 				5D8DDE29244399BD00747135 /* KVOBlockObserver.m */,
@@ -390,9 +388,9 @@
 				5DF6E4AB24AB737F000A7B0D /* WindowController.swift in Sources */,
 				5DF6E4AF24AE8F9B000A7B0D /* VersionChecker.swift in Sources */,
 				5DC5E5952457F96D00C30171 /* NotificationCenter.m in Sources */,
+				5D03C07D24CC970500069CD2 /* UnreadCount.swift in Sources */,
 				5D8D0F9F24B528D0004CD59F /* FastmateAppDelegate.swift in Sources */,
 				5D8D0F9D24B267DD004CD59F /* Alert.swift in Sources */,
-				5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */,
 				5D39BEE32122383900693D7E /* main.m in Sources */,
 				5D03C07B24CC0FD500069CD2 /* ButtonPublisher.swift in Sources */,
 				5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */,

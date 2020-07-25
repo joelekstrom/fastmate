@@ -1,5 +1,4 @@
 #import "AppDelegate.h"
-#import "UnreadCountObserver.h"
 #import "NotificationCenter.h"
 #import "WebViewController.h"
 #import "KVOBlockObserver.h"
@@ -9,7 +8,6 @@
 
 @interface AppDelegate () <NotificationCenterDelegate>
 
-@property (nonatomic, strong) UnreadCountObserver *unreadCountObserver;
 @property (nonatomic, strong) NSStatusItem *statusItem;
 @property (nonatomic, assign) BOOL isAutomaticUpdateCheck;
 
@@ -24,7 +22,7 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
-    self.forwardingSwiftDelegate = [[FastmateAppDelegate alloc] init];
+    self.forwardingSwiftDelegate = [FastmateAppDelegate sharedInstance];
     [self.forwardingSwiftDelegate applicationDidFinishLaunching:notification];
 
     [NSAppleEventManager.sharedAppleEventManager setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
@@ -46,14 +44,6 @@
 
 - (void)setMainWebViewController:(WebViewController *)mainWebViewController {
     _mainWebViewController = mainWebViewController;
-    self.unreadCountObserver.webViewController = mainWebViewController;
-}
-
-- (UnreadCountObserver *)unreadCountObserver {
-    if (_unreadCountObserver == nil) {
-        _unreadCountObserver = [UnreadCountObserver new];
-    }
-    return _unreadCountObserver;
 }
 
 - (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {

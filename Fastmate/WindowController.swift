@@ -14,6 +14,9 @@ class WindowController: NSWindowController, NSWindowDelegate {
         // Fixes that we can't trust that the main window exists in applicationDidFinishLaunching:.
         // Here we always know that this content view controller will be the main web view controller,
         // so inform the app delegate
+        FastmateAppDelegate.shared.mainWindow.value = window
+
+        // Should be removed
         let appDelegate = NSApplication.shared.delegate as? AppDelegate
         appDelegate?.mainWebViewController = contentViewController as? WebViewController
     }
@@ -23,7 +26,7 @@ class WindowController: NSWindowController, NSWindowDelegate {
             return
         }
 
-        webViewController.webView.publisher(for: \.title)
+        webViewController.publisher(for: \.webView?.title)
             .replaceNil(with: "Fastmate")
             .assign(to: \.title, on: window)
             .store(in: &subscriptions)

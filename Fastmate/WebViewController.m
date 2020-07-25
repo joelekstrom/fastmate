@@ -46,6 +46,10 @@
     }];
 }
 
+- (NSDictionary<NSString *, NSNumber *> *)mailboxes {
+    return _mailboxes ?: @{};
+}
+
 - (void)reload {
     [self.webView reload];
 }
@@ -109,7 +113,7 @@
 - (void)updateUnreadCounts {
     [self.webView evaluateJavaScript:@"Fastmate.getMailboxUnreadCounts()" completionHandler:^(id response, NSError *error) {
         if (![response isKindOfClass:[NSDictionary class]]) {
-            self.mailboxes = nil;
+            self.mailboxes = @{};
             return;
         }
         self.mailboxes = response;

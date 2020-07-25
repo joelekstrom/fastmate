@@ -1,6 +1,9 @@
 #import "PrintManager.h"
 @import WebKit;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 @interface PrintManager() <WebFrameLoadDelegate>
 
 @property (nonatomic, strong) WebView *webView;
