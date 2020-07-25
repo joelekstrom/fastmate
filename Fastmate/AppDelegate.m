@@ -12,7 +12,6 @@
 @property (nonatomic, strong) UnreadCountObserver *unreadCountObserver;
 @property (nonatomic, strong) NSStatusItem *statusItem;
 @property (nonatomic, assign) BOOL isAutomaticUpdateCheck;
-@property (nonatomic, strong) id statusBarIconObserver;
 
 // Temporary forwards app delegate methods to this object as they are migrated to swift
 @property (nonatomic, strong) FastmateAppDelegate *forwardingSwiftDelegate;
@@ -31,10 +30,6 @@
     [NSAppleEventManager.sharedAppleEventManager setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 
     [NSWorkspace.sharedWorkspace.notificationCenter addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
-
-    self.statusBarIconObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldShowStatusBarIconKey block:^(BOOL visible) {
-        [self setStatusItemVisible:visible];
-    }];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self createUserScriptsFolderIfNeeded];
@@ -61,17 +56,6 @@
     return _unreadCountObserver;
 }
 
-- (void)applicationDidBecomeActive:(NSNotification *)notification {
-    [NSUserDefaults.standardUserDefaults registerDefaults:@{
-        AutomaticUpdateChecksKey: @YES,
-        ShouldShowUnreadMailIndicatorKey: @YES,
-        ShouldShowUnreadMailInDockKey: @YES,
-        ShouldShowUnreadMailCountInDockKey: @YES,
-        ShouldUseFastmailBetaKey: @NO,
-        ShouldUseTransparentTitleBarKey: @YES,
-    }];
-}
-
 - (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     NSAppleEventDescriptor *directObjectDescriptor = [event paramDescriptorForKeyword:keyDirectObject];
     NSURL *mailtoURL = [NSURL URLWithString:directObjectDescriptor.stringValue];
@@ -88,22 +72,6 @@
 
 - (IBAction)print:(id)sender {
     [[PrintManager sharedInstance] printWebView:self.mainWebViewController.webView];
-}
-
-- (void)setStatusItemVisible:(BOOL)visible {
-    if (visible) {
-        self.statusItem = [NSStatusBar.systemStatusBar statusItemWithLength:NSSquareStatusItemLength];
-        self.statusItem.target = self;
-        self.statusItem.action = @selector(statusItemSelected:);
-        self.unreadCountObserver.statusItem = self.statusItem;
-    } else {
-        [NSStatusBar.systemStatusBar removeStatusItem:self.statusItem];
-    }
-}
-
-- (void)statusItemSelected:(id)sender {
-    [NSApp unhide:sender];
-    [NSApp activateIgnoringOtherApps:YES];
 }
 
 - (IBAction)checkForUpdates:(id)sender {

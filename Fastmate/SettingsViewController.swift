@@ -4,10 +4,10 @@ import Combine
 
 class SettingsViewController: NSViewController {
 
-    @IBOutlet weak var watchedFolderTypeButtonInbox: PublishedButton!
-    @IBOutlet weak var watchedFolderTypeButtonAll: PublishedButton!
-    @IBOutlet weak var watchedFolderTypeButtonSpecific: PublishedButton!
-    @IBOutlet weak var userScriptsFolderButton: PublishedButton!
+    @IBOutlet weak var watchedFolderTypeButtonInbox: NSButton!
+    @IBOutlet weak var watchedFolderTypeButtonAll: NSButton!
+    @IBOutlet weak var watchedFolderTypeButtonSpecific: NSButton!
+    @IBOutlet weak var userScriptsFolderButton: NSButton!
     @IBOutlet weak var watchedFoldersTextField: NSTextField!
 
     var subscriptions = Set<AnyCancellable>()
@@ -53,19 +53,5 @@ class SettingsViewController: NSViewController {
         watchedFolderTypeButtonInbox?.state = watchedFolderType == .inbox ? .on : .off
         watchedFolderTypeButtonAll?.state = watchedFolderType == .all  ? .on : .off
         watchedFolderTypeButtonSpecific?.state = watchedFolderType == .specific ? .on : .off
-    }
-}
-
-class PublishedButton: NSButton {
-    lazy var publisher: AnyPublisher<Void, Never> = {
-        self.target = self
-        self.action = #selector(buttonClicked)
-        return subject.eraseToAnyPublisher()
-    }()
-
-    private var subject = PassthroughSubject<Void, Never>()
-
-    @objc func buttonClicked() {
-        subject.send()
     }
 }

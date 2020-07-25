@@ -473,7 +473,7 @@
                                                                 <constraint firstAttribute="height" constant="5" id="Rxd-XH-5nB"/>
                                                             </constraints>
                                                         </customView>
-                                                        <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A5m-hB-YIt" customClass="PublishedButton" customModule="Fastmate" customModuleProvider="target">
+                                                        <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A5m-hB-YIt">
                                                             <rect key="frame" x="195" y="28" width="125" height="32"/>
                                                             <buttonCell key="cell" type="push" title="User scripts..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="D1o-Zq-KvC">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -547,14 +547,14 @@
                                                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z0l-ng-o6Y">
                                                             <rect key="frame" x="140" y="0.0" width="374" height="130"/>
                                                             <subviews>
-                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9rs-iI-JCy" customClass="PublishedButton" customModule="Fastmate" customModuleProvider="target">
+                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9rs-iI-JCy">
                                                                     <rect key="frame" x="-1" y="113" width="115" height="18"/>
                                                                     <buttonCell key="cell" type="radio" title="Selected folder" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="bxF-pF-kcd">
                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                         <font key="font" metaFont="system"/>
                                                                     </buttonCell>
                                                                 </button>
-                                                                <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="Wyb-wk-zdl" customClass="PublishedButton" customModule="Fastmate" customModuleProvider="target">
+                                                                <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="Wyb-wk-zdl">
                                                                     <rect key="frame" x="-1" y="92" width="83" height="18"/>
                                                                     <buttonCell key="cell" type="radio" title="All folders" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="JDx-zD-NwD">
                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -564,7 +564,7 @@
                                                                 <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kaa-rT-pJ8">
                                                                     <rect key="frame" x="0.0" y="67" width="374" height="21"/>
                                                                     <subviews>
-                                                                        <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="uiF-Xi-0cQ" customClass="PublishedButton" customModule="Fastmate" customModuleProvider="target">
+                                                                        <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="uiF-Xi-0cQ">
                                                                             <rect key="frame" x="-1" y="2" width="120" height="18"/>
                                                                             <buttonCell key="cell" type="radio" title="Specific folders:" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="Far-VT-IIK">
                                                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>

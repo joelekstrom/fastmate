@@ -8,6 +8,9 @@ enum UserDefaultsKey: String {
     case lastUpdateCheckDate
     case automaticUpdateChecks
     case watchedFolderType
+    case watchedFolders
+    case shouldShowStatusBarIcon
+    case shouldUseFastmailBeta
 
     case shouldShowUnreadMailIndicator
     case shouldShowUnreadMailInDock
@@ -53,6 +56,15 @@ class Settings {
 
     @UserDefault(key: .shouldShowUnreadMailInStatusBar, defaultValue: true)
     var shouldShowUnreadMailInStatusBar: Bool
+
+    @UserDefault(key: .watchedFolders, defaultValue: nil)
+    var watchedFolders: String?
+
+    @UserDefault(key: .shouldShowStatusBarIcon, defaultValue: true)
+    var shouldShowStatusBarIcon: Bool
+
+    @UserDefault(key: .shouldUseFastmailBeta, defaultValue: false)
+    var shouldUseFastmailBeta: Bool
 
     private static var defaultWindowBackgroundColor: Data {
         let color = NSColor(red: 0.14, green: 0.22, blue: 0.35, alpha: 1.0)
