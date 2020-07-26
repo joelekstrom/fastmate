@@ -19,7 +19,7 @@ enum UserDefaultsKey: String {
 }
 
 enum WatchedFolderType: Int {
-    case inbox
+    case selected
     case all
     case specific
 }
@@ -42,11 +42,8 @@ class Settings {
     @UserDefault(key: .automaticUpdateChecks, defaultValue: true)
     var automaticUpdateChecks: Bool
 
-    @UserDefault(key: .watchedFolderType, defaultValue: WatchedFolderType.inbox.rawValue)
+    @UserDefault(key: .watchedFolderType, defaultValue: WatchedFolderType.selected.rawValue)
     var watchedFolderType: Int
-
-    @UserDefault(key: .shouldShowUnreadMailIndicator, defaultValue: true)
-    var shouldShowUnreadMailIndicator: Bool
 
     @UserDefault(key: .shouldShowUnreadMailInDock, defaultValue: true)
     var shouldShowUnreadMailInDock: Bool

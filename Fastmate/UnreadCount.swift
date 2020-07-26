@@ -19,7 +19,7 @@ extension WebViewController {
         return Settings.shared.$watchedFolderType.publisher
             .compactMap { type -> AnyPublisher<Int, Never>? in
                 switch WatchedFolderType(rawValue: type) {
-                case .inbox: return titleCount.eraseToAnyPublisher()
+                case .selected: return titleCount.eraseToAnyPublisher()
                 case .all: return allFoldersCount.eraseToAnyPublisher()
                 case .specific: return specificFoldersCount.eraseToAnyPublisher()
                 default: return nil
