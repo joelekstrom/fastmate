@@ -73,7 +73,7 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-fileprivate extension Publisher where Self.Output == Int, Self.Failure == Never {
+fileprivate extension Publisher where Output == Int, Failure == Never {
     func statusItemState(with settings: Settings) -> AnyPublisher<StatusItemState, Failure> {
         combineLatest(settings.$shouldShowStatusBarIcon.publisher, settings.$shouldShowUnreadMailInStatusBar.publisher)
             .map { predicates -> StatusItemState in
