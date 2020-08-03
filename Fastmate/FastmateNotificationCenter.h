@@ -9,13 +9,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NotificationCenter;
+@class FastmateNotificationCenter;
 
 @protocol NotificationCenterDelegate
-- (void)notificationCenter:(NotificationCenter *)center notificationClickedWithIdentifier:(NSString *)identifier;
+- (void)notificationCenter:(FastmateNotificationCenter *)center notificationClickedWithIdentifier:(NSString *)identifier;
 @end
 
-@interface NotificationCenter : NSObject
+@interface FastmateNotificationCenter : NSObject
 
 + (instancetype)sharedInstance;
 - (void)registerForNotifications;

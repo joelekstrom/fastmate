@@ -1,5 +1,5 @@
 #import "WebViewController.h"
-#import "NotificationCenter.h"
+#import "FastmateNotificationCenter.h"
 #import "KVOBlockObserver.h"
 #import "UserDefaultsKeys.h"
 #import "PrintManager.h"
@@ -188,7 +188,7 @@
 - (void)postNotificationForMessage:(WKScriptMessage *)message {
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:[message.body dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
 
-    [NotificationCenter.sharedInstance postNotificationWithIdentifier:[dictionary[@"notificationID"] stringValue]
+    [FastmateNotificationCenter.sharedInstance postNotificationWithIdentifier:[dictionary[@"notificationID"] stringValue]
                                                                 title:dictionary[@"title"]
                                                                  body:[dictionary valueForKeyPath:@"options.body"]];
 }

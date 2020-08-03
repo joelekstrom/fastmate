@@ -47,7 +47,7 @@ struct VersionChecker {
             .handleEvents(receiveOutput: { Settings.shared.automaticUpdateChecks = ($0.suppressButtonState ?? .on) == .on } )
             .compactMap { return $0.modalResponse == .alertFirstButtonReturn ? ($0.userInfo as? URL) : nil }
 
-        FastmateAppDelegate.shared.checkForNewVersionAction
+        Publishers.MainMenu(path: "Fastmate", "Check for updates…")
             .map { manualUpdateChecker }
             .switchToLatest()
             .sink { NSWorkspace.shared.open($0) }

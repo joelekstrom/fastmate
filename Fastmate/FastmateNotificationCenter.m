@@ -7,16 +7,16 @@
 
 @import UserNotifications;
 
-#import "NotificationCenter.h"
+#import "FastmateNotificationCenter.h"
 
-@interface NotificationCenter() <UNUserNotificationCenterDelegate, NSUserNotificationCenterDelegate>
+@interface FastmateNotificationCenter() <UNUserNotificationCenterDelegate, NSUserNotificationCenterDelegate>
 
 @end
 
-@implementation NotificationCenter
+@implementation FastmateNotificationCenter
 
 + (instancetype)sharedInstance {
-    static NotificationCenter *sharedInstance = nil;
+    static FastmateNotificationCenter *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];
