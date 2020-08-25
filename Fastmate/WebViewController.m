@@ -131,6 +131,12 @@
     [self.webView loadRequest:[NSURLRequest requestWithURL:actionURL]];
 }
 
+- (void)handleFastmateURL:(NSURL *)URL {
+    NSURLComponents *components = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:NO];
+    components.scheme = @"https";
+    [self.webView loadRequest:[NSURLRequest requestWithURL:components.URL]];
+}
+
 - (void)configureUserContentController {
     self.userContentController = [WKUserContentController new];
     [self.userContentController addScriptMessageHandler:self name:@"Fastmate"];
@@ -180,6 +186,18 @@
     } else {
         self.linkPreviewTextField.hidden = YES;
     }
+}
+
+- (IBAction)copyLinkToCurrentItem:(id)sender {
+    [NSPasteboard.generalPasteboard declareTypes:@[NSURLPboardType] owner:nil];
+    [self.webView.URL writeToPasteboard:NSPasteboard.generalPasteboard];
+}
+
+- (IBAction)copyFastmateLinkToCurrentItem:(id)sender {
+    NSURLComponents *components = [NSURLComponents componentsWithURL:self.webView.URL resolvingAgainstBaseURL:YES];
+    components.scheme = @"fastmate";
+    [NSPasteboard.generalPasteboard declareTypes:@[NSURLPboardType] owner:nil];
+    [components.URL writeToPasteboard:NSPasteboard.generalPasteboard];
 }
 
 - (void)postNotificationForMessage:(WKScriptMessage *)message {

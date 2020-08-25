@@ -22,7 +22,6 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
-    [NSAppleEventManager.sharedAppleEventManager setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 
     [NSWorkspace.sharedWorkspace.notificationCenter addObserver:self selector:@selector(workspaceDidWake:) name:NSWorkspaceDidWakeNotification object:NULL];
 
@@ -68,10 +67,13 @@
     [self performAutomaticUpdateCheckIfNeeded];
 }
 
-- (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
-    NSAppleEventDescriptor *directObjectDescriptor = [event paramDescriptorForKeyword:keyDirectObject];
-    NSURL *mailtoURL = [NSURL URLWithString:directObjectDescriptor.stringValue];
-    [self.mainWebViewController handleMailtoURL:mailtoURL];
+- (void)application:(NSApplication *)application openURLs:(NSArray<NSURL *> *)urls {
+    NSURL *URL = urls.firstObject;
+    if ([URL.scheme isEqualToString:@"fastmate"]) {
+        [self.mainWebViewController handleFastmateURL:URL];
+    } else if ([URL.scheme isEqualToString:@"mailto"]) {
+        [self.mainWebViewController handleMailtoURL:URL];
+    }
 }
 
 - (IBAction)newDocument:(id)sender {

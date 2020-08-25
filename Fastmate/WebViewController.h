@@ -9,6 +9,7 @@
 - (void)composeNewEmail;
 - (void)focusSearchField;
 - (void)handleMailtoURL:(NSURL *)URL;
+- (void)handleFastmateURL:(NSURL *)URL;
 - (void)handleNotificationClickWithIdentifier:(NSString *)identifier;
 - (void)reload;
 
