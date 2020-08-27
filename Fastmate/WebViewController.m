@@ -51,9 +51,17 @@
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    BOOL isFastmailLink = [navigationAction.request.URL.host hasSuffix:@".fastmail.com"];
+
     if (webView == self.temporaryWebView) {
-        // A temporary web view means we caught a link URL which we want to open externally
-        [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
+        // A temporary web view means we caught a link URL which Fastmail wants to open externally (like a new tab).
+        // However, if  it's a user-added link to an e-mail, prefer to open it within Fastmate itself
+        BOOL isEmailLink = isFastmailLink && [navigationAction.request.URL.path hasPrefix:@"/mail/"];
+        if (isEmailLink) {
+            [self.webView loadRequest:[NSURLRequest requestWithURL:navigationAction.request.URL]];
+        } else {
+            [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
+        }
         decisionHandler(WKNavigationActionPolicyCancel);
         self.temporaryWebView = nil;
     } else if ([navigationAction.request.URL.host hasSuffix:@".fastmailusercontent.com"]) {
