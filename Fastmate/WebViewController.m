@@ -67,12 +67,12 @@
         } else {
             decisionHandler(WKNavigationActionPolicyAllow);
         }
-    } else if (!([navigationAction.request.URL.host hasSuffix:@".fastmail.com"])) {
+    } else if (isFastmailLink) {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    } else {
         // Link isn't within fastmail.com, open externally
         [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
         decisionHandler(WKNavigationActionPolicyCancel);
-    } else {
-        decisionHandler(WKNavigationActionPolicyAllow);
     }
 }
 
@@ -134,6 +134,7 @@
 - (void)handleFastmateURL:(NSURL *)URL {
     NSURLComponents *components = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:NO];
     components.scheme = @"https";
+    components.host = self.baseURL.host;
     [self.webView loadRequest:[NSURLRequest requestWithURL:components.URL]];
 }
 
@@ -189,15 +190,25 @@
 }
 
 - (IBAction)copyLinkToCurrentItem:(id)sender {
-    [NSPasteboard.generalPasteboard declareTypes:@[NSURLPboardType] owner:nil];
-    [self.webView.URL writeToPasteboard:NSPasteboard.generalPasteboard];
+    [self copyURLToPasteboard:self.webView.URL];
 }
 
 - (IBAction)copyFastmateLinkToCurrentItem:(id)sender {
     NSURLComponents *components = [NSURLComponents componentsWithURL:self.webView.URL resolvingAgainstBaseURL:YES];
     components.scheme = @"fastmate";
-    [NSPasteboard.generalPasteboard declareTypes:@[NSURLPboardType] owner:nil];
-    [components.URL writeToPasteboard:NSPasteboard.generalPasteboard];
+    components.host = @"app";
+    [self copyURLToPasteboard:components.URL];
+}
+
+- (void)copyURLToPasteboard:(NSURL *)URL {
+    NSPasteboard *pasteboard = NSPasteboard.generalPasteboard;
+    [pasteboard clearContents];
+    [pasteboard writeObjects:@[URL, URL.absoluteString]];
+    NSString *title = [[self.webView.title componentsSeparatedByString:@" – "] lastObject];
+    [pasteboard setString:title forType:@"net.shinyfrog.bear.url-name"]; // Bear Notes title
+    if ([URL.scheme isEqualToString:@"https"]) {
+        [pasteboard setString:title forType:@"public.url-name"]; // Chromium title
+    }
 }
 
 - (void)postNotificationForMessage:(WKScriptMessage *)message {
