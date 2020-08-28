@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)composeNewEmail;
 - (void)focusSearchField;
-- (void)handleMailtoURL:(NSURL *)URL;
+- (void)handleURL:(NSURL *)URL;
 - (void)handleNotificationClickWithIdentifier:(NSString *)identifier;
 - (void)reload;
 

@@ -4,8 +4,7 @@ import Combine
 class FastmateAppDelegate: NSObject, NSApplicationDelegate {
 
     let mainWindowPublisher = CurrentValueSubject<NSWindow?, Never>(nil)
-
-    private let urlEventHandler = URLEventHandler()
+    let urlPublisher = PassthroughSubject<URL, Never>()
 
     private var subscriptions = Set<AnyCancellable>()
     private let statusItemPublisher = CurrentValueSubject<NSStatusItem?, Never>(nil)
@@ -79,9 +78,9 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
 
         // FIXME: Doesn't work when called by launching the app. Make a publisher that waits until Fastmail loads
         // before calling handleMailtoURL (needs web view migration)
-        urlEventHandler.mailtoURLPublisher
+        urlPublisher
             .flatMap { mainWebViewPublisher.zip(Just($0)) }
-            .sink { $0.handleMailtoURL($1) }
+            .sink { $0.handle($1) }
             .store(in: &subscriptions)
     }
 
@@ -113,6 +112,12 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
         do {
             try? FileManager.default.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: nil)
             FileManager.default.createFile(atPath: readmePath, contents: readmeData, attributes: nil)
+        }
+    }
+
+    func application(_ application: NSApplication, open urls: [URL]) {
+        if let url = urls.first {
+            urlPublisher.send(url)
         }
     }
 }
@@ -151,21 +156,6 @@ fileprivate enum StatusItemState {
         case .visible: return NSImage(named: "status-bar")
         case .visibleUnread: return NSImage(named: "status-bar-unread")
         case .hidden: return nil
-        }
-    }
-}
-
-class URLEventHandler {
-    let mailtoURLPublisher = PassthroughSubject<URL, Never>()
-
-    init() {
-        NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(handleURLEvent(event:_:)), forEventClass:AEEventClass(kInternetEventClass), andEventID:AEEventID(kAEGetURL))
-    }
-
-    @objc func handleURLEvent(event: NSAppleEventDescriptor, _ : NSAppleEventDescriptor) {
-        let descriptor = event.paramDescriptor(forKeyword: keyDirectObject)
-        if let urlString = descriptor?.stringValue, let mailtoURL = URL(string: urlString) {
-            mailtoURLPublisher.send(mailtoURL)
         }
     }
 }

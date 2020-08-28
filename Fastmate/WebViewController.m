@@ -55,9 +55,17 @@
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    BOOL isFastmailLink = [navigationAction.request.URL.host hasSuffix:@".fastmail.com"];
+
     if (webView == self.temporaryWebView) {
-        // A temporary web view means we caught a link URL which we want to open externally
-        [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
+        // A temporary web view means we caught a link URL which Fastmail wants to open externally (like a new tab).
+        // However, if  it's a user-added link to an e-mail, prefer to open it within Fastmate itself
+        BOOL isEmailLink = isFastmailLink && [navigationAction.request.URL.path hasPrefix:@"/mail/"];
+        if (isEmailLink) {
+            [self.webView loadRequest:[NSURLRequest requestWithURL:navigationAction.request.URL]];
+        } else {
+            [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
+        }
         decisionHandler(WKNavigationActionPolicyCancel);
         self.temporaryWebView = nil;
     } else if ([navigationAction.request.URL.host hasSuffix:@".fastmailusercontent.com"]) {
@@ -71,12 +79,12 @@
         } else {
             decisionHandler(WKNavigationActionPolicyAllow);
         }
-    } else if (!([navigationAction.request.URL.host hasSuffix:@".fastmail.com"])) {
+    } else if (isFastmailLink) {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    } else {
         // Link isn't within fastmail.com, open externally
         [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
         decisionHandler(WKNavigationActionPolicyCancel);
-    } else {
-        decisionHandler(WKNavigationActionPolicyAllow);
     }
 }
 
@@ -125,6 +133,14 @@
     [NSUserDefaults.standardUserDefaults setObject:colorData forKey:WindowBackgroundColorKey];
 }
 
+- (void)handleURL:(NSURL *)URL {
+    if ([URL.scheme isEqualToString:@"fastmate"]) {
+        [self handleFastmateURL:URL];
+    } else if ([URL.scheme isEqualToString:@"mailto"]) {
+        [self handleMailtoURL:URL];
+    }
+}
+
 - (void)handleMailtoURL:(NSURL *)URL {
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.baseURL resolvingAgainstBaseURL:NO];
     components.path = @"/action/compose/";
@@ -132,6 +148,13 @@
     components.percentEncodedQueryItems = @[[NSURLQueryItem queryItemWithName:@"mailto" value:mailtoString]];
     NSURL *actionURL = components.URL;
     [self.webView loadRequest:[NSURLRequest requestWithURL:actionURL]];
+}
+
+- (void)handleFastmateURL:(NSURL *)URL {
+    NSURLComponents *components = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:NO];
+    components.scheme = @"https";
+    components.host = self.baseURL.host;
+    [self.webView loadRequest:[NSURLRequest requestWithURL:components.URL]];
 }
 
 - (void)configureUserContentController {
@@ -182,6 +205,28 @@
         self.linkPreviewTextField.layer.zPosition = 10;
     } else {
         self.linkPreviewTextField.hidden = YES;
+    }
+}
+
+- (IBAction)copyLinkToCurrentItem:(id)sender {
+    [self copyURLToPasteboard:self.webView.URL];
+}
+
+- (IBAction)copyFastmateLinkToCurrentItem:(id)sender {
+    NSURLComponents *components = [NSURLComponents componentsWithURL:self.webView.URL resolvingAgainstBaseURL:YES];
+    components.scheme = @"fastmate";
+    components.host = @"app";
+    [self copyURLToPasteboard:components.URL];
+}
+
+- (void)copyURLToPasteboard:(NSURL *)URL {
+    NSPasteboard *pasteboard = NSPasteboard.generalPasteboard;
+    [pasteboard clearContents];
+    [pasteboard writeObjects:@[URL, URL.absoluteString]];
+    NSString *title = [[self.webView.title componentsSeparatedByString:@" – "] lastObject];
+    [pasteboard setString:title forType:@"net.shinyfrog.bear.url-name"]; // Bear Notes title
+    if ([URL.scheme isEqualToString:@"https"]) {
+        [pasteboard setString:title forType:@"public.url-name"]; // Chromium title
     }
 }
 
