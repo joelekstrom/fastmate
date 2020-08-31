@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,6 +23,9 @@
                                         </menuItem>
                                         <menuItem title="Check for updates…" id="kr2-nK-hDb">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="checkForUpdates:" target="Ady-hI-5gd" id="zDX-M5-Odw"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
                                         <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
@@ -67,14 +69,22 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="New mail" keyEquivalent="n" id="Was-JA-tGl"/>
+                                        <menuItem title="New mail" keyEquivalent="n" id="Was-JA-tGl">
+                                            <connections>
+                                                <action selector="composeNewEmail:" target="Ady-hI-5gd" id="0ym-eA-ccI"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
                                         <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
                                             <connections>
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="HmO-Ls-i7Q"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Print…" keyEquivalent="p" id="CNx-R9-zuk"/>
+                                        <menuItem title="Print…" keyEquivalent="p" id="CNx-R9-zuk">
+                                            <connections>
+                                                <action selector="printMail:" target="Ady-hI-5gd" id="bkx-26-7Qh"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -138,7 +148,11 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="OiE-SB-BsL"/>
-                                        <menuItem title="Find…" tag="1" keyEquivalent="f" id="Xz5-n4-O0W"/>
+                                        <menuItem title="Find…" tag="1" keyEquivalent="f" id="Xz5-n4-O0W">
+                                            <connections>
+                                                <action selector="focusSearchField:" target="Ady-hI-5gd" id="h8w-3X-bj0"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Spelling and Grammar" id="Dv1-io-Yv7">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Spelling" id="3IN-sU-3Bg">
@@ -358,7 +372,7 @@
         <!--WebViewController-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController title="WebViewController" id="XfG-lQ-9wD" customClass="WebViewController" sceneMemberID="viewController">
+                <viewController title="WebViewController" id="XfG-lQ-9wD" customClass="WebViewController" customModule="Fastmate" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="1186" height="766"/>
                         <autoresizingMask key="autoresizingMask"/>

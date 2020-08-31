@@ -1,15 +1,17 @@
 import Foundation
 import Combine
+import Cocoa
 
 struct Alert {
     struct Configuration {
         var messageText: String
-        var informativeText: String
+        var informativeText: String?
         var buttonTitles: [String]
         var suppressionButtonTitle: String?
         var suppressionButtonState: NSControl.StateValue?
         var style = NSAlert.Style.informational
         var userInfo: Any?
+        var accessoryView: NSView?
     }
 
     struct Response {
@@ -31,8 +33,9 @@ struct Alert {
         let alert = NSAlert()
         configuration.buttonTitles.forEach { alert.addButton(withTitle: $0) }
         alert.messageText = configuration.messageText
-        alert.informativeText = configuration.informativeText
+        alert.informativeText = configuration.informativeText ?? ""
         alert.alertStyle = configuration.style
+        alert.accessoryView = configuration.accessoryView
         if let suppressionButtonTitle = configuration.suppressionButtonTitle {
             alert.showsSuppressionButton = true
             alert.suppressionButton!.title = suppressionButtonTitle
@@ -43,14 +46,18 @@ struct Alert {
 }
 
 extension Publisher where Output == Alert.Configuration {
-    func displayAlert() -> AnyPublisher<Alert.Response, Failure> {
-        let windowPublisher = NSApplication.shared.publisher(for: \.mainWindow)
-            .setFailureType(to: Failure.self)
-            .compactMap { $0 }
-            .eraseToAnyPublisher()
+    func displayAlert(window: NSWindow? = nil) -> AnyPublisher<Alert.Response, Failure> {
+        var windowPublisher: AnyPublisher<NSWindow, Never>
+        if let window = window {
+            windowPublisher = Just(window).eraseToAnyPublisher()
+        } else {
+            windowPublisher = NSApplication.shared.publisher(for: \.mainWindow)
+                .compactMap { $0 }
+                .eraseToAnyPublisher()
+        }
 
         return self.receive(on: DispatchQueue.main)
-            .combineLatest(windowPublisher)
+            .combineLatest(windowPublisher.setFailureType(to: Failure.self))
             .first()
             .flatMap { Alert.modalPublisher(configuration: $0, window: $1).setFailureType(to: Failure.self) }
             .eraseToAnyPublisher()

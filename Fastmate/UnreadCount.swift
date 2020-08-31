@@ -1,8 +1,8 @@
 import Combine
 
 // Extracts total unread count from a dictionary with folder name -> count
-func totalUnreadCount(for folders: [String: NSNumber]) -> Int {
-    folders.reduce(0, { $0 + (($1.value as? Int) ?? 0) })
+func totalUnreadCount(for folders: [String: Int]) -> Int {
+    folders.reduce(0, { $0 + $1.value })
 }
 
 // Extracts unread count from a Fastmail web view title
@@ -21,22 +21,23 @@ typealias UnreadCountPublisher = AnyPublisher<Int, Never>
 
 extension WebViewController {
     var unreadCount: UnreadCountPublisher {
-        let mailboxes = publisher(for: \.mailboxes)
+        guard let webView = webView else { fatalError() }
 
-        let titleCount = publisher(for: \.webView?.title)
-            .map { extractUnreadCount(from: $0 ?? "") }
+        let titleCount = webView.publisher(for: \.title)
+            .compactMap { $0 }
+            .map(extractUnreadCount(from:))
 
-        let allFoldersCount = mailboxes
-            .map { totalUnreadCount(for: $0) }
+        let allFoldersCount = $mailboxCounts
+            .map(totalUnreadCount(for:))
 
-        let specificFoldersCount = mailboxes.combineLatest(Settings.shared.$watchedFolders.publisher)
+        let specificFoldersCount = $mailboxCounts.combineLatest(Settings.shared.$watchedFolders.publisher)
             .map { mailboxes, watchedFolderString in
                 let watchedFolders = watchedFolderString?
                     .split(separator: ",")
                     .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
                 return mailboxes.filter { title, _ in watchedFolders?.contains(title) ?? false }
-            }
-            .map { totalUnreadCount(for: $0) }
+        }
+        .map(totalUnreadCount(for:))
 
         return Settings.shared.$watchedFolderType.publisher
             .compactMap { type -> UnreadCountPublisher? in
@@ -46,9 +47,10 @@ extension WebViewController {
                 case .specific: return specificFoldersCount.eraseToAnyPublisher()
                 default: return nil
                 }
-            }
-            .switchToLatest()
-            .removeDuplicates()
-            .eraseToAnyPublisher()
+        }
+        .switchToLatest()
+        .removeDuplicates()
+        .eraseToAnyPublisher()
     }
 }
+

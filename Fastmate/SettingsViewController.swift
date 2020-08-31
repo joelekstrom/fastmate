@@ -41,13 +41,12 @@ class SettingsViewController: NSViewController {
             .assign(to: \.isEnabled, on: showUnreadCountInDockButton)
             .store(in: &subscriptions)
 
-        let buttonTapped = Publishers.Merge3(
+        Publishers.Merge3(
             watchedFolderTypeButtonInbox.publisher.map { WatchedFolderType.selected },
             watchedFolderTypeButtonSpecific.publisher.map { WatchedFolderType.specific },
             watchedFolderTypeButtonAll.publisher.map { WatchedFolderType.all })
-
-        buttonTapped
-            .sink { settings.watchedFolderType = $0.rawValue }
+            .map(\.rawValue)
+            .assign(to: \.watchedFolderType, on: settings)
             .store(in: &subscriptions)
 
         userScriptsFolderButton.publisher

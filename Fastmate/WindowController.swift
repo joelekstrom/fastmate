@@ -14,7 +14,7 @@ class WindowController: NSWindowController, NSWindowDelegate {
         // Fixes that we can't trust that the main window exists in applicationDidFinishLaunching:.
         // Here we always know that this content view controller will be the main web view controller,
         // so inform the app delegate
-        FastmateAppDelegate.shared.mainWindowPublisher.value = window
+        FastmateAppDelegate.shared.mainWindow = window
     }
 
     func setupSubscribers(notificationCenter: NotificationCenter, settings: Settings) {
@@ -29,8 +29,9 @@ class WindowController: NSWindowController, NSWindowDelegate {
 
         settings.$mainWindowFrame.publisher
             .first()
-            .compactMap { ($0 != nil) ? NSRectFromString($0!) : nil }
-            .sink(receiveValue: { window.setFrame($0, display: false) })
+            .compactMap { $0 }
+            .map(NSRectFromString(_:))
+            .sink { window.setFrame($0, display: false) }
             .store(in: &subscriptions)
 
         let transparentTitleBarPublisher = settings.$shouldUseTransparentTitleBar.publisher

@@ -21,7 +21,7 @@
 		5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5D14A8EA22C425B400A5ACE9 /* Credits.rtf */; };
 		5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D39BEDC2122383900693D7E /* Assets.xcassets */; };
 		5D39BEE32122383900693D7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEE22122383900693D7E /* main.m */; };
-		5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6E3B362122FF9E00ED16C9 /* WebViewController.m */; };
+		5D5A41D624D82ED800F802FC /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5A41D524D82ED800F802FC /* WebViewController.swift */; };
 		5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3A212824AF00ED16C9 /* Fastmate.js */; };
 		5D8D0F9D24B267DD004CD59F /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D0F9C24B267DD004CD59F /* Alert.swift */; };
 		5D8D0F9F24B528D0004CD59F /* FastmateAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D0F9E24B528D0004CD59F /* FastmateAppDelegate.swift */; };
@@ -89,8 +89,7 @@
 		5D39BEE12122383900693D7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D39BEE22122383900693D7E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5D39BEE42122383900693D7E /* Fastmate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fastmate.entitlements; sourceTree = "<group>"; };
-		5D6E3B352122FF9E00ED16C9 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
-		5D6E3B362122FF9E00ED16C9 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		5D5A41D524D82ED800F802FC /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		5D6E3B3A212824AF00ED16C9 /* Fastmate.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fastmate.js; sourceTree = "<group>"; };
 		5D8D0F9C24B267DD004CD59F /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		5D8D0F9E24B528D0004CD59F /* FastmateAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastmateAppDelegate.swift; sourceTree = "<group>"; };
@@ -137,7 +136,6 @@
 			isa = PBXGroup;
 			children = (
 				5DF6E4AE24AE8F9B000A7B0D /* VersionChecker.swift */,
-				5D8D0F9C24B267DD004CD59F /* Alert.swift */,
 				5D03BFB924BADF6D00069CD2 /* RedirectTrap.swift */,
 			);
 			name = "Version checking";
@@ -186,8 +184,7 @@
 			children = (
 				5D8D0F9E24B528D0004CD59F /* FastmateAppDelegate.swift */,
 				5DF6E4AA24AB737F000A7B0D /* WindowController.swift */,
-				5D6E3B352122FF9E00ED16C9 /* WebViewController.h */,
-				5D6E3B362122FF9E00ED16C9 /* WebViewController.m */,
+				5D5A41D524D82ED800F802FC /* WebViewController.swift */,
 				5D0F8E93240B910A00287BD1 /* PrintManager.h */,
 				5D0F8E94240B910A00287BD1 /* PrintManager.m */,
 				5D03C07524C0EF4A00069CD2 /* SettingsViewController.swift */,
@@ -199,6 +196,7 @@
 				5DC5E5942457F96D00C30171 /* FastmateNotificationCenter.m */,
 				5D03BFBC24BAE29900069CD2 /* Version checking */,
 				5DF6E4AC24AC5EEE000A7B0D /* Settings.swift */,
+				5D8D0F9C24B267DD004CD59F /* Alert.swift */,
 				5D03C07A24CC0FD500069CD2 /* ActionPublisher.swift */,
 				5D6E3B3A212824AF00ED16C9 /* Fastmate.js */,
 				5D39BEDC2122383900693D7E /* Assets.xcassets */,
@@ -388,7 +386,7 @@
 				5D8D0F9D24B267DD004CD59F /* Alert.swift in Sources */,
 				5D39BEE32122383900693D7E /* main.m in Sources */,
 				5D03C07B24CC0FD500069CD2 /* ActionPublisher.swift in Sources */,
-				5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */,
+				5D5A41D624D82ED800F802FC /* WebViewController.swift in Sources */,
 				5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

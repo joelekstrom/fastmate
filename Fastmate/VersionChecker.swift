@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import Logic
+import Cocoa
 
 struct Versions {
     typealias Error = RedirectTrap.Error
@@ -25,29 +26,30 @@ struct Versions {
     }
 }
 
-struct VersionChecker {
+class VersionChecker {
     typealias Error = RedirectTrap.Error
 
-    private static var subscriptions = Set<AnyCancellable>()
+    private let manualUpdateActionSubject = PassthroughSubject<Void, Never>()
+    private var subscriptions = Set<AnyCancellable>()
 
-    static func setup() {
+    init() {
         let versions = Versions()
 
         let manualUpdateChecker = versions.combined
-            .map { .manualVersionCheckConfigurationFor($0) }
+            .map(Alert.Configuration.manualVersionCheckConfigurationFor(_:))
             .catch { Just(.versionCheckFailed($0)) }
             .displayAlert()
             .compactMap { return $0.modalResponse == .alertFirstButtonReturn ? ($0.userInfo as? URL) : nil }
 
         let automaticUpdateChecker = versions.combined
-            .map { .automaticVersionCheckConfigurationFor($0) }
+            .map(Alert.Configuration.automaticVersionCheckConfigurationFor(_:))
             .catch { _ in Just(nil) }
             .compactMap { $0 }
             .displayAlert()
             .handleEvents(receiveOutput: { Settings.shared.automaticUpdateChecks = ($0.suppressButtonState ?? .on) == .on } )
             .compactMap { return $0.modalResponse == .alertFirstButtonReturn ? ($0.userInfo as? URL) : nil }
 
-        Publishers.MainMenu(path: "Fastmate", "Check for updates…")
+        manualUpdateActionSubject
             .map { manualUpdateChecker }
             .switchToLatest()
             .sink { NSWorkspace.shared.open($0) }
@@ -60,6 +62,10 @@ struct VersionChecker {
             .switchToLatest()
             .sink { NSWorkspace.shared.open($0) }
             .store(in: &subscriptions)
+    }
+
+    func checkForUpdates() {
+        manualUpdateActionSubject.send()
     }
 }
 

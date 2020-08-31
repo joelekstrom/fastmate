@@ -1,4 +1,5 @@
 import Combine
+import Cocoa
 
 protocol Actionable {
     var target: AnyObject? { get set }
@@ -23,22 +24,6 @@ extension Publishers {
 
         func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
             subscriber.receive(subscription: ActionSubscription(subscriber: subscriber, item: item))
-        }
-    }
-
-    struct MainMenu: Publisher {
-        typealias Output = Void
-        typealias Failure = Never
-        let path: [String]
-
-        init(path: String...) { self.path = path }
-
-        func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
-            var item = NSApp.mainMenu?.item(withTitle: path.first!)
-            for title in path.dropFirst() {
-                item = item?.submenu?.item(withTitle: title)
-            }
-            subscriber.receive(subscription: ActionSubscription(subscriber: subscriber, item: item!))
         }
     }
 }

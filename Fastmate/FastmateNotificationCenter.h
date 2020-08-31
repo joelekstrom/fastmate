@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class FastmateNotificationCenter;
 
-@protocol NotificationCenterDelegate
+@protocol FastmateNotificationCenterDelegate
 - (void)notificationCenter:(FastmateNotificationCenter *)center notificationClickedWithIdentifier:(NSString *)identifier;
 @end
 
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)registerForNotifications;
 - (void)postNotificationWithIdentifier:(NSString *)identifier title:(NSString *)title body:(NSString *)body;
 
-@property (nonatomic, weak) id<NotificationCenterDelegate> delegate;
+@property (nonatomic, weak) id<FastmateNotificationCenterDelegate> delegate;
 
 @end
 

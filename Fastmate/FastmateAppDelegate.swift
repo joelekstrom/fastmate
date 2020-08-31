@@ -1,34 +1,41 @@
 import Foundation
 import Combine
+import Cocoa
 
 class FastmateAppDelegate: NSObject, NSApplicationDelegate {
 
-    let mainWindowPublisher = CurrentValueSubject<NSWindow?, Never>(nil)
-    let urlPublisher = PassthroughSubject<URL, Never>()
-
-    private var subscriptions = Set<AnyCancellable>()
-    private let statusItemPublisher = CurrentValueSubject<NSStatusItem?, Never>(nil)
-
     static var shared = { NSApplication.shared.delegate as! FastmateAppDelegate }()
 
-    func applicationDidFinishLaunching(_ notification: Notification) {
-        setupSubscriptions()
+    @Published var mainWindow: NSWindow?
+    @Published private var statusItem: NSStatusItem?
+    let urlPublisher = PassthroughSubject<URL, Never>()
+    let notificationClickPublisher = PassthroughSubject<String, Never>()
 
+    private var subscriptions = Set<AnyCancellable>()
+    private var versionChecker: VersionChecker!
+
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        setupSubscriptions()
+        FastmateNotificationCenter.sharedInstance().delegate = self
+        FastmateNotificationCenter.sharedInstance().registerForNotifications()
+    }
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
         DispatchQueue.global().async {
             self.createUserScriptsFolderIfNeeded()
         }
 
-        VersionChecker.setup()
+        versionChecker = VersionChecker()
     }
 
     func setupSubscriptions() {
         let settings = Settings.shared
 
-        let mainWebViewPublisher = mainWindowPublisher
+        let mainWebViewPublisher = $mainWindow
             .compactMap { $0?.contentViewController as? WebViewController }
 
         let unreadCount = mainWebViewPublisher
-            .map { $0.unreadCount }
+            .map(\.unreadCount)
             .switchToLatest()
             .share()
 
@@ -36,7 +43,7 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
             .statusItemState(with: settings)
             .sink {
                 self.setStatusItemVisible($0 != .hidden)
-                self.statusItemPublisher.value?.button?.image = $0.image()
+                self.statusItem?.button?.image = $0.image()
             }
             .store(in: &subscriptions)
 
@@ -45,7 +52,7 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
             .assign(to: \.badgeLabel, on: NSApplication.shared.dockTile)
             .store(in: &subscriptions)
 
-        statusItemPublisher
+        $statusItem
             .compactMap { $0?.button?.publisher }
             .switchToLatest()
             .sink {
@@ -54,49 +61,41 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
             }
             .store(in: &subscriptions)
 
-        // TODO: Move to web view controller when migrated
-        NotificationCenter.default.publisher(for: NSWorkspace.didWakeNotification)
-            .flatMap { _ in mainWebViewPublisher }
-            .sink { $0.reload() }
-            .store(in: &subscriptions)
-
-        Publishers.MainMenu(path: "File", "New mail")
-            .flatMap { mainWebViewPublisher }
-            .sink { $0.composeNewEmail() }
-            .store(in: &subscriptions)
-
-        Publishers.MainMenu(path: "Edit", "Find…")
-            .flatMap { mainWebViewPublisher }
-            .sink { $0.focusSearchField() }
-            .store(in: &subscriptions)
-
-        Publishers.MainMenu(path: "File", "Print…")
-            .flatMap { mainWebViewPublisher }
-            .compactMap { $0.webView ?? nil }
-            .sink { PrintManager.sharedInstance().print($0) }
-            .store(in: &subscriptions)
-
-        // FIXME: Doesn't work when called by launching the app. Make a publisher that waits until Fastmail loads
-        // before calling handleMailtoURL (needs web view migration)
         urlPublisher
-            .flatMap { mainWebViewPublisher.zip(Just($0)) }
-            .sink { $0.handle($1) }
+            .flatMap {
+                mainWebViewPublisher
+                    .first()
+                    .zip(Just($0))
+            }
+            .sink { $0.externalURLSubject.send($1) }
             .store(in: &subscriptions)
+
+        notificationClickPublisher
+            .flatMap {
+                mainWebViewPublisher
+                    .first()
+                    .zip(Just($0))
+            }
+            .sink { $0.handleNotificationClick($1) }
+            .store(in: &subscriptions)
+    }
+
+    @IBAction func checkForUpdates(_ sender: AnyObject) {
+        versionChecker.checkForUpdates()
     }
 
     func setStatusItemVisible(_ visible: Bool) {
-        if visible, statusItemPublisher.value == nil {
-            statusItemPublisher.value = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        } else if visible == false, let item = statusItemPublisher.value {
+        if visible, statusItem == nil {
+            statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        } else if visible == false, let item = statusItem {
             NSStatusBar.system.removeStatusItem(item)
-            statusItemPublisher.value = nil
+            statusItem = nil
         }
     }
 
-    // TODO: Move to a UserScriptController-class after web view migration
     func createUserScriptsFolderIfNeeded() {
-        let path = (NSHomeDirectory() as NSString).appendingPathComponent("userscripts")
         var folderExists = ObjCBool(false)
+        let path = ScriptController.userScriptsDirectoryPath
         FileManager.default.fileExists(atPath: path, isDirectory: &folderExists)
         if folderExists.boolValue == false {
             createUserScriptsFolder(path: path)
@@ -119,6 +118,12 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
         if let url = urls.first {
             urlPublisher.send(url)
         }
+    }
+}
+
+extension FastmateAppDelegate: FastmateNotificationCenterDelegate {
+    func notificationCenter(_ center: FastmateNotificationCenter, notificationClickedWithIdentifier identifier: String) {
+        notificationClickPublisher.send(identifier)
     }
 }
 
