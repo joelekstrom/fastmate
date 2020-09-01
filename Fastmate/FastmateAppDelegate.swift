@@ -9,15 +9,13 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
     @Published var mainWindow: NSWindow?
     @Published private var statusItem: NSStatusItem?
     let urlPublisher = PassthroughSubject<URL, Never>()
-    let notificationClickPublisher = PassthroughSubject<String, Never>()
 
     private var subscriptions = Set<AnyCancellable>()
     private var versionChecker: VersionChecker!
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         setupSubscriptions()
-        FastmateNotificationCenter.sharedInstance().delegate = self
-        FastmateNotificationCenter.sharedInstance().registerForNotifications()
+        FastmateNotificationCenter.shared.registerForNotifications()
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -33,6 +31,12 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
 
         let mainWebViewPublisher = $mainWindow
             .compactMap { $0?.contentViewController as? WebViewController }
+
+        mainWebViewPublisher
+            .map(\.notificationPublisher)
+            .switchToLatest()
+            .subscribe(FastmateNotificationCenter.shared.notificationSubject)
+            .store(in: &subscriptions)
 
         let unreadCount = mainWebViewPublisher
             .map(\.unreadCount)
@@ -70,7 +74,7 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
             .sink { $0.externalURLSubject.send($1) }
             .store(in: &subscriptions)
 
-        notificationClickPublisher
+        FastmateNotificationCenter.shared.notificationClickPublisher
             .flatMap {
                 mainWebViewPublisher
                     .first()
@@ -118,12 +122,6 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
         if let url = urls.first {
             urlPublisher.send(url)
         }
-    }
-}
-
-extension FastmateAppDelegate: FastmateNotificationCenterDelegate {
-    func notificationCenter(_ center: FastmateNotificationCenter, notificationClickedWithIdentifier identifier: String) {
-        notificationClickPublisher.send(identifier)
     }
 }
 

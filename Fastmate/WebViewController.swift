@@ -7,6 +7,9 @@ class WebViewController: NSViewController {
     let scriptController = ScriptController()
     @objc var webView: WKWebView?
     let externalURLSubject = PassthroughSubject<URL, Never>()
+    var notificationPublisher: AnyPublisher<FastmateNotification, Never> {
+        scriptController.notificationPublisher
+    }
 
     private var subscriptions = Set<AnyCancellable>()
     @Published var mailboxCounts = Dictionary<String, Int>()
@@ -282,12 +285,32 @@ class ScriptController: NSObject, WKScriptMessageHandler {
 
     static let userScriptsDirectoryPath = (NSHomeDirectory() as NSString).appendingPathComponent("userscripts")
 
+    let notificationPublisher: AnyPublisher<FastmateNotification, Never>
+    let userContentController = WKUserContentController()
     let documentDidChange = PassthroughSubject<Void, Never>()
     let print = PassthroughSubject<Void, Never>()
     @Published private(set) var hoveredURL: URL?
 
-    let userContentController = WKUserContentController()
+    private let notificationSubject = PassthroughSubject<WKScriptMessage, Never>()
+
     override init() {
+        notificationPublisher = notificationSubject
+            .compactMap { $0.body as? String }
+            .compactMap { $0.data(using: .utf8) }
+            .flatMap {
+                Just($0)
+                    .tryCompactMap { try JSONSerialization.jsonObject(with: $0, options: []) as? Dictionary<String, Any> }
+                    .replaceError(with: nil)
+                    .compactMap { $0 }
+            }
+            .compactMap { data -> FastmateNotification? in
+                guard let notificationID = data["notificationID"] as? Int, let title = data["title"] as? String else { return nil }
+                let options = data["options"] as? Dictionary<String, Any>
+                let body = options?["body"] as? String ?? ""
+                return FastmateNotification(identifier: String(notificationID), title: title, body: body)
+            }
+            .eraseToAnyPublisher()
+
         super.init()
         userContentController.add(self, name: "Fastmate")
         userContentController.add(self, name: "LinkHover")
@@ -321,24 +344,7 @@ class ScriptController: NSObject, WKScriptMessageHandler {
         } else if message.body as? String == "print" {
             print.send()
         } else {
-            forwardNotification(message)
+            notificationSubject.send(message)
         }
     }
-
-    private func forwardNotification(_ message: WKScriptMessage) {
-        guard
-            let jsonData = (message.body as? String)?.data(using: .utf8),
-            let object = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? Dictionary<String, Any>,
-            let notificationID = object["notificationID"] as? Int,
-            let title = object["title"] as? String
-            else {
-                return
-        }
-
-        let options = object["options"] as? Dictionary<String, Any>
-        let body = options?["body"] as? String ?? ""
-
-        FastmateNotificationCenter.sharedInstance().postNotification(withIdentifier: String(notificationID), title: title, body: body)
-    }
-
 }
