@@ -26,7 +26,6 @@
 		5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3A212824AF00ED16C9 /* Fastmate.js */; };
 		5D8D0F9D24B267DD004CD59F /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D0F9C24B267DD004CD59F /* Alert.swift */; };
 		5D8D0F9F24B528D0004CD59F /* FastmateAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D0F9E24B528D0004CD59F /* FastmateAppDelegate.swift */; };
-		5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8DDE29244399BD00747135 /* KVOBlockObserver.m */; };
 		5DA21A162128617900C765BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DA21A142128617900C765BF /* Main.storyboard */; };
 		5DF6E4AB24AB737F000A7B0D /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AA24AB737F000A7B0D /* WindowController.swift */; };
 		5DF6E4AF24AE8F9B000A7B0D /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AE24AE8F9B000A7B0D /* VersionChecker.swift */; };
@@ -94,9 +93,6 @@
 		5D6E3B3A212824AF00ED16C9 /* Fastmate.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fastmate.js; sourceTree = "<group>"; };
 		5D8D0F9C24B267DD004CD59F /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		5D8D0F9E24B528D0004CD59F /* FastmateAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastmateAppDelegate.swift; sourceTree = "<group>"; };
-		5D8DDE28244399BD00747135 /* KVOBlockObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KVOBlockObserver.h; sourceTree = "<group>"; };
-		5D8DDE29244399BD00747135 /* KVOBlockObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KVOBlockObserver.m; sourceTree = "<group>"; };
-		5D8DDE2B2443AD4800747135 /* UserDefaultsKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserDefaultsKeys.h; sourceTree = "<group>"; };
 		5DA21A152128617900C765BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5DF6E4A724AB70F3000A7B0D /* Fastmate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Fastmate-Bridging-Header.h"; sourceTree = "<group>"; };
 		5DF6E4AA24AB737F000A7B0D /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
@@ -188,9 +184,6 @@
 				5D0F8E94240B910A00287BD1 /* PrintManager.m */,
 				5D03C07524C0EF4A00069CD2 /* SettingsViewController.swift */,
 				5D03C07C24CC970500069CD2 /* UnreadCount.swift */,
-				5D8DDE2B2443AD4800747135 /* UserDefaultsKeys.h */,
-				5D8DDE28244399BD00747135 /* KVOBlockObserver.h */,
-				5D8DDE29244399BD00747135 /* KVOBlockObserver.m */,
 				5D0DA06E24FD7141006078CF /* FastmateNotificationCenter.swift */,
 				5D03BFBC24BAE29900069CD2 /* Version checking */,
 				5DF6E4AC24AC5EEE000A7B0D /* Settings.swift */,
@@ -375,7 +368,6 @@
 			files = (
 				5D03C07924C1880700069CD2 /* Settings.swift in Sources */,
 				5D03C07824C1880100069CD2 /* SettingsViewController.swift in Sources */,
-				5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */,
 				5DF6E4AB24AB737F000A7B0D /* WindowController.swift in Sources */,
 				5D0DA06F24FD7141006078CF /* FastmateNotificationCenter.swift in Sources */,
 				5DF6E4AF24AE8F9B000A7B0D /* VersionChecker.swift in Sources */,
