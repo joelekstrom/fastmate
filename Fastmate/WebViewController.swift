@@ -6,15 +6,18 @@ class WebViewController: NSViewController {
 
     let scriptController = ScriptController()
     @objc var webView: WKWebView?
+    @Published var mailboxCounts = Dictionary<String, Int>()
     let externalURLSubject = PassthroughSubject<URL, Never>()
+    let notificationClickSubject = PassthroughSubject<NotificationIdentifier, Never>()
     var notificationPublisher: AnyPublisher<FastmateNotification, Never> {
         scriptController.notificationPublisher
     }
 
-    private var subscriptions = Set<AnyCancellable>()
-    @Published var mailboxCounts = Dictionary<String, Int>()
+    private let urlSubject = PassthroughSubject<URL, Never>()
+    private let scriptSubject = PassthroughSubject<String, Never>()
     private var temporaryWebView: WKWebView?
     private var alertSubscription: AnyCancellable?
+    private var subscriptions = Set<AnyCancellable>()
 
     private let baseURLPublisher = Settings.shared.$shouldUseFastmailBeta.publisher
         .map { URL(string: $0 ? "https://beta.fastmail.com" : "https://www.fastmail.com")! }
@@ -40,12 +43,16 @@ class WebViewController: NSViewController {
     private func setupSubscriptions() {
         guard let webView = webView else { return }
 
-        baseURLPublisher
+        urlSubject
             .sink { webView.load(URLRequest(url: $0)) }
             .store(in: &subscriptions)
 
-        webView.publisher(for: \.url)
-            .sink { _ in webView.evaluateJavaScript("Fastmate.adjustV67Width()", completionHandler: nil) }
+        baseURLPublisher
+            .subscribe(urlSubject)
+            .store(in: &subscriptions)
+
+        scriptSubject
+            .sink { webView.evaluateJavaScript($0, completionHandler: nil) }
             .store(in: &subscriptions)
 
         let backgroundColorPublisherFactory = {
@@ -82,7 +89,8 @@ class WebViewController: NSViewController {
             .store(in: &subscriptions)
 
         scriptController.print
-            .sink { PrintManager.sharedInstance().print(webView) }
+            .map { self }
+            .subscribe(FastmateAppDelegate.shared.printSubscriber)
             .store(in: &subscriptions)
 
         NotificationCenter.default.publisher(for: NSWorkspace.didWakeNotification)
@@ -111,12 +119,13 @@ class WebViewController: NSViewController {
             }
 
         fastmateURLPublisher.merge(with: mailtoURLPublisher)
-            .sink { webView.load(URLRequest(url: $0)) }
+            .subscribe(urlSubject)
             .store(in: &subscriptions)
-    }
 
-    func handleNotificationClick(_ notificationID: String) {
-        webView?.evaluateJavaScript("Fastmate.handleNotificationClick(\"\(notificationID)\")", completionHandler: nil)
+        notificationClickSubject
+            .map { "Fastmate.handleNotificationClick(\"\($0)\")" }
+            .subscribe(scriptSubject)
+            .store(in: &subscriptions)
     }
 
     @IBAction func copyLinkToCurrentItem(_ sender: AnyObject) {
@@ -136,16 +145,15 @@ class WebViewController: NSViewController {
     }
 
     @IBAction func printMail(_ sender: AnyObject) {
-        guard let webView = webView else { return }
-        PrintManager.sharedInstance().print(webView)
+        scriptController.print.send()
     }
 
     @IBAction func focusSearchField(_ sender: AnyObject) {
-        webView?.evaluateJavaScript("Fastmate.focusSearch()", completionHandler: nil)
+        scriptSubject.send("Fastmate.focusSearch()")
     }
 
     @IBAction func composeNewEmail(_ sender: AnyObject) {
-        webView?.evaluateJavaScript("Fastmate.compose()", completionHandler: nil)
+        scriptSubject.send("Fastmate.compose()")
     }
 
     private func copyURLToPasteboard(_ url: URL) {
@@ -212,7 +220,7 @@ extension WebViewController: WKNavigationDelegate, WKUIDelegate {
             // However, if  it's a user-added link to an e-mail, prefer to open it within Fastmate itself
             let isEmailLink = isFastmailLink && navigationAction.request.url?.path.hasPrefix("/mail/") ?? false
             if isEmailLink {
-                self.webView?.load(URLRequest(url: navigationAction.request.url!))
+                urlSubject.send(navigationAction.request.url!)
             } else {
                 NSWorkspace.shared.open(navigationAction.request.url!)
             }
@@ -283,8 +291,6 @@ extension WKWebView {
 
 class ScriptController: NSObject, WKScriptMessageHandler {
 
-    static let userScriptsDirectoryPath = (NSHomeDirectory() as NSString).appendingPathComponent("userscripts")
-
     let notificationPublisher: AnyPublisher<FastmateNotification, Never>
     let userContentController = WKUserContentController()
     let documentDidChange = PassthroughSubject<Void, Never>()
@@ -292,6 +298,8 @@ class ScriptController: NSObject, WKScriptMessageHandler {
     @Published private(set) var hoveredURL: URL?
 
     private let notificationSubject = PassthroughSubject<WKScriptMessage, Never>()
+
+    private static let userScriptsDirectoryPath = (NSHomeDirectory() as NSString).appendingPathComponent("userscripts")
 
     override init() {
         notificationPublisher = notificationSubject
@@ -347,4 +355,26 @@ class ScriptController: NSObject, WKScriptMessageHandler {
             notificationSubject.send(message)
         }
     }
+
+    static func createUserScriptsFolderIfNeeded() {
+        var folderExists = ObjCBool(false)
+        let path = ScriptController.userScriptsDirectoryPath
+        FileManager.default.fileExists(atPath: path, isDirectory: &folderExists)
+        if folderExists.boolValue == false {
+            createUserScriptsFolder(path: path)
+        }
+    }
+
+    private static func createUserScriptsFolder(path: String) {
+        let readmePath = (path as NSString).appendingPathComponent("README.txt")
+        let readmeData = """
+        Fastmate user scripts\n\n
+        Put JavaScript files in this folder (.js), and Fastmate will load them at document end after loading the Fastmail website.\n
+        """.data(using: .utf8)
+        do {
+            try? FileManager.default.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: nil)
+            FileManager.default.createFile(atPath: readmePath, contents: readmeData, attributes: nil)
+        }
+    }
+
 }

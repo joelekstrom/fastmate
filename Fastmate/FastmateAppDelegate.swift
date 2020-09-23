@@ -4,14 +4,18 @@ import Cocoa
 
 class FastmateAppDelegate: NSObject, NSApplicationDelegate {
 
-    static var shared = { NSApplication.shared.delegate as! FastmateAppDelegate }()
+    static let shared = { NSApplication.shared.delegate as! FastmateAppDelegate }()
 
     @Published var mainWindow: NSWindow?
     @Published private var statusItem: NSStatusItem?
-    let urlPublisher = PassthroughSubject<URL, Never>()
+    let printSubscriber = PassthroughSubject<WebViewController, Never>()
 
+    private let externalURLPublisher = PassthroughSubject<URL, Never>()
     private var subscriptions = Set<AnyCancellable>()
     private var versionChecker: VersionChecker!
+
+    private var externalURLSubscription: AnyCancellable?
+    private var notificationClickSubscription: AnyCancellable?
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         setupSubscriptions()
@@ -20,7 +24,7 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         DispatchQueue.global().async {
-            self.createUserScriptsFolderIfNeeded()
+            ScriptController.createUserScriptsFolderIfNeeded()
         }
 
         versionChecker = VersionChecker()
@@ -65,22 +69,16 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
             }
             .store(in: &subscriptions)
 
-        urlPublisher
-            .flatMap {
-                mainWebViewPublisher
-                    .first()
-                    .zip(Just($0))
+        mainWebViewPublisher
+            .sink {
+                self.externalURLSubscription = self.externalURLPublisher.subscribe($0.externalURLSubject)
+                self.notificationClickSubscription = FastmateNotificationCenter.shared.notificationClickPublisher
+                    .subscribe($0.notificationClickSubject)
             }
-            .sink { $0.externalURLSubject.send($1) }
             .store(in: &subscriptions)
 
-        FastmateNotificationCenter.shared.notificationClickPublisher
-            .flatMap {
-                mainWebViewPublisher
-                    .first()
-                    .zip(Just($0))
-            }
-            .sink { $0.handleNotificationClick($1) }
+        printSubscriber
+            .sink { PrintManager.sharedInstance().print($0.webView!) }
             .store(in: &subscriptions)
     }
 
@@ -97,30 +95,9 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func createUserScriptsFolderIfNeeded() {
-        var folderExists = ObjCBool(false)
-        let path = ScriptController.userScriptsDirectoryPath
-        FileManager.default.fileExists(atPath: path, isDirectory: &folderExists)
-        if folderExists.boolValue == false {
-            createUserScriptsFolder(path: path)
-        }
-    }
-
-    func createUserScriptsFolder(path: String) {
-        let readmePath = (path as NSString).appendingPathComponent("README.txt")
-        let readmeData = """
-        Fastmate user scripts\n\n
-        Put JavaScript files in this folder (.js), and Fastmate will load them at document end after loading the Fastmail website.\n
-        """.data(using: .utf8)
-        do {
-            try? FileManager.default.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: nil)
-            FileManager.default.createFile(atPath: readmePath, contents: readmeData, attributes: nil)
-        }
-    }
-
     func application(_ application: NSApplication, open urls: [URL]) {
         if let url = urls.first {
-            urlPublisher.send(url)
+            externalURLPublisher.send(url)
         }
     }
 }
