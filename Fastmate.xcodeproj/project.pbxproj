@@ -18,7 +18,7 @@
 		5D03C07B24CC0FD500069CD2 /* ActionPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03C07A24CC0FD500069CD2 /* ActionPublisher.swift */; };
 		5D03C07D24CC970500069CD2 /* UnreadCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03C07C24CC970500069CD2 /* UnreadCount.swift */; };
 		5D0DA06F24FD7141006078CF /* FastmateNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0DA06E24FD7141006078CF /* FastmateNotificationCenter.swift */; };
-		5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0F8E94240B910A00287BD1 /* PrintManager.m */; };
+		5D0F8E95240B910A00287BD1 /* PrintController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0F8E94240B910A00287BD1 /* PrintController.m */; };
 		5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5D14A8EA22C425B400A5ACE9 /* Credits.rtf */; };
 		5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D39BEDC2122383900693D7E /* Assets.xcassets */; };
 		5D39BEE32122383900693D7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEE22122383900693D7E /* main.m */; };
@@ -81,8 +81,8 @@
 		5D03C07A24CC0FD500069CD2 /* ActionPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionPublisher.swift; sourceTree = "<group>"; };
 		5D03C07C24CC970500069CD2 /* UnreadCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadCount.swift; sourceTree = "<group>"; };
 		5D0DA06E24FD7141006078CF /* FastmateNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastmateNotificationCenter.swift; sourceTree = "<group>"; };
-		5D0F8E93240B910A00287BD1 /* PrintManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrintManager.h; sourceTree = "<group>"; };
-		5D0F8E94240B910A00287BD1 /* PrintManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrintManager.m; sourceTree = "<group>"; };
+		5D0F8E93240B910A00287BD1 /* PrintController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrintController.h; sourceTree = "<group>"; };
+		5D0F8E94240B910A00287BD1 /* PrintController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrintController.m; sourceTree = "<group>"; };
 		5D14A8EA22C425B400A5ACE9 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		5D39BED62122383800693D7E /* Fastmate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fastmate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D39BEDC2122383900693D7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -180,8 +180,8 @@
 				5D8D0F9E24B528D0004CD59F /* FastmateAppDelegate.swift */,
 				5DF6E4AA24AB737F000A7B0D /* WindowController.swift */,
 				5D5A41D524D82ED800F802FC /* WebViewController.swift */,
-				5D0F8E93240B910A00287BD1 /* PrintManager.h */,
-				5D0F8E94240B910A00287BD1 /* PrintManager.m */,
+				5D0F8E93240B910A00287BD1 /* PrintController.h */,
+				5D0F8E94240B910A00287BD1 /* PrintController.m */,
 				5D03C07524C0EF4A00069CD2 /* SettingsViewController.swift */,
 				5D03C07C24CC970500069CD2 /* UnreadCount.swift */,
 				5D0DA06E24FD7141006078CF /* FastmateNotificationCenter.swift */,
@@ -377,7 +377,7 @@
 				5D39BEE32122383900693D7E /* main.m in Sources */,
 				5D03C07B24CC0FD500069CD2 /* ActionPublisher.swift in Sources */,
 				5D5A41D624D82ED800F802FC /* WebViewController.swift in Sources */,
-				5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */,
+				5D0F8E95240B910A00287BD1 /* PrintController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,10 +9,10 @@ NS_ASSUME_NONNULL_BEGIN
  from WKWebView. Instantiates a legacy WebView-object and
  forwards the print command to it.
  */
-@interface PrintManager : NSObject
+@interface PrintController : NSObject
 
-+ (instancetype)sharedInstance;
-- (void)printWebView:(WKWebView *)webView;
+- (instancetype)initWithWebView:(WKWebView *)webView;
+- (void)print;
 
 @end
 

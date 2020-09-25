@@ -88,9 +88,9 @@ class WebViewController: NSViewController {
             .assign(to: \.stringValue, on: linkPreviewTextField)
             .store(in: &subscriptions)
 
+        let printController = PrintController(webView: webView)
         scriptController.print
-            .map { self }
-            .subscribe(FastmateAppDelegate.shared.printSubscriber)
+            .sink { printController.print() }
             .store(in: &subscriptions)
 
         NotificationCenter.default.publisher(for: NSWorkspace.didWakeNotification)

@@ -8,7 +8,6 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
 
     @Published var mainWindow: NSWindow?
     @Published private var statusItem: NSStatusItem?
-    let printSubscriber = PassthroughSubject<WebViewController, Never>()
 
     private let externalURLPublisher = PassthroughSubject<URL, Never>()
     private var subscriptions = Set<AnyCancellable>()
@@ -75,10 +74,6 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
                 self.notificationClickSubscription = FastmateNotificationCenter.shared.notificationClickPublisher
                     .subscribe($0.notificationClickSubject)
             }
-            .store(in: &subscriptions)
-
-        printSubscriber
-            .sink { PrintManager.sharedInstance().print($0.webView!) }
             .store(in: &subscriptions)
     }
 

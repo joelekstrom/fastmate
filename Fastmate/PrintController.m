@@ -1,30 +1,32 @@
-#import "PrintManager.h"
+#import "PrintController.h"
 @import WebKit;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
-@interface PrintManager() <WebFrameLoadDelegate>
+@interface PrintController() <WebFrameLoadDelegate>
 
+@property (nonatomic, weak) WKWebView *sourceView;
 @property (nonatomic, strong) WebView *webView;
 @property (nonatomic, strong) NSPrintInfo *printInfo;
 @property (nonatomic, copy) NSString *emailTitle;
 
 @end
 
-@implementation PrintManager
+@implementation PrintController
 
 + (instancetype)sharedInstance {
-    static PrintManager *sharedInstance;
+    static PrintController *sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [PrintManager new];
+        sharedInstance = [PrintController new];
     });
     return sharedInstance;
 }
 
-- (instancetype)init {
+- (instancetype)initWithWebView:(WKWebView *)webView {
     if (self = [super init]) {
+        _sourceView = webView;
         _printInfo = [NSPrintInfo sharedPrintInfo];
         _printInfo.topMargin = 25;
         _printInfo.bottomMargin = 10;
@@ -34,7 +36,7 @@
     return self;
 }
 
-- (void)printWebView:(WKWebView *)sourceView {
+- (void)print {
     NSRect webViewFrame = NSMakeRect(0, 0, self.printInfo.paperSize.width, self.printInfo.paperSize.height);
     self.webView = [[WebView alloc] initWithFrame:webViewFrame frameName:@"printFrame" groupName:@"printGroup"];
     self.webView.shouldUpdateWhileOffscreen = true;
@@ -42,12 +44,12 @@
 
     // Get e-mail title to set default name of PDF
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"– (.*) \\| Fastmail" options:0 error:nil];
-    NSTextCheckingResult *result = [regex firstMatchInString:sourceView.title options:0 range:NSMakeRange(0, sourceView.title.length)];
+    NSTextCheckingResult *result = [regex firstMatchInString:self.sourceView.title options:0 range:NSMakeRange(0, self.sourceView.title.length)];
     if (result && result.numberOfRanges > 1) {
-        self.emailTitle = [sourceView.title substringWithRange:[result rangeAtIndex:1]];
+        self.emailTitle = [self.sourceView.title substringWithRange:[result rangeAtIndex:1]];
     }
 
-    [sourceView evaluateJavaScript:@"document.documentElement.outerHTML.toString()"
+    [self.sourceView evaluateJavaScript:@"document.documentElement.outerHTML.toString()"
                  completionHandler:^(NSString *HTML, NSError *error) {
         [self.webView.mainFrame loadHTMLString:HTML baseURL:NSBundle.mainBundle.resourceURL];
     }];
@@ -60,10 +62,9 @@
 
     if ([[sender stringByEvaluatingJavaScriptFromString:@"document.readyState"] isEqualToString:@"complete"]) {
         sender.frameLoadDelegate = nil;
-        NSWindow *window = NSApp.mainWindow ?: NSApp.windows.firstObject;
         NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:frame.frameView.documentView printInfo:self.printInfo];
         printOperation.jobTitle = self.emailTitle;
-        [printOperation runOperationModalForWindow:window delegate:self didRunSelector:@selector(printOperationDidFinish) contextInfo:nil];
+        [printOperation runOperationModalForWindow:self.sourceView.window delegate:self didRunSelector:@selector(printOperationDidFinish) contextInfo:nil];
     }
 }
 
