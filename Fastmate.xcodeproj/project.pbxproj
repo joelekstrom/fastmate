@@ -12,7 +12,6 @@
 		5D03C06824BE5CD300069CD2 /* Logic.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D03C05824BE5CD200069CD2 /* Logic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D03C06B24BE5CD300069CD2 /* Logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D03C05624BE5CD200069CD2 /* Logic.framework */; };
 		5D03C06C24BE5CD300069CD2 /* Logic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D03C05624BE5CD200069CD2 /* Logic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5D03C07424BE5CFA00069CD2 /* RedirectTrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03BFB924BADF6D00069CD2 /* RedirectTrap.swift */; };
 		5D03C07824C1880100069CD2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03C07524C0EF4A00069CD2 /* SettingsViewController.swift */; };
 		5D03C07924C1880700069CD2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AC24AC5EEE000A7B0D /* Settings.swift */; };
 		5D03C07B24CC0FD500069CD2 /* ActionPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03C07A24CC0FD500069CD2 /* ActionPublisher.swift */; };
@@ -29,6 +28,8 @@
 		5DA21A162128617900C765BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DA21A142128617900C765BF /* Main.storyboard */; };
 		5DF6E4AB24AB737F000A7B0D /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AA24AB737F000A7B0D /* WindowController.swift */; };
 		5DF6E4AF24AE8F9B000A7B0D /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AE24AE8F9B000A7B0D /* VersionChecker.swift */; };
+		5DFC0B20251E68A9004293D0 /* ScriptController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFC0B1F251E68A9004293D0 /* ScriptController.swift */; };
+		5DFC0B232521226C004293D0 /* RedirectTrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03BFB924BADF6D00069CD2 /* RedirectTrap.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 		5DF6E4AA24AB737F000A7B0D /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		5DF6E4AC24AC5EEE000A7B0D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		5DF6E4AE24AE8F9B000A7B0D /* VersionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionChecker.swift; sourceTree = "<group>"; };
+		5DFC0B1F251E68A9004293D0 /* ScriptController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,15 +129,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5D03BFBC24BAE29900069CD2 /* Version checking */ = {
-			isa = PBXGroup;
-			children = (
-				5DF6E4AE24AE8F9B000A7B0D /* VersionChecker.swift */,
-				5D03BFB924BADF6D00069CD2 /* RedirectTrap.swift */,
-			);
-			name = "Version checking";
-			sourceTree = "<group>";
-		};
 		5D03C05724BE5CD200069CD2 /* Logic */ = {
 			isa = PBXGroup;
 			children = (
@@ -180,15 +173,17 @@
 				5D8D0F9E24B528D0004CD59F /* FastmateAppDelegate.swift */,
 				5DF6E4AA24AB737F000A7B0D /* WindowController.swift */,
 				5D5A41D524D82ED800F802FC /* WebViewController.swift */,
-				5D0F8E93240B910A00287BD1 /* PrintController.h */,
-				5D0F8E94240B910A00287BD1 /* PrintController.m */,
+				5DFC0B1F251E68A9004293D0 /* ScriptController.swift */,
 				5D03C07524C0EF4A00069CD2 /* SettingsViewController.swift */,
 				5D03C07C24CC970500069CD2 /* UnreadCount.swift */,
 				5D0DA06E24FD7141006078CF /* FastmateNotificationCenter.swift */,
-				5D03BFBC24BAE29900069CD2 /* Version checking */,
 				5DF6E4AC24AC5EEE000A7B0D /* Settings.swift */,
 				5D8D0F9C24B267DD004CD59F /* Alert.swift */,
 				5D03C07A24CC0FD500069CD2 /* ActionPublisher.swift */,
+				5DF6E4AE24AE8F9B000A7B0D /* VersionChecker.swift */,
+				5D03BFB924BADF6D00069CD2 /* RedirectTrap.swift */,
+				5D0F8E93240B910A00287BD1 /* PrintController.h */,
+				5D0F8E94240B910A00287BD1 /* PrintController.m */,
 				5D6E3B3A212824AF00ED16C9 /* Fastmate.js */,
 				5D39BEDC2122383900693D7E /* Assets.xcassets */,
 				5DA21A142128617900C765BF /* Main.storyboard */,
@@ -350,7 +345,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D03C07424BE5CFA00069CD2 /* RedirectTrap.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,10 +364,12 @@
 				5D03C07824C1880100069CD2 /* SettingsViewController.swift in Sources */,
 				5DF6E4AB24AB737F000A7B0D /* WindowController.swift in Sources */,
 				5D0DA06F24FD7141006078CF /* FastmateNotificationCenter.swift in Sources */,
+				5DFC0B232521226C004293D0 /* RedirectTrap.swift in Sources */,
 				5DF6E4AF24AE8F9B000A7B0D /* VersionChecker.swift in Sources */,
 				5D03C07D24CC970500069CD2 /* UnreadCount.swift in Sources */,
 				5D8D0F9F24B528D0004CD59F /* FastmateAppDelegate.swift in Sources */,
 				5D8D0F9D24B267DD004CD59F /* Alert.swift in Sources */,
+				5DFC0B20251E68A9004293D0 /* ScriptController.swift in Sources */,
 				5D39BEE32122383900693D7E /* main.m in Sources */,
 				5D03C07B24CC0FD500069CD2 /* ActionPublisher.swift in Sources */,
 				5D5A41D624D82ED800F802FC /* WebViewController.swift in Sources */,
@@ -480,7 +476,6 @@
 		5D03C07024BE5CD300069CD2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QG9T4DR8QU;
@@ -504,7 +499,6 @@
 		5D03C07124BE5CD300069CD2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QG9T4DR8QU;
@@ -636,7 +630,6 @@
 		5D39BEE82122383900693D7E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Fastmate/Fastmate.entitlements;
@@ -665,7 +658,6 @@
 		5D39BEE92122383900693D7E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Fastmate/Fastmate.entitlements;

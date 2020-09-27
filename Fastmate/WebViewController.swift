@@ -64,13 +64,13 @@ class WebViewController: NSViewController {
                 .compactMap { $0 }
         }
 
-        scriptController.documentDidChange
+        scriptController.documentDidChangePublisher
             .flatMap { _ in backgroundColorPublisherFactory() }
             .removeDuplicates()
             .assign(to: \.windowBackgroundColor, on: Settings.shared)
             .store(in: &subscriptions)
 
-        scriptController.documentDidChange
+        scriptController.documentDidChangePublisher
             .flatMap { _ in webView.scriptResultPublisher(for: "Fastmate.getMailboxUnreadCounts()")
                 .compactMap { $0 as? Dictionary<String, Int> }
                 .replaceError(with: [:])
@@ -89,7 +89,7 @@ class WebViewController: NSViewController {
             .store(in: &subscriptions)
 
         let printController = PrintController(webView: webView)
-        scriptController.print
+        scriptController.printPublisher
             .sink { printController.print() }
             .store(in: &subscriptions)
 
@@ -145,7 +145,7 @@ class WebViewController: NSViewController {
     }
 
     @IBAction func printMail(_ sender: AnyObject) {
-        scriptController.print.send()
+        scriptController.printPublisher.send()
     }
 
     @IBAction func focusSearchField(_ sender: AnyObject) {
@@ -287,94 +287,4 @@ extension WKWebView {
             }
         }.eraseToAnyPublisher()
     }
-}
-
-class ScriptController: NSObject, WKScriptMessageHandler {
-
-    let notificationPublisher: AnyPublisher<FastmateNotification, Never>
-    let userContentController = WKUserContentController()
-    let documentDidChange = PassthroughSubject<Void, Never>()
-    let print = PassthroughSubject<Void, Never>()
-    @Published private(set) var hoveredURL: URL?
-
-    private let notificationSubject = PassthroughSubject<WKScriptMessage, Never>()
-
-    private static let userScriptsDirectoryPath = (NSHomeDirectory() as NSString).appendingPathComponent("userscripts")
-
-    override init() {
-        notificationPublisher = notificationSubject
-            .compactMap { $0.body as? String }
-            .compactMap { $0.data(using: .utf8) }
-            .flatMap {
-                Just($0)
-                    .tryCompactMap { try JSONSerialization.jsonObject(with: $0, options: []) as? Dictionary<String, Any> }
-                    .replaceError(with: nil)
-                    .compactMap { $0 }
-            }
-            .compactMap { data -> FastmateNotification? in
-                guard let notificationID = data["notificationID"] as? Int, let title = data["title"] as? String else { return nil }
-                let options = data["options"] as? Dictionary<String, Any>
-                let body = options?["body"] as? String ?? ""
-                return FastmateNotification(identifier: String(notificationID), title: title, body: body)
-            }
-            .eraseToAnyPublisher()
-
-        super.init()
-        userContentController.add(self, name: "Fastmate")
-        userContentController.add(self, name: "LinkHover")
-        let fastmateSource = try! String(contentsOf: Bundle.main.url(forResource: "Fastmate", withExtension: "js")!, encoding: .utf8)
-        let fastmateScript = WKUserScript(source: fastmateSource, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-        userContentController.addUserScript(fastmateScript)
-        loadUserScripts()
-    }
-
-    private func loadUserScripts() {
-        guard let enumerator = FileManager.default.enumerator(atPath: Self.userScriptsDirectoryPath) else { return }
-
-        for obj in enumerator {
-            let filename = obj as! NSString
-            guard filename.pathExtension == "js" else { continue }
-            let filePath = Self.userScriptsDirectoryPath.appending(filename as String)
-            if let scriptContent = try? String(contentsOfFile: filePath) {
-                #warning("testa")
-                let script = WKUserScript(source: scriptContent, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-                userContentController.addUserScript(script)
-            }
-        }
-    }
-
-    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if message.name == "LinkHover" {
-            let urlString = message.body as? String
-            hoveredURL = URL(string: urlString ?? "")
-        } else if message.body as? String == "documentDidChange" {
-            documentDidChange.send()
-        } else if message.body as? String == "print" {
-            print.send()
-        } else {
-            notificationSubject.send(message)
-        }
-    }
-
-    static func createUserScriptsFolderIfNeeded() {
-        var folderExists = ObjCBool(false)
-        let path = ScriptController.userScriptsDirectoryPath
-        FileManager.default.fileExists(atPath: path, isDirectory: &folderExists)
-        if folderExists.boolValue == false {
-            createUserScriptsFolder(path: path)
-        }
-    }
-
-    private static func createUserScriptsFolder(path: String) {
-        let readmePath = (path as NSString).appendingPathComponent("README.txt")
-        let readmeData = """
-        Fastmate user scripts\n\n
-        Put JavaScript files in this folder (.js), and Fastmate will load them at document end after loading the Fastmail website.\n
-        """.data(using: .utf8)
-        do {
-            try? FileManager.default.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: nil)
-            FileManager.default.createFile(atPath: readmePath, contents: readmeData, attributes: nil)
-        }
-    }
-
 }

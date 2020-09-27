@@ -15,15 +15,6 @@
 
 @implementation PrintController
 
-+ (instancetype)sharedInstance {
-    static PrintController *sharedInstance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [PrintController new];
-    });
-    return sharedInstance;
-}
-
 - (instancetype)initWithWebView:(WKWebView *)webView {
     if (self = [super init]) {
         _sourceView = webView;

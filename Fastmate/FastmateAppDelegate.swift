@@ -11,7 +11,7 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
 
     private let externalURLPublisher = PassthroughSubject<URL, Never>()
     private var subscriptions = Set<AnyCancellable>()
-    private var versionChecker: VersionChecker!
+    private var versionChecker = VersionChecker()
 
     private var externalURLSubscription: AnyCancellable?
     private var notificationClickSubscription: AnyCancellable?
@@ -25,8 +25,6 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
         DispatchQueue.global().async {
             ScriptController.createUserScriptsFolderIfNeeded()
         }
-
-        versionChecker = VersionChecker()
     }
 
     func setupSubscriptions() {
