@@ -42,23 +42,33 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
         let unreadCount = mainWebViewPublisher
             .map(\.unreadCount)
             .switchToLatest()
-            .share()
+            .eraseToAnyPublisher()
 
-        unreadCount
-            .statusItemState(with: settings)
-            .sink {
-                self.setStatusItemVisible($0 != .hidden)
-                self.statusItem?.button?.image = $0.image()
-            }
-            .store(in: &subscriptions)
-
-        unreadCount
-            .dockBadgeLabel(with: settings)
+        Publishers.dockBadgeLabel(with: unreadCount, settings: settings)
             .assign(to: \.badgeLabel, on: NSApplication.shared.dockTile)
             .store(in: &subscriptions)
 
-        $statusItem
-            .compactMap { $0?.button?.publisher }
+        let statusItemImageName = Publishers.statusItemImageName(with: unreadCount, settings: settings)
+
+        statusItemImageName
+            .map { $0 != nil }
+            .assign(to: \.statusItemVisible, on: self)
+            .store(in: &subscriptions)
+
+        let statusItemButton = $statusItem
+            .compactMap { $0?.publisher(for: \.button) }
+            .switchToLatest()
+            .compactMap { $0 }
+
+        statusItemButton
+            .combineLatest(statusItemImageName
+                            .compactMap { $0 }
+                            .map(NSImage.init(named:)))
+            .sink { $0.image = $1 }
+            .store(in: &subscriptions)
+
+        statusItemButton
+            .map(\.actionPublisher)
             .switchToLatest()
             .sink {
                 NSApp.unhide(nil)
@@ -79,12 +89,14 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
         versionChecker.checkForUpdates()
     }
 
-    func setStatusItemVisible(_ visible: Bool) {
-        if visible, statusItem == nil {
-            statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        } else if visible == false, let item = statusItem {
-            NSStatusBar.system.removeStatusItem(item)
-            statusItem = nil
+    var statusItemVisible: Bool = false {
+        didSet {
+            if statusItemVisible, statusItem == nil {
+                statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+            } else if statusItemVisible == false, let item = statusItem {
+                NSStatusBar.system.removeStatusItem(item)
+                statusItem = nil
+            }
         }
     }
 
@@ -95,40 +107,28 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-fileprivate extension Publisher where Output == Int, Failure == Never {
-    func statusItemState(with settings: Settings) -> AnyPublisher<StatusItemState, Failure> {
-        combineLatest(settings.$shouldShowStatusBarIcon.publisher, settings.$shouldShowUnreadMailInStatusBar.publisher)
-            .map { predicates -> StatusItemState in
-                switch predicates {
-                case (let count, true, true) where count > 0: return .visibleUnread
-                case (_, true, _): return .visible
-                default: return .hidden
-                }
-        }.eraseToAnyPublisher()
-    }
-
-    func dockBadgeLabel(with settings: Settings) -> AnyPublisher<String?, Failure> {
-        combineLatest(settings.$shouldShowUnreadMailInDock.publisher, settings.$shouldShowUnreadMailCountInDock.publisher)
-            .map { predicates -> String? in
-                switch predicates {
+private extension Publishers {
+    static func dockBadgeLabel(with unreadCount: AnyPublisher<Int, Never>, settings: Settings) -> AnyPublisher<String?, Never> {
+        unreadCount.combineLatest(settings.$shouldShowUnreadMailInDock.publisher, settings.$shouldShowUnreadMailCountInDock.publisher)
+            .map {
+                switch ($0, $1, $2) {
                 case (let count, true, true) where count > 0: return String(count)
                 case (let count, true, false) where count > 0: return " "
                 default: return nil
                 }
-        }.eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
     }
-}
 
-fileprivate enum StatusItemState {
-    case visible
-    case visibleUnread
-    case hidden
-
-    func image() -> NSImage? {
-        switch self {
-        case .visible: return NSImage(named: "status-bar")
-        case .visibleUnread: return NSImage(named: "status-bar-unread")
-        case .hidden: return nil
-        }
+    static func statusItemImageName(with unreadCount: AnyPublisher<Int, Never>, settings: Settings) -> AnyPublisher<String?, Never> {
+        unreadCount.combineLatest(settings.$shouldShowStatusBarIcon.publisher, settings.$shouldShowUnreadMailInStatusBar.publisher)
+            .map {
+                switch ($0, $1, $2) {
+                case (let count, true, true) where count > 0: return "status-bar-unread"
+                case (_, true, _): return "status-bar"
+                default: return nil
+                }
+            }
+            .eraseToAnyPublisher()
     }
 }

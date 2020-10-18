@@ -4,11 +4,11 @@ import Cocoa
 protocol Actionable {
     var target: AnyObject? { get set }
     var action: Selector? { get set }
-    var publisher: Publishers.Action { get }
+    var actionPublisher: Publishers.Action { get }
 }
 
 extension Actionable {
-    var publisher: Publishers.Action {
+    var actionPublisher: Publishers.Action {
         Publishers.Action(item: self)
     }
 }

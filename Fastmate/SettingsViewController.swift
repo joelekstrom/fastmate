@@ -42,14 +42,14 @@ class SettingsViewController: NSViewController {
             .store(in: &subscriptions)
 
         Publishers.Merge3(
-            watchedFolderTypeButtonInbox.publisher.map { WatchedFolderType.selected },
-            watchedFolderTypeButtonSpecific.publisher.map { WatchedFolderType.specific },
-            watchedFolderTypeButtonAll.publisher.map { WatchedFolderType.all })
+            watchedFolderTypeButtonInbox.actionPublisher.map { WatchedFolderType.selected },
+            watchedFolderTypeButtonSpecific.actionPublisher.map { WatchedFolderType.specific },
+            watchedFolderTypeButtonAll.actionPublisher.map { WatchedFolderType.all })
             .map(\.rawValue)
             .assign(to: \.watchedFolderType, on: settings)
             .store(in: &subscriptions)
 
-        userScriptsFolderButton.publisher
+        userScriptsFolderButton.actionPublisher
             .map { (NSHomeDirectory() as NSString).appendingPathComponent("userscripts") }
             .sink { NSWorkspace.shared.openFile($0) }
             .store(in: &subscriptions)
