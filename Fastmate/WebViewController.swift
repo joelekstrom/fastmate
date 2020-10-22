@@ -253,14 +253,18 @@ extension WebViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        alertSubscription = Just(Alert.Configuration(messageText: message, buttonTitles: ["OK", "Cancel"]))
-            .displayAlert(window: webView.window!)
+        alertSubscription = Just(Alert.Builder()
+            .with(text: message)
+            .with(buttonTitles: ["OK", "Cancel"]))
+            .presentModally(in: webView.window!)
             .sink { completionHandler( $0.modalResponse == .alertFirstButtonReturn ) }
     }
 
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        alertSubscription = Just(Alert.Configuration(messageText: message, buttonTitles: ["OK"]))
-            .displayAlert(window: webView.window!)
+        alertSubscription = Just(Alert.Builder()
+            .with(text: message)
+            .with(buttonTitles: ["OK"]))
+            .presentModally(in: webView.window!)
             .sink { _ in completionHandler() }
     }
 
@@ -268,8 +272,11 @@ extension WebViewController: WKNavigationDelegate, WKUIDelegate {
         let textField = NSTextField(frame: .init(x: 0, y: 0, width: 200, height: 24))
         textField.stringValue = defaultText ?? ""
 
-        alertSubscription = Just(Alert.Configuration(messageText: prompt, buttonTitles: ["OK", "Cancel"], accessoryView: textField))
-            .displayAlert(window: webView.window!)
+        alertSubscription = Just(Alert.Builder()
+            .with(text: prompt)
+            .with(buttonTitles: ["OK", "Cancel"])
+            .with(accessoryView: textField))
+            .presentModally(in: webView.window!)
             .sink { completionHandler($0.modalResponse == .alertFirstButtonReturn ? textField.stringValue : defaultText) }
     }
 

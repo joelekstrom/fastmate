@@ -4,112 +4,98 @@ import Logic
 import Cocoa
 
 struct Versions {
-    typealias Error = RedirectTrap.Error
-
-    let current: AnyPublisher<String, Never>
-    let latest: AnyPublisher<(String, URL), Error>
-    let combined: AnyPublisher<(String, (String, URL)), Error>
-
-    init(current: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String,
-         checkURL: URL = URL(string: "https://github.com/joelekstrom/fastmate/releases/latest")!) {
-        self.current = Just(current).eraseToAnyPublisher()
-
-        latest = RedirectTrap.publisher(for: checkURL)
-            .map { ($0.lastPathComponent.trimmingCharacters(in: CharacterSet.lowercaseLetters), $0) }
-            .eraseToAnyPublisher()
-
-        combined = self.current
-            .setFailureType(to: Error.self)
-            .combineLatest(latest)
-            .handleEvents(receiveOutput: { _ in Settings.shared.lastUpdateCheckDate = Date() })
-            .eraseToAnyPublisher()
-    }
+    let current: String
+    let latest: String
+    let latestURL: URL
+    var newVersionAvailable: Bool { latest > current }
 }
 
 class VersionChecker {
     typealias Error = RedirectTrap.Error
 
-    private let manualUpdateActionSubject = PassthroughSubject<Void, Never>()
-    private var subscriptions = Set<AnyCancellable>()
+    private var applicationDidBecomeActiveSubscription: AnyCancellable?
+    private var currentVersionCheckSubscription: AnyCancellable?
 
-    init() {
-        let versions = Versions()
+    private let versions: AnyPublisher<Versions, Error>
 
-        let manualUpdateChecker = versions.combined
-            .map(Alert.Configuration.manualVersionCheckConfigurationFor(_:))
-            .catch { Just(.versionCheckFailed($0)) }
-            .displayAlert()
-            .compactMap { return $0.modalResponse == .alertFirstButtonReturn ? ($0.userInfo as? URL) : nil }
+    init(current: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String,
+         checkURL: URL = URL(string: "https://github.com/joelekstrom/fastmate/releases/latest")!) {
 
-        let automaticUpdateChecker = versions.combined
-            .map(Alert.Configuration.automaticVersionCheckConfigurationFor(_:))
-            .catch { _ in Just(nil) }
-            .compactMap { $0 }
-            .displayAlert()
-            .handleEvents(receiveOutput: { Settings.shared.automaticUpdateChecks = ($0.suppressButtonState ?? .on) == .on } )
-            .compactMap { return $0.modalResponse == .alertFirstButtonReturn ? ($0.userInfo as? URL) : nil }
+        versions = RedirectTrap.publisher(for: checkURL)
+            .map { ($0.lastPathComponent.trimmingCharacters(in: CharacterSet.lowercaseLetters), $0) }
+            .map { Versions(current: current, latest: $0.0, latestURL: $0.1)  }
+            .handleEvents(receiveOutput: { _ in Settings.shared.lastUpdateCheckDate = Date() })
+            .eraseToAnyPublisher()
 
-        manualUpdateActionSubject
-            .map { manualUpdateChecker }
-            .switchToLatest()
-            .sink { NSWorkspace.shared.open($0) }
-            .store(in: &subscriptions)
-
-        NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
-            .map { _ in (Settings.shared.automaticUpdateChecks, Settings.shared.lastUpdateCheckDate) }
-            .filter { return $0 && Calendar.current.dateComponents([.day], from: $1, to: Date()).day ?? 0 >= 7 }
-            .map { _ in automaticUpdateChecker }
-            .switchToLatest()
-            .sink { NSWorkspace.shared.open($0) }
-            .store(in: &subscriptions)
+        let automaticUpdateChecksEnabled = Settings.shared.$automaticUpdateChecks.publisher
+        let lastUpdateCheckDate = Settings.shared.$lastUpdateCheckDate.publisher
+        applicationDidBecomeActiveSubscription = NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
+            .zip(automaticUpdateChecksEnabled, lastUpdateCheckDate)
+            .map(\.1, \.2)
+            .filter(shouldCheckForUpdates)
+            .sink { [weak self] _ in self?.performAutomaticUpdateCheck() }
     }
 
     func checkForUpdates() {
-        manualUpdateActionSubject.send()
+        performUserInitiatedUpdateCheck()
+    }
+
+    private func performUserInitiatedUpdateCheck() {
+        currentVersionCheckSubscription = versions
+            .map(\.alertBuilder)
+            .catch { Just(Alert.Builder().withVersionCheckFailed($0)) }
+            .presentModally()
+            .compactMap { return $0.modalResponse == .alertFirstButtonReturn ? ($0.userInfo as? URL) : nil }
+            .sink { NSWorkspace.shared.open($0) }
+    }
+
+    private func performAutomaticUpdateCheck() {
+        currentVersionCheckSubscription = versions
+            .filter(\.newVersionAvailable)
+            .map(\.alertBuilder)
+            .map { $0.with(suppressButton: (title: "Check for new versions automatically", state: .on)) as Alert.Builder? }
+            .replaceError(with: nil)
+            .compactMap { $0 }
+            .presentModally()
+            .compactMap { return $0.modalResponse == .alertFirstButtonReturn ? ($0.userInfo as? URL) : nil }
+            .sink { NSWorkspace.shared.open($0) }
     }
 }
 
-extension Alert.Configuration {
-    typealias Versions = (current: String, latest: (String, URL))
+private func shouldCheckForUpdates(autoUpdatesEnabled: Bool, lastUpdate: Date) -> Bool {
+    guard autoUpdatesEnabled else { return false }
+    let numberOfDaysSinceLastUpdateCheck = Calendar.current.dateComponents([.day], from: lastUpdate, to: Date()).day ?? 0
+    return numberOfDaysSinceLastUpdateCheck >= 7
+}
 
-    static func manualVersionCheckConfigurationFor(_ versions: Versions) -> Self {
-        let newVersionAvailable = versions.latest.0 > versions.current
-        return newVersionAvailable ? newVersion(versions) : usingLatestVersion(versions.current)
+extension Versions {
+    var alertBuilder: Alert.Builder {
+        let builder = Alert.Builder()
+        return newVersionAvailable
+            ? builder.withNewVersionAvailable(versions: self)
+            : builder.withVersionUpToDate(current)
+    }
+}
+
+extension Alert.Builder {
+
+    func withNewVersionAvailable(versions: Versions) -> Alert.Builder {
+        self.with(text: "New version available: \(versions.latest)")
+            .with(informativeText: "You're currently using \(versions.current)")
+            .with(buttonTitles: ["Take me there!", "Cancel"])
+            .with(userInfo: versions.latestURL) as! Self
     }
 
-    static func automaticVersionCheckConfigurationFor(_ versions: Versions) -> Self? {
-        var config: Self?
-        if versions.latest.0 > versions.current {
-            config = newVersion(versions)
-            config!.suppressionButtonTitle = "Check for new versions automatically"
-            config!.suppressionButtonState = .on
-        }
-        return config
+    func withVersionUpToDate(_ version: String) -> Alert.Builder {
+        self.with(text: "Up to date!")
+            .with(informativeText: "You're on the latest version. (\(version))")
+            .with(buttonTitles: ["Nice!"])
     }
 
-    static func newVersion(_ versions: Versions) -> Self {
-        .init(
-            messageText: "New version available: \(versions.latest.0)",
-            informativeText: "You're currently using \(versions.current)",
-            buttonTitles: ["Take me there!", "Cancel"],
-            userInfo: versions.latest.1
-        )
-    }
-
-    static func usingLatestVersion(_ version: String) -> Self {
-        Alert.Configuration(
-            messageText: "Up to date!",
-            informativeText: "You're on the latest version. (\(version))",
-            buttonTitles: ["Nice!"]
-        )
-    }
-
-    static func versionCheckFailed(_ error: RedirectTrap.Error) -> Self {
-        Alert.Configuration(
-            messageText: "Couldn't fetch latest version",
-            informativeText: error.localizedDescription,
-            buttonTitles: ["Darn it!"],
-            style: .warning
-        )
+    func withVersionCheckFailed(_ error: RedirectTrap.Error) -> Alert.Builder {
+        self.with(text: "Couldn't fetch latest version")
+            .with(informativeText: error.errorDescription ?? "")
+            .with(buttonTitles: ["Darn it!"])
+            .with(style: .warning)
     }
 }

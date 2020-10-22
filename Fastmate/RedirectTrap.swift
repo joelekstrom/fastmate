@@ -29,11 +29,11 @@ public enum RedirectTrap {
             .eraseToAnyPublisher()
     }
 
-    public enum Error: Swift.Error {
+    public enum Error: LocalizedError {
         case didNotRedirect
         case requestFailed(reason: Swift.Error)
 
-        var localizedDescription: String {
+        public var errorDescription: String? {
             switch self {
             case .didNotRedirect: return "URL to latest version did not redirect. Fastmate might have to be updated manually.\n\nContact fastmate@ekstrom.dev for additional support."
             case .requestFailed(let reason): return reason.localizedDescription

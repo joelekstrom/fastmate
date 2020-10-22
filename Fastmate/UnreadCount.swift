@@ -1,12 +1,12 @@
 import Combine
 
 // Extracts total unread count from a dictionary with folder name -> count
-func totalUnreadCount(for folders: [String: Int]) -> Int {
+private func totalUnreadCount(for folders: [String: Int]) -> Int {
     folders.reduce(0, { $0 + $1.value })
 }
 
 // Extracts unread count from a Fastmail web view title
-func extractUnreadCount(from title: String) -> Int {
+private func extractUnreadCount(from title: String) -> Int {
     let regex = try! NSRegularExpression(pattern: "^(\\d+) •", options: .anchorsMatchLines)
     let result = regex.firstMatch(in: title, options: [], range: NSRange(location: 0, length: title.count))
     if let result = result, result.numberOfRanges > 1 {
@@ -36,8 +36,8 @@ extension WebViewController {
                     .split(separator: ",")
                     .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
                 return mailboxes.filter { title, _ in watchedFolders?.contains(title) ?? false }
-        }
-        .map(totalUnreadCount(for:))
+            }
+            .map(totalUnreadCount(for:))
 
         return Settings.shared.$watchedFolderType.publisher
             .compactMap { type -> UnreadCountPublisher? in
@@ -47,10 +47,10 @@ extension WebViewController {
                 case .specific: return specificFoldersCount.eraseToAnyPublisher()
                 default: return nil
                 }
-        }
-        .switchToLatest()
-        .removeDuplicates()
-        .eraseToAnyPublisher()
+            }
+            .switchToLatest()
+            .removeDuplicates()
+            .eraseToAnyPublisher()
     }
 }
 

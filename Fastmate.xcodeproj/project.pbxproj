@@ -21,6 +21,7 @@
 		5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5D14A8EA22C425B400A5ACE9 /* Credits.rtf */; };
 		5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D39BEDC2122383900693D7E /* Assets.xcassets */; };
 		5D39BEE32122383900693D7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEE22122383900693D7E /* main.m */; };
+		5D3DC58B2526EA4A006538F9 /* RedirectTrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03BFB924BADF6D00069CD2 /* RedirectTrap.swift */; };
 		5D5A41D624D82ED800F802FC /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5A41D524D82ED800F802FC /* WebViewController.swift */; };
 		5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3A212824AF00ED16C9 /* Fastmate.js */; };
 		5D8D0F9D24B267DD004CD59F /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D0F9C24B267DD004CD59F /* Alert.swift */; };
@@ -29,7 +30,6 @@
 		5DF6E4AB24AB737F000A7B0D /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AA24AB737F000A7B0D /* WindowController.swift */; };
 		5DF6E4AF24AE8F9B000A7B0D /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AE24AE8F9B000A7B0D /* VersionChecker.swift */; };
 		5DFC0B20251E68A9004293D0 /* ScriptController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFC0B1F251E68A9004293D0 /* ScriptController.swift */; };
-		5DFC0B232521226C004293D0 /* RedirectTrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03BFB924BADF6D00069CD2 /* RedirectTrap.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -345,6 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D3DC58B2526EA4A006538F9 /* RedirectTrap.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,7 +365,6 @@
 				5D03C07824C1880100069CD2 /* SettingsViewController.swift in Sources */,
 				5DF6E4AB24AB737F000A7B0D /* WindowController.swift in Sources */,
 				5D0DA06F24FD7141006078CF /* FastmateNotificationCenter.swift in Sources */,
-				5DFC0B232521226C004293D0 /* RedirectTrap.swift in Sources */,
 				5DF6E4AF24AE8F9B000A7B0D /* VersionChecker.swift in Sources */,
 				5D03C07D24CC970500069CD2 /* UnreadCount.swift in Sources */,
 				5D8D0F9F24B528D0004CD59F /* FastmateAppDelegate.swift in Sources */,
@@ -476,6 +476,7 @@
 		5D03C07024BE5CD300069CD2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QG9T4DR8QU;
@@ -499,6 +500,7 @@
 		5D03C07124BE5CD300069CD2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QG9T4DR8QU;
@@ -630,6 +632,7 @@
 		5D39BEE82122383900693D7E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Fastmate/Fastmate.entitlements;
@@ -658,6 +661,7 @@
 		5D39BEE92122383900693D7E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Fastmate/Fastmate.entitlements;
