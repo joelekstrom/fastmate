@@ -16,21 +16,16 @@ class ScriptController: NSObject, WKScriptMessageHandler {
     private static let userScriptsDirectoryPath = (NSHomeDirectory() as NSString).appendingPathComponent("userscripts")
 
     override init() {
+
         notificationPublisher = notificationSubject
             .compactMap { $0.body as? String }
             .compactMap { $0.data(using: .utf8) }
-            .flatMap {
-                Just($0)
-                    .tryCompactMap { try JSONSerialization.jsonObject(with: $0, options: []) as? Dictionary<String, Any> }
-                    .replaceError(with: nil)
-                    .compactMap { $0 }
+            .flatMap { Just($0)
+                .tryCompactMap { try JSONSerialization.jsonObject(with: $0, options: []) as? Dictionary<String, Any> }
+                .replaceError(with: nil)
+                .compactMap { $0 }
             }
-            .compactMap { data -> FastmateNotification? in
-                guard let notificationID = data["notificationID"] as? Int, let title = data["title"] as? String else { return nil }
-                let options = data["options"] as? Dictionary<String, Any>
-                let body = options?["body"] as? String ?? ""
-                return FastmateNotification(identifier: String(notificationID), title: title, body: body)
-            }
+            .compactMap(extractNotification)
             .eraseToAnyPublisher()
 
         super.init()
@@ -89,5 +84,17 @@ class ScriptController: NSObject, WKScriptMessageHandler {
             FileManager.default.createFile(atPath: readmePath, contents: readmeData, attributes: nil)
         }
     }
+}
 
+private func extractNotification(jsonData: Dictionary<String, Any>) -> FastmateNotification? {
+    guard
+        let notificationID = jsonData["notificationID"] as? Int,
+        let title = jsonData["title"] as? String
+    else {
+        return nil
+    }
+
+    let options = jsonData["options"] as? Dictionary<String, Any>
+    let body = options?["body"] as? String ?? ""
+    return FastmateNotification(identifier: String(notificationID), title: title, body: body)
 }
