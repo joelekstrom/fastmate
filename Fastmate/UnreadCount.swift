@@ -30,7 +30,7 @@ extension WebViewController {
         let allFoldersCount = $mailboxCounts
             .map(totalUnreadCount(for:))
 
-        let specificFoldersCount = $mailboxCounts.combineLatest(Settings.shared.$watchedFolders.publisher)
+        let specificFoldersCount = $mailboxCounts.combineLatest(Settings.shared.$watchedFolders)
             .map { mailboxes, watchedFolderString in
                 let watchedFolders = watchedFolderString?
                     .split(separator: ",")
@@ -39,7 +39,7 @@ extension WebViewController {
             }
             .map(totalUnreadCount(for:))
 
-        return Settings.shared.$watchedFolderType.publisher
+        return Settings.shared.$watchedFolderType
             .compactMap { type -> UnreadCountPublisher? in
                 switch WatchedFolderType(rawValue: type) {
                 case .selected: return titleCount.eraseToAnyPublisher()

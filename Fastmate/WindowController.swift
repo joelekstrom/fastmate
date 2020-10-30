@@ -27,14 +27,14 @@ class WindowController: NSWindowController, NSWindowDelegate {
             .assign(to: \.title, on: window)
             .store(in: &subscriptions)
 
-        settings.$mainWindowFrame.publisher
+        settings.$mainWindowFrame
             .first()
             .compactMap { $0 }
             .map(NSRectFromString(_:))
             .sink { window.setFrame($0, display: false) }
             .store(in: &subscriptions)
 
-        let transparentTitleBarPublisher = settings.$shouldUseTransparentTitleBar.publisher
+        let transparentTitleBarPublisher = settings.$shouldUseTransparentTitleBar
             .removeDuplicates()
 
         transparentTitleBarPublisher
@@ -52,7 +52,7 @@ class WindowController: NSWindowController, NSWindowDelegate {
             .assign(to: \.mainWindowFrame, on: settings)
             .store(in: &subscriptions)
 
-        settings.$windowBackgroundColor.publisher
+        settings.$windowBackgroundColor
             .removeDuplicates()
             .map { try! NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: $0) }
             .assign(to: \.backgroundColor, on: window)

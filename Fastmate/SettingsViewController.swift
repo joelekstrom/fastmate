@@ -18,7 +18,7 @@ class SettingsViewController: NSViewController {
         super.viewDidLoad()
         let settings = Settings.shared
 
-        let watchedFolderType = settings.$watchedFolderType.publisher
+        let watchedFolderType = settings.$watchedFolderType
             .map { WatchedFolderType(rawValue: $0) ?? .selected }
             .receive(on: DispatchQueue.main)
 
@@ -31,12 +31,12 @@ class SettingsViewController: NSViewController {
             .assign(to: \.isEnabled, on: watchedFoldersTextField)
             .store(in: &subscriptions)
 
-        settings.$shouldShowStatusBarIcon.publisher
+        settings.$shouldShowStatusBarIcon
             .receive(on: DispatchQueue.main)
             .assign(to: \.isEnabled, on: showUnreadInStatusBarButton)
             .store(in: &subscriptions)
 
-        settings.$shouldShowUnreadMailInDock.publisher
+        settings.$shouldShowUnreadMailInDock
             .receive(on: DispatchQueue.main)
             .assign(to: \.isEnabled, on: showUnreadCountInDockButton)
             .store(in: &subscriptions)

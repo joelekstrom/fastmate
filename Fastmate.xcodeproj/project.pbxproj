@@ -13,7 +13,6 @@
 		5D03C06B24BE5CD300069CD2 /* Logic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D03C05624BE5CD200069CD2 /* Logic.framework */; };
 		5D03C06C24BE5CD300069CD2 /* Logic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D03C05624BE5CD200069CD2 /* Logic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5D03C07824C1880100069CD2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03C07524C0EF4A00069CD2 /* SettingsViewController.swift */; };
-		5D03C07924C1880700069CD2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AC24AC5EEE000A7B0D /* Settings.swift */; };
 		5D03C07B24CC0FD500069CD2 /* ActionPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03C07A24CC0FD500069CD2 /* ActionPublisher.swift */; };
 		5D03C07D24CC970500069CD2 /* UnreadCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03C07C24CC970500069CD2 /* UnreadCount.swift */; };
 		5D0DA06F24FD7141006078CF /* FastmateNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0DA06E24FD7141006078CF /* FastmateNotificationCenter.swift */; };
@@ -24,6 +23,7 @@
 		5D3DC58B2526EA4A006538F9 /* RedirectTrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D03BFB924BADF6D00069CD2 /* RedirectTrap.swift */; };
 		5D5A41D624D82ED800F802FC /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5A41D524D82ED800F802FC /* WebViewController.swift */; };
 		5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3A212824AF00ED16C9 /* Fastmate.js */; };
+		5D72030B2541B50800A9E894 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF6E4AC24AC5EEE000A7B0D /* Settings.swift */; };
 		5D8D0F9D24B267DD004CD59F /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D0F9C24B267DD004CD59F /* Alert.swift */; };
 		5D8D0F9F24B528D0004CD59F /* FastmateAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D0F9E24B528D0004CD59F /* FastmateAppDelegate.swift */; };
 		5DA21A162128617900C765BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DA21A142128617900C765BF /* Main.storyboard */; };
@@ -361,9 +361,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D03C07924C1880700069CD2 /* Settings.swift in Sources */,
 				5D03C07824C1880100069CD2 /* SettingsViewController.swift in Sources */,
 				5DF6E4AB24AB737F000A7B0D /* WindowController.swift in Sources */,
+				5D72030B2541B50800A9E894 /* Settings.swift in Sources */,
 				5D0DA06F24FD7141006078CF /* FastmateNotificationCenter.swift in Sources */,
 				5DF6E4AF24AE8F9B000A7B0D /* VersionChecker.swift in Sources */,
 				5D03C07D24CC970500069CD2 /* UnreadCount.swift in Sources */,

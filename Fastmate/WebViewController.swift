@@ -19,7 +19,7 @@ class WebViewController: NSViewController {
     private var alertSubscription: AnyCancellable?
     private var subscriptions = Set<AnyCancellable>()
 
-    private let baseURLPublisher = Settings.shared.$shouldUseFastmailBeta.publisher
+    private let baseURLPublisher = Settings.shared.$shouldUseFastmailBeta
         .map { URL(string: $0 ? "https://beta.fastmail.com" : "https://www.fastmail.com")! }
 
     override func viewDidLoad() {

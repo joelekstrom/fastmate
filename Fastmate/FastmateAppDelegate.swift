@@ -109,7 +109,7 @@ class FastmateAppDelegate: NSObject, NSApplicationDelegate {
 
 private extension Publishers {
     static func dockBadgeLabel(with unreadCount: AnyPublisher<Int, Never>, settings: Settings) -> AnyPublisher<String?, Never> {
-        unreadCount.combineLatest(settings.$shouldShowUnreadMailInDock.publisher, settings.$shouldShowUnreadMailCountInDock.publisher)
+        unreadCount.combineLatest(settings.$shouldShowUnreadMailInDock, settings.$shouldShowUnreadMailCountInDock)
             .map {
                 switch ($0, $1, $2) {
                 case (let count, true, true) where count > 0: return String(count)
@@ -121,7 +121,7 @@ private extension Publishers {
     }
 
     static func statusItemImageName(with unreadCount: AnyPublisher<Int, Never>, settings: Settings) -> AnyPublisher<String?, Never> {
-        unreadCount.combineLatest(settings.$shouldShowStatusBarIcon.publisher, settings.$shouldShowUnreadMailInStatusBar.publisher)
+        unreadCount.combineLatest(settings.$shouldShowStatusBarIcon, settings.$shouldShowUnreadMailInStatusBar)
             .map {
                 switch ($0, $1, $2) {
                 case (let count, true, true) where count > 0: return "status-bar-unread"

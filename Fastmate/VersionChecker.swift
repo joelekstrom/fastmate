@@ -27,8 +27,8 @@ class VersionChecker {
             .handleEvents(receiveOutput: { _ in Settings.shared.lastUpdateCheckDate = Date() })
             .eraseToAnyPublisher()
 
-        let automaticUpdateChecksEnabled = Settings.shared.$automaticUpdateChecks.publisher
-        let lastUpdateCheckDate = Settings.shared.$lastUpdateCheckDate.publisher
+        let automaticUpdateChecksEnabled = Settings.shared.$automaticUpdateChecks
+        let lastUpdateCheckDate = Settings.shared.$lastUpdateCheckDate
         applicationDidBecomeActiveSubscription = NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
             .zip(automaticUpdateChecksEnabled, lastUpdateCheckDate)
             .map(\.1, \.2)

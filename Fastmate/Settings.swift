@@ -69,7 +69,7 @@ class Settings {
     }
 }
 
-protocol PropertyListValue {}
+protocol PropertyListValue: Equatable {}
 extension Data: PropertyListValue {}
 extension String: PropertyListValue {}
 extension Date: PropertyListValue {}
@@ -82,70 +82,82 @@ extension Array: PropertyListValue where Element: PropertyListValue {}
 extension Dictionary: PropertyListValue where Key == String, Value: PropertyListValue {}
 
 protocol OptionalProtocol {
-    func isSome() -> Bool
+    var isSome: Bool { get }
+    var isNil: Bool { get }
 }
 
 extension Optional: OptionalProtocol {
-    func isSome() -> Bool {
+    var isSome: Bool {
         switch self {
         case .none: return false
         case .some: return true
         }
     }
+
+    var isNil: Bool { !isSome }
 }
 
 @propertyWrapper
-struct UserDefault<T: PropertyListValue> {
-    let key: UserDefaultsKey
-    let publisher: CurrentValueSubject<T, Never>
+class UserDefault<T: PropertyListValue> {
+    let key: String
+    private let subject: CurrentValueSubject<T, Never>
+    private let defaults: UserDefaults
+    private let subscription: AnyCancellable?
 
-    public init(key: UserDefaultsKey, defaultValue: T) {
-        self.key = key
+    public init(key: UserDefaultsKey, defaultValue: T, defaults: UserDefaults = UserDefaults.standard) {
+        self.key = key.rawValue
+        self.defaults = defaults
         var value = defaultValue
-        if let stored = UserDefaults.standard.value(forKey: key.rawValue) as? T {
+        if let stored = defaults.value(forKey: key.rawValue) as? T {
             value = stored
         }
-        let publisher = CurrentValueSubject<T, Never>(value)
-        self.publisher = publisher
-        self.observer = DefaultsObservation(key: key) {_, new in publisher.value = new ?? defaultValue }
+        let subject = CurrentValueSubject<T, Never>(value)
+        self.subject = subject
+        self.observer = DefaultsObservation<T>(key: key.rawValue, defaults: defaults) { _, new in
+            subject.value = new ?? defaultValue
+        }
+
+        subscription = subject
+            .dropFirst()
+            .removeDuplicates()
+            .sink {
+                if let optional = $0 as? OptionalProtocol, optional.isNil {
+                    defaults.removeObject(forKey: key.rawValue)
+                } else {
+                    defaults.set($0, forKey: key.rawValue)
+                }
+            }
     }
 
-    var projectedValue: UserDefault<T> { return self }
+    var projectedValue: CurrentValueSubject<T, Never> { self.subject }
     private let observer: DefaultsObservation<T>
 
     var wrappedValue: T {
-        get { publisher.value }
-        set {
-            publisher.send(newValue)
-            if newValue is OptionalProtocol {
-                if (newValue as! OptionalProtocol).isSome() == false {
-                    UserDefaults.standard.removeObject(forKey: key.rawValue)
-                    return
-                }
-            }
-            UserDefaults.standard.set(newValue, forKey: key.rawValue)
-        }
+        get { subject.value }
+        set { subject.value = newValue }
     }
 }
 
 class DefaultsObservation<T: PropertyListValue>: NSObject {
-    let key: UserDefaultsKey
+    let key: String
     private var onChange: (T?, T?) -> Void
+    private let defaults: UserDefaults
 
-    init(key: UserDefaultsKey, onChange: @escaping (T?, T?) -> Void) {
+    init(key: String, defaults: UserDefaults, onChange: @escaping (T?, T?) -> Void) {
         self.onChange = onChange
         self.key = key
+        self.defaults = defaults
         super.init()
-        UserDefaults.standard.addObserver(self, forKeyPath: key.rawValue, options: [.old, .new], context: nil)
+        defaults.addObserver(self, forKeyPath: key, options: [.old, .new], context: nil)
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        guard let change = change, object != nil, keyPath == key.rawValue else { return }
+        guard let change = change, object != nil, keyPath == key else { return }
         onChange(change[.oldKey] as? T, change[.newKey] as? T)
     }
 
     deinit {
-        UserDefaults.standard.removeObserver(self, forKeyPath: key.rawValue, context: nil)
+        defaults.removeObserver(self, forKeyPath: key, context: nil)
     }
 }
 
