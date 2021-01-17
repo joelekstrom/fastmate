@@ -227,12 +227,11 @@ extension WebViewController: WKNavigationDelegate, WKUIDelegate {
             decisionHandler(.cancel)
             temporaryWebView = nil
         } else if navigationAction.request.url?.host?.hasSuffix(".fastmailusercontent.com") ?? false {
-            let components = URLComponents(url: navigationAction.request.url!, resolvingAgainstBaseURL: false)
-            let shouldDownload = (components?.queryItems?.firstIndex(where: { $0.name == "download" && $0.value == "1" }) ?? NSNotFound) != NSNotFound
+            let shouldDownload = navigationAction.request.url?.isFastmailDownloadURL == true
             if shouldDownload {
                 NSWorkspace.shared.open(navigationAction.request.url!)
             }
-            decisionHandler(shouldDownload == false ? .allow : .cancel)
+            decisionHandler(shouldDownload ? .cancel : .allow)
         } else if isFastmailLink {
             decisionHandler(.allow)
         } else {
@@ -280,6 +279,15 @@ extension WebViewController: WKNavigationDelegate, WKUIDelegate {
             .sink { completionHandler($0.modalResponse == .alertFirstButtonReturn ? textField.stringValue : defaultText) }
     }
 
+}
+
+extension URL {
+    var isFastmailDownloadURL: Bool {
+        let components = URLComponents(url: self, resolvingAgainstBaseURL: false)
+        let hasDownloadQueryItem = (components?.queryItems?.firstIndex(where: { $0.name == "download" && $0.value == "1" }) ?? NSNotFound) != NSNotFound
+        let hasDownloadPath = components?.path.hasPrefix("/jmap/download/") ?? false
+        return hasDownloadQueryItem || hasDownloadPath
+    }
 }
 
 extension WKWebView {
