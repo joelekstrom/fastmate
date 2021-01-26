@@ -89,7 +89,17 @@
     BOOL hasDownloadQueryItem = [components.queryItems indexOfObjectPassingTest:^BOOL(NSURLQueryItem *item, NSUInteger index, BOOL *stop) {
         return [item.name isEqualToString:@"download"] && [item.value isEqualToString:@"1"];
     }] != NSNotFound;
-    return hasDownloadQueryItem || [components.path hasPrefix:@"/jmap/download/"];
+
+    if (hasDownloadQueryItem) {
+        return YES;
+    }
+
+    // We want to display PDF's inline if it wasn't a specific request for download
+    if ([components.path hasSuffix:@".pdf"]) {
+        return NO;
+    }
+
+    return [components.path hasPrefix:@"/jmap/download/"];
 }
 
 - (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
