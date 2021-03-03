@@ -63,14 +63,14 @@
 }
 
 - (void)setWebViewTitle:(NSString *)title {
-    if (![_webViewTitle isEqualToString:title]) {
+    if (![_webViewTitle isEqual:title]) {
         _webViewTitle = title;
         [self updateUnreadCount];
     }
 }
 
 - (void)setMailBoxes:(NSDictionary<NSString *,NSNumber *> *)mailBoxes {
-    if (![_mailBoxes isEqualToDictionary:mailBoxes]) {
+    if (![_mailBoxes isEqual:mailBoxes]) {
         _mailBoxes = mailBoxes;
         [self updateUnreadCount];
     }
@@ -98,12 +98,12 @@
             break;
         case WatchedFolderTypeSpecific: {
             for (NSString *folder in [self watchedFolders]) {
-                totalCount += self.webViewController.mailboxes[folder].integerValue;
+                totalCount += self.mailBoxes[folder].integerValue;
             }
             break;
         }
         case WatchedFolderTypeAll:
-            for (NSNumber *count in self.webViewController.mailboxes.allValues) {
+            for (NSNumber *count in self.mailBoxes.allValues) {
                 totalCount += count.integerValue;
             }
             break;

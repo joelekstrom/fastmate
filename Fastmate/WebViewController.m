@@ -134,11 +134,11 @@
 
 - (void)updateUnreadCounts {
     [self.webView evaluateJavaScript:@"Fastmate.getMailboxUnreadCounts()" completionHandler:^(id response, NSError *error) {
-        if (![response isKindOfClass:[NSDictionary class]]) {
+        if ([response isKindOfClass:NSDictionary.class]) {
+            self.mailboxes = response;
+        } else {
             self.mailboxes = nil;
-            return;
         }
-        self.mailboxes = response;
     }];
 }
 
