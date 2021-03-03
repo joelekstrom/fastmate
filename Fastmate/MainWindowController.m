@@ -31,14 +31,15 @@
         [self.window setFrame:frame display:NO];
     }
 
+    __weak typeof(self) weakSelf = self;
     self.titleBarSettingObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldUseTransparentTitleBarKey block:^(BOOL transparent) {
-        self.window.titlebarAppearsTransparent = transparent;
-        self.window.titleVisibility = transparent ? NSWindowTitleHidden : NSWindowTitleVisible;
+        weakSelf.window.titlebarAppearsTransparent = transparent;
+        weakSelf.window.titleVisibility = transparent ? NSWindowTitleHidden : NSWindowTitleVisible;
     }];
 
     self.titleObserver = [KVOBlockObserver observe:self keyPath:@"contentViewController.webView.title" block:^(id  _Nonnull value) {
         if ([value isKindOfClass:NSString.class]) {
-            self.window.title = value;
+            weakSelf.window.title = value;
         }
     }];
 }

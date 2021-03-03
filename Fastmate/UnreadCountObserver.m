@@ -24,8 +24,9 @@
 }
 
 - (void)registerObservers {
+    __weak typeof(self) weakSelf = self;
     void (^updateBlock)(id) = ^(id _) {
-        [self updateUnreadCount];
+        [weakSelf updateUnreadCount];
     };
 
     NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
@@ -38,10 +39,10 @@
         [[KVOBlockObserver alloc] initWithObject:defaults keyPath:WatchedFolderTypeKey block:updateBlock],
         [[KVOBlockObserver alloc] initWithObject:defaults keyPath:WatchedFoldersKey block:updateBlock],
         [[KVOBlockObserver alloc] initWithObject:self keyPath:@"webViewController.mailboxes" block:^(NSDictionary *mailboxes) {
-            self.mailBoxes = mailboxes;
+            weakSelf.mailBoxes = mailboxes;
         }],
         [[KVOBlockObserver alloc] initWithObject:self keyPath:@"webViewController.webView.title" block:^(NSString *title) {
-            self.webViewTitle = title;
+            weakSelf.webViewTitle = title;
         }],
     ];
     updateBlock(nil);

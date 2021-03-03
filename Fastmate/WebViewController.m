@@ -33,12 +33,12 @@
     self.webView.UIDelegate = self;
     [self.view addSubview:self.webView];
 
+    __weak typeof(self) weakSelf = self;
     self.currentURLObserver = [KVOBlockObserver observe:self keyPath:@"webView.URL" block:^(id _Nonnull value) {
-        [self queryToolbarColor];
-        [self adjustV67Width];
+        [weakSelf queryToolbarColor];
+        [weakSelf adjustV67Width];
     }];
 
-    __weak typeof(self) weakSelf = self;
     self.baseURLObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldUseFastmailBetaKey block:^(BOOL useBeta) {
         NSString *baseURLString = useBeta ? @"https://beta.fastmail.com" : @"https://www.fastmail.com";
         weakSelf.baseURL = [NSURL URLWithString:baseURLString];
