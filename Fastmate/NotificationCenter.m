@@ -46,6 +46,7 @@
         UNMutableNotificationContent *content = [UNMutableNotificationContent new];
         content.title = title;
         content.subtitle = body;
+        content.sound = UNNotificationSound.defaultSound;
 
         UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:identifier
                                                                               content:content
