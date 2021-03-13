@@ -62,14 +62,17 @@
         return;
     }
 
-    if ([[sender stringByEvaluatingJavaScriptFromString:@"document.readyState"] isEqualToString:@"complete"]) {
-        sender.frameLoadDelegate = nil;
-        NSWindow *window = NSApp.mainWindow ?: NSApp.windows.firstObject;
-        NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:frame.frameView.documentView printInfo:self.printInfo];
-        printOperation.jobTitle = self.emailTitle;
-        self.currentOperation = printOperation;
-        [printOperation runOperationModalForWindow:window delegate:self didRunSelector:@selector(printOperationDidFinish) contextInfo:nil];
-    }
+    // Dispatch to fix a bug where document.readyState is never complete the first time after app launch
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if ([[sender stringByEvaluatingJavaScriptFromString:@"document.readyState"] isEqualToString:@"complete"]) {
+            sender.frameLoadDelegate = nil;
+            NSWindow *window = NSApp.mainWindow ?: NSApp.windows.firstObject;
+            NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:frame.frameView.documentView printInfo:self.printInfo];
+            printOperation.jobTitle = self.emailTitle;
+            self.currentOperation = printOperation;
+            [printOperation runOperationModalForWindow:window delegate:self didRunSelector:@selector(printOperationDidFinish) contextInfo:nil];
+        }
+    });
 }
 
 - (void)printOperationDidFinish {
