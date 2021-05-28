@@ -10,6 +10,7 @@ A native [Fastmail](https://www.fastmail.com/)-wrapper for Mac.
 - Dock badge for unread mail
 - Status bar notifier (has to be enabled in settings)
 - OSX shortcuts (<kbd>⌘N</kbd> for new draft, <kbd>⌘F</kbd> to search mail)
+- User scripts
 - Uses the system web stack
 
 ![screenshot](screenshot.png)
@@ -20,6 +21,14 @@ Pre-built binaries can be found on the [release page](https://github.com/joeleks
 
 ## Enabling push notifications
 For Fastmate to receive push notifications for new e-mail, it has to be enabled within the _Fastmail_ settings from within Fastmate. It's disabled by default. Click the Fastmail logo in the top left of the window -> Settings -> Notifications -> check "Show a notification" for new messages.
+
+## Setting as default e-mail software
+If you want Fastmate to be the handler of `mailto://`-links, follow the guide at https://support.apple.com/en-us/HT201607 and choose Fastmate as "Default e-mail reader".
+
+## Adding user scripts
+Click Fastmate -> Preferences... -> User Scripts...
+
+this will open a Finder-window with a folder where you can put `.js` files with your custom scripts.
 
 ## Troubleshooting
 
