@@ -42,7 +42,8 @@
     self.baseURLObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldUseFastmailBetaKey block:^(BOOL useBeta) {
         NSString *baseURLString = useBeta ? @"https://beta.fastmail.com" : @"https://www.fastmail.com";
         weakSelf.baseURL = [NSURL URLWithString:baseURLString];
-        [weakSelf.webView loadRequest:[NSURLRequest requestWithURL:weakSelf.baseURL]];
+        NSURL *mailURL = [weakSelf.baseURL URLByAppendingPathComponent:@"mail" isDirectory:YES];
+        [weakSelf.webView loadRequest:[NSURLRequest requestWithURL:mailURL]];
     }];
 }
 
