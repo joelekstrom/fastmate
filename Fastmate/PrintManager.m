@@ -1,5 +1,6 @@
 #import "PrintManager.h"
 @import WebKit;
+@import PDFKit;
 
 @interface PrintManager() <WebFrameLoadDelegate, WebUIDelegate>
 
@@ -35,7 +36,9 @@
     return self;
 }
 
-- (void)printWebView:(WKWebView *)sourceView {
+- (void)printControllerContent:(WebViewController *)controller {
+    WKWebView *sourceView = controller.webView;
+
     NSRect webViewFrame = NSMakeRect(0, 0, self.printInfo.paperSize.width, self.printInfo.paperSize.height);
     self.webView = [[WebView alloc] initWithFrame:webViewFrame frameName:@"printFrame" groupName:@"printGroup"];
     self.webView.shouldUpdateWhileOffscreen = true;
@@ -51,10 +54,24 @@
         self.emailTitle = [sourceView.title substringWithRange:[result rangeAtIndex:1]];
     }
 
-    [sourceView evaluateJavaScript:@"document.documentElement.outerHTML.toString()"
-                 completionHandler:^(NSString *HTML, NSError *error) {
-        [self.webView.mainFrame loadHTMLString:HTML baseURL:NSBundle.mainBundle.resourceURL];
-    }];
+    if (controller.currentlyViewedAttachment && [controller.currentlyViewedAttachment.absoluteString containsString:@".pdf"]) {
+        // If user is viewing a PDF attachment, we can print that directly
+        [self printPDF:controller.currentlyViewedAttachment];
+    } else {
+        // Otherwise, take the HTML body and put it in the new web view
+        [sourceView evaluateJavaScript:@"document.documentElement.outerHTML.toString()"
+                     completionHandler:^(NSString *HTML, NSError *error) {
+            [self.webView.mainFrame loadHTMLString:HTML baseURL:NSBundle.mainBundle.resourceURL];
+        }];
+    }
+
+}
+
+- (void)printPDF:(NSURL *)pdfURL
+{
+    PDFDocument *document = [[PDFDocument alloc] initWithURL:pdfURL];
+    NSPrintOperation *printOperation = [document printOperationForPrintInfo:_printInfo scalingMode:kPDFPrintPageScaleToFit autoRotate:YES];
+    [self runPrintOperation:printOperation];
 }
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
@@ -66,13 +83,18 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if ([[sender stringByEvaluatingJavaScriptFromString:@"document.readyState"] isEqualToString:@"complete"]) {
             sender.frameLoadDelegate = nil;
-            NSWindow *window = NSApp.mainWindow ?: NSApp.windows.firstObject;
             NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:frame.frameView.documentView printInfo:self.printInfo];
-            printOperation.jobTitle = self.emailTitle;
-            self.currentOperation = printOperation;
-            [printOperation runOperationModalForWindow:window delegate:self didRunSelector:@selector(printOperationDidFinish) contextInfo:nil];
+            [self runPrintOperation:printOperation];
         }
     });
+}
+
+- (void)runPrintOperation:(NSPrintOperation *)printOperation
+{
+    printOperation.jobTitle = self.emailTitle;
+    self.currentOperation = printOperation;
+    NSWindow *window = NSApp.mainWindow ?: NSApp.windows.firstObject;
+    [printOperation runOperationModalForWindow:window delegate:self didRunSelector:@selector(printOperationDidFinish) contextInfo:nil];
 }
 
 - (void)printOperationDidFinish {

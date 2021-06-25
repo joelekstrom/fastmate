@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "WebViewController.h"
 
 @class WKWebView;
 
@@ -12,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PrintManager : NSObject
 
 + (instancetype)sharedInstance;
-- (void)printWebView:(WKWebView *)webView;
+- (void)printControllerContent:(WebViewController *)controller;
 
 @end
 

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0F8E94240B910A00287BD1 /* PrintManager.m */; };
 		5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5D14A8EA22C425B400A5ACE9 /* Credits.rtf */; };
+		5D18D5022685E2EC002999F0 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D18D5012685E2EC002999F0 /* PDFKit.framework */; };
 		5D39BEDB2122383800693D7E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEDA2122383800693D7E /* AppDelegate.m */; };
 		5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D39BEDC2122383900693D7E /* Assets.xcassets */; };
 		5D39BEE32122383900693D7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEE22122383900693D7E /* main.m */; };
@@ -27,6 +28,7 @@
 		5D0F8E93240B910A00287BD1 /* PrintManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrintManager.h; sourceTree = "<group>"; };
 		5D0F8E94240B910A00287BD1 /* PrintManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrintManager.m; sourceTree = "<group>"; };
 		5D14A8EA22C425B400A5ACE9 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		5D18D5012685E2EC002999F0 /* PDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PDFKit.framework; path = System/Library/Frameworks/PDFKit.framework; sourceTree = SDKROOT; };
 		5D39BED62122383800693D7E /* Fastmate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fastmate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D39BED92122383800693D7E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5D39BEDA2122383800693D7E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -58,17 +60,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D18D5022685E2EC002999F0 /* PDFKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5D18D5002685E2EC002999F0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5D18D5012685E2EC002999F0 /* PDFKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5D39BECD2122383700693D7E = {
 			isa = PBXGroup;
 			children = (
 				5D39BED82122383800693D7E /* Fastmate */,
 				5D39BED72122383800693D7E /* Products */,
+				5D18D5002685E2EC002999F0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -341,7 +353,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.6.5;
+				MARKETING_VERSION = 1.6.6;
 				PRODUCT_BUNDLE_IDENTIFIER = io.ekstrom.Fastmate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -364,7 +376,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.6.5;
+				MARKETING_VERSION = 1.6.6;
 				PRODUCT_BUNDLE_IDENTIFIER = io.ekstrom.Fastmate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

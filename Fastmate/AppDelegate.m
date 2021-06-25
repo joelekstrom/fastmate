@@ -85,7 +85,7 @@
 }
 
 - (IBAction)print:(id)sender {
-    [[PrintManager sharedInstance] printWebView:self.mainWebViewController.webView];
+    [[PrintManager sharedInstance] printControllerContent:self.mainWebViewController];
 }
 
 - (void)setStatusItemVisible:(BOOL)visible {

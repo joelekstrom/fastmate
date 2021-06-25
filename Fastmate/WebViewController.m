@@ -15,6 +15,9 @@
 @property (nonatomic, strong) NSURL *baseURL;
 @property (nonatomic, strong) NSTextField *linkPreviewTextField;
 
+// If the user is for example viewing a PDF inline, this value will point to the actual file
+@property (nonatomic, strong) NSURL *lastViewedUserContent;
+
 @end
 
 @implementation WebViewController
@@ -47,12 +50,22 @@
     }];
 }
 
+- (NSURL *)currentlyViewedAttachment
+{
+    NSString *attachmentID = [[self.webView.URL.lastPathComponent componentsSeparatedByString:@"."] lastObject];
+    if ([self.lastViewedUserContent.absoluteString containsString:attachmentID]) {
+        return self.lastViewedUserContent;
+    }
+    return nil;
+}
+
 - (void)reload {
     [self.webView reload];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     BOOL isFastmailLink = [navigationAction.request.URL.host hasSuffix:@".fastmail.com"];
+    self.lastViewedUserContent = nil;
 
     if (webView == self.temporaryWebView) {
         // A temporary web view means we caught a link URL which Fastmail wants to open externally (like a new tab).
@@ -70,6 +83,7 @@
             [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
             decisionHandler(WKNavigationActionPolicyCancel);
         } else {
+            self.lastViewedUserContent = navigationAction.request.URL;
             decisionHandler(WKNavigationActionPolicyAllow);
         }
     } else if (isFastmailLink) {
@@ -200,7 +214,7 @@
         [self queryToolbarColor];
         [self updateUnreadCounts];
     } else if ([message.body isEqualToString:@"print"]) {
-        [PrintManager.sharedInstance printWebView:self.webView];
+        [PrintManager.sharedInstance printControllerContent:self];
     } else {
         [self postNotificationForMessage:message];
     }

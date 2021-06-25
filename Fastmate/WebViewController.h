@@ -14,5 +14,6 @@
 - (void)reload;
 
 @property (nonatomic, strong) NSDictionary<NSString *, NSNumber *> *mailboxes; // Name -> unreadCount
+@property (nonatomic, strong) NSURL *currentlyViewedAttachment;
 
 @end
