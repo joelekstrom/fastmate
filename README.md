@@ -19,6 +19,12 @@ A native [Fastmail](https://www.fastmail.com/)-wrapper for Mac.
 
 Pre-built binaries can be found on the [release page](https://github.com/joelekstrom/fastmate/releases). To build it yourself you need to have Xcode and either disable code signing or change the bundle identifier to something else prior to compiling.
 
+A Homebrew cask is available at [rajiv/homebrew-fastmate](https://github.com/rajiv/homebrew-fastmate). Fastmate can be installed using:
+
+```shell-script
+brew install rajiv/fastmate/fastmate
+```
+
 ## Enabling push notifications
 For Fastmate to receive push notifications for new e-mail, it has to be enabled within the _Fastmail_ settings from within Fastmate. It's disabled by default. Click the Fastmail logo in the top left of the window -> Settings -> Notifications -> check "Show a notification" for new messages.
 
