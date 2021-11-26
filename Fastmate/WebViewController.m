@@ -90,7 +90,14 @@
         decisionHandler(WKNavigationActionPolicyAllow);
     } else {
         // Link isn't within fastmail.com, open externally
-        [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
+        if (@available(macOS 10.15, *)) {
+            NSWorkspaceOpenConfiguration *configuration = NSWorkspaceOpenConfiguration.configuration;
+            configuration.activates = (navigationAction.modifierFlags && NSEventModifierFlagCommand) == 0;
+            [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL configuration:configuration completionHandler:nil];
+        } else {
+            // Fallback on earlier versions
+            [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
+        }
         decisionHandler(WKNavigationActionPolicyCancel);
     }
 }
