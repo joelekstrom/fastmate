@@ -1,3 +1,4 @@
+@import Carbon.HIToolbox;
 #import "AppDelegate.h"
 #import "UnreadCountObserver.h"
 #import "NotificationCenter.h"
@@ -187,6 +188,23 @@
 
 - (void)notificationCenter:(NotificationCenter *)center notificationClickedWithIdentifier:(NSString *)identifier {
     [self.mainWebViewController handleNotificationClickWithIdentifier:identifier];
+}
+
+#pragma mark - Raw key handler
+- (BOOL)handleKey:(NSEvent *)event {
+    switch (event.keyCode) {
+        case kVK_UpArrow:
+            return [self.mainWebViewController nextMessage];
+            
+        case kVK_DownArrow:
+            return [self.mainWebViewController previousMessage];
+
+        case kVK_Delete:
+            return [self.mainWebViewController deleteMessage];
+            
+        default:
+            return NO;
+    }
 }
 
 @end

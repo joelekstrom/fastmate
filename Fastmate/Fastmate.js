@@ -17,10 +17,39 @@ var Fastmate = {
         Fastmate.simulateKeyPress("c");
     },
 
+    deleteMessage: function() {
+        var deleteButton = document.getElementById("v34");
+        var content = document.getElementById("v54");
+        if (deleteButton != null && deleteButton.textContent == 'Delete' &&
+            document.activeElement == content) {
+            deleteButton.click();
+            return "true";
+        }
+        return "false";
+    },
+
     focusSearch: function() {
         Fastmate.simulateKeyPress("/");
     },
 
+    nextMessage: function() {
+        var content = document.getElementById("v54");
+        if (document.activeElement == content) {
+            Fastmate.simulateKeyPress("k");
+            return "true";
+        }
+        return "false";
+    },
+        
+    previousMessage: function() {
+        var content = document.getElementById("v54");
+        if (document.activeElement == content) {
+            Fastmate.simulateKeyPress("j");
+            return "true";
+        }
+        return "false";
+    },
+    
     getToolbarColor: function() {
         var toolbar = document.getElementsByClassName("v-PageHeader")[0];
         var style = window.getComputedStyle(toolbar);

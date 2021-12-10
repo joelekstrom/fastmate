@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E8C7D62275289C00015E582 /* FastmateApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C7D61275289C00015E582 /* FastmateApplication.m */; };
 		5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0F8E94240B910A00287BD1 /* PrintManager.m */; };
 		5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5D14A8EA22C425B400A5ACE9 /* Credits.rtf */; };
 		5D18D5022685E2EC002999F0 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D18D5012685E2EC002999F0 /* PDFKit.framework */; };
@@ -25,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E8C7D60275289C00015E582 /* FastmateApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FastmateApplication.h; sourceTree = "<group>"; };
+		2E8C7D61275289C00015E582 /* FastmateApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FastmateApplication.m; sourceTree = "<group>"; };
 		5D0F8E93240B910A00287BD1 /* PrintManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrintManager.h; sourceTree = "<group>"; };
 		5D0F8E94240B910A00287BD1 /* PrintManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrintManager.m; sourceTree = "<group>"; };
 		5D14A8EA22C425B400A5ACE9 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
@@ -97,6 +100,8 @@
 			children = (
 				5D39BED92122383800693D7E /* AppDelegate.h */,
 				5D39BEDA2122383800693D7E /* AppDelegate.m */,
+				2E8C7D60275289C00015E582 /* FastmateApplication.h */,
+				2E8C7D61275289C00015E582 /* FastmateApplication.m */,
 				5D6EF779212E018700C84B4A /* MainWindowController.h */,
 				5D6EF77A212E018700C84B4A /* MainWindowController.m */,
 				5D6E3B352122FF9E00ED16C9 /* WebViewController.h */,
@@ -208,6 +213,7 @@
 				5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */,
 				5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */,
 				5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */,
+				2E8C7D62275289C00015E582 /* FastmateApplication.m in Sources */,
 				5D39BEDB2122383800693D7E /* AppDelegate.m in Sources */,
 				5DC2AF2D225933BE004C94E5 /* VersionChecker.m in Sources */,
 			);
