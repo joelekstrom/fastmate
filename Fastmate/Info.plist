@@ -48,7 +48,7 @@
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
+	<string>FastmateApplication</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict/>

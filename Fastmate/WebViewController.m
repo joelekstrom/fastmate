@@ -5,6 +5,10 @@
 #import "PrintManager.h"
 @import WebKit;
 
+@interface WKWebView (SyncBridge)
+- (BOOL)evaluateJavaScript:(NSString *)script;
+@end
+
 @interface WebViewController () <WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler>
 
 @property (nonatomic, strong) WKWebView *webView;
@@ -134,8 +138,20 @@
     [self.webView evaluateJavaScript:@"Fastmate.compose()" completionHandler:nil];
 }
 
+- (BOOL)deleteMessage {
+    return [self.webView evaluateJavaScript:@"Fastmate.deleteMessage()"];
+}
+
 - (void)focusSearchField {
     [self.webView evaluateJavaScript:@"Fastmate.focusSearch()" completionHandler:nil];
+}
+
+- (BOOL)nextMessage {
+    return [self.webView evaluateJavaScript:@"Fastmate.nextMessage()"];
+}
+
+- (BOOL)previousMessage {
+    return [self.webView evaluateJavaScript:@"Fastmate.previousMessage()"];
 }
 
 - (void)queryToolbarColor {
@@ -347,3 +363,25 @@
 }
 
 @end
+
+// based on code found in this answer:
+// https://stackoverflow.com/a/68434118
+
+@implementation WKWebView (SyncBridge)
+- (BOOL)evaluateJavaScript:(NSString *)script {
+    BOOL __block waiting = YES;
+    id __block retVal = nil;
+    [self evaluateJavaScript: script completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        if (error == nil) {
+            retVal = result;
+        }
+        waiting = FALSE;
+    }];
+    
+    while (waiting) {
+        [NSRunLoop.currentRunLoop acceptInputForMode:NSDefaultRunLoopMode beforeDate:NSDate.distantFuture];
+    }
+    return [retVal isEqual: @"true"];
+}
+@end
+

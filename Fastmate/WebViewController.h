@@ -8,6 +8,9 @@
 
 - (void)composeNewEmail;
 - (void)focusSearchField;
+- (BOOL)deleteMessage;
+- (BOOL)nextMessage;
+- (BOOL)previousMessage;
 - (void)handleMailtoURL:(NSURL *)URL;
 - (void)handleFastmateURL:(NSURL *)URL;
 - (void)handleNotificationClickWithIdentifier:(NSString *)identifier;
