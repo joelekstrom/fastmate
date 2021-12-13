@@ -7,6 +7,7 @@ typedef NS_ENUM(NSUInteger, WatchedFolderType) {
     WatchedFolderTypeSpecific
 };
 
+#define ArrowNavigatesMessageListKey        @"arrowNavigatesMessageList"
 #define AutomaticUpdateChecksKey            @"automaticUpdateChecks"
 #define ShouldShowStatusBarIconKey          @"shouldShowStatusBarIcon"
 #define ShouldShowUnreadMailIndicatorKey    @"shouldShowUnreadMailIndicator"

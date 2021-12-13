@@ -5,6 +5,7 @@
 #import "WebViewController.h"
 #import "KVOBlockObserver.h"
 #import "UserDefaultsKeys.h"
+#import "UserDefaultsKeys.h"
 #import "VersionChecker.h"
 #import "PrintManager.h"
 
@@ -57,6 +58,7 @@
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     [NSUserDefaults.standardUserDefaults registerDefaults:@{
+        ArrowNavigatesMessageListKey: @NO,
         AutomaticUpdateChecksKey: @YES,
         ShouldShowUnreadMailIndicatorKey: @YES,
         ShouldShowUnreadMailInDockKey: @YES,
@@ -194,10 +196,18 @@
 - (BOOL)handleKey:(NSEvent *)event {
     switch (event.keyCode) {
         case kVK_UpArrow:
-            return [self.mainWebViewController nextMessage];
+        if ([NSUserDefaults.standardUserDefaults boolForKey:ArrowNavigatesMessageListKey]) {
+          return [self.mainWebViewController nextMessage];
+        } else {
+            return NO;
+        }
             
         case kVK_DownArrow:
-            return [self.mainWebViewController previousMessage];
+        if ([NSUserDefaults.standardUserDefaults boolForKey:ArrowNavigatesMessageListKey]) {
+          return [self.mainWebViewController previousMessage];
+        } else {
+            return NO;
+        }
 
         case kVK_Delete:
             return [self.mainWebViewController deleteMessage];
