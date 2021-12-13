@@ -775,6 +775,65 @@
                                             </constraints>
                                         </view>
                                     </tabViewItem>
+                                    <tabViewItem label="Navigation" identifier="" id="de2-gj-Roa">
+                                        <view key="view" id="H85-Jl-7b6">
+                                            <rect key="frame" x="10" y="33" width="489" height="183"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aEB-uq-hnD">
+                                                    <rect key="frame" x="20" y="151" width="416" height="16"/>
+                                                    <subviews>
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rFl-It-twE">
+                                                            <rect key="frame" x="-2" y="0.0" width="101" height="16"/>
+                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Up/Down arrow:" id="nFk-NF-Egv">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="grR-Um-Rz6">
+                                                            <rect key="frame" x="115" y="-1" width="117" height="18"/>
+                                                            <buttonCell key="cell" type="radio" title="Scrolls content" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="YBh-h0-Uqr">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="aLa-hz-uMh" name="value" keyPath="values.arrowNavigatesMessageList" id="Rik-Vk-gLg">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0I6-Le-pdg">
+                                                            <rect key="frame" x="250" y="-1" width="166" height="18"/>
+                                                            <buttonCell key="cell" type="radio" title="Navigates message list" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="MO5-zr-23N">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="aLa-hz-uMh" name="value" keyPath="values.arrowNavigatesMessageList" id="8d3-eD-hIh"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="aEB-uq-hnD" firstAttribute="top" secondItem="H85-Jl-7b6" secondAttribute="top" constant="16" id="1cP-ph-jTZ"/>
+                                                <constraint firstItem="aEB-uq-hnD" firstAttribute="leading" secondItem="H85-Jl-7b6" secondAttribute="leading" constant="20" id="50P-dr-QF8"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
                                 </tabViewItems>
                             </tabView>
                         </subviews>
