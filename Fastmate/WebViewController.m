@@ -18,6 +18,7 @@
 @property (nonatomic, strong) id currentURLObserver;
 @property (nonatomic, strong) NSURL *baseURL;
 @property (nonatomic, strong) NSTextField *linkPreviewTextField;
+@property (nonatomic, assign) CGFloat zoomLevel;
 
 // If the user is for example viewing a PDF inline, this value will point to the actual file
 @property (nonatomic, strong) NSURL *lastViewedUserContent;
@@ -29,6 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureUserContentController];
+    self.zoomLevel = 1.0;
 
     WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
     configuration.applicationNameForUserAgent = @"Fastmate";
@@ -262,6 +264,23 @@
     components.scheme = @"fastmate";
     components.host = @"app";
     [self copyURLToPasteboard:components.URL];
+}
+
+- (IBAction)zoomIn:(id)sender {
+    self.zoomLevel += 0.1;
+}
+
+- (IBAction)zoomOut:(id)sender {
+    self.zoomLevel -= 0.1;
+}
+
+- (IBAction)resetZoomLevel:(id)sender {
+    self.zoomLevel = 1.0;
+}
+
+- (void)setZoomLevel:(CGFloat)zoomLevel {
+    _zoomLevel = zoomLevel;
+    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"document.body.style.zoom = %f;", self.zoomLevel]];
 }
 
 - (void)copyURLToPasteboard:(NSURL *)URL {
