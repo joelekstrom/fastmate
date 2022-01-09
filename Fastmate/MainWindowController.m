@@ -2,7 +2,7 @@
 #import "WebViewController.h"
 #import "KVOBlockObserver.h"
 #import "UserDefaultsKeys.h"
-#import "AppDelegate.h"
+#import "Fastmate-Swift.h"
 
 @interface MainWindowController () <NSWindowDelegate>
 

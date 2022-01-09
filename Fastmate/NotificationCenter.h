@@ -11,10 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class NotificationCenter;
 
+NS_SWIFT_NAME(FastmateNotificationCenterDelegate)
 @protocol NotificationCenterDelegate
 - (void)notificationCenter:(NotificationCenter *)center notificationClickedWithIdentifier:(NSString *)identifier;
 @end
 
+NS_SWIFT_NAME(FastmateNotificationCenter)
 @interface NotificationCenter : NSObject
 
 + (instancetype)sharedInstance;

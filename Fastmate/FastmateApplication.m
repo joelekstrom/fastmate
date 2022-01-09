@@ -1,4 +1,3 @@
-#import "AppDelegate.h"
 #import "FastmateApplication.h"
 
 @implementation FastmateApplication

@@ -11,7 +11,7 @@
 		5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0F8E94240B910A00287BD1 /* PrintManager.m */; };
 		5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5D14A8EA22C425B400A5ACE9 /* Credits.rtf */; };
 		5D18D5022685E2EC002999F0 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D18D5012685E2EC002999F0 /* PDFKit.framework */; };
-		5D39BEDB2122383800693D7E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEDA2122383800693D7E /* AppDelegate.m */; };
+		5D1DDBD227897C4D00244F04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1DDBD127897C4D00244F04 /* AppDelegate.swift */; };
 		5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D39BEDC2122383900693D7E /* Assets.xcassets */; };
 		5D39BEE32122383900693D7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEE22122383900693D7E /* main.m */; };
 		5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6E3B362122FF9E00ED16C9 /* WebViewController.m */; };
@@ -32,9 +32,9 @@
 		5D0F8E94240B910A00287BD1 /* PrintManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrintManager.m; sourceTree = "<group>"; };
 		5D14A8EA22C425B400A5ACE9 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		5D18D5012685E2EC002999F0 /* PDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PDFKit.framework; path = System/Library/Frameworks/PDFKit.framework; sourceTree = SDKROOT; };
+		5D1DDBD027897C4C00244F04 /* Fastmate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Fastmate-Bridging-Header.h"; sourceTree = "<group>"; };
+		5D1DDBD127897C4D00244F04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5D39BED62122383800693D7E /* Fastmate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fastmate.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D39BED92122383800693D7E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		5D39BEDA2122383800693D7E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		5D39BEDC2122383900693D7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D39BEE12122383900693D7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D39BEE22122383900693D7E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -98,8 +98,7 @@
 		5D39BED82122383800693D7E /* Fastmate */ = {
 			isa = PBXGroup;
 			children = (
-				5D39BED92122383800693D7E /* AppDelegate.h */,
-				5D39BEDA2122383800693D7E /* AppDelegate.m */,
+				5D1DDBD127897C4D00244F04 /* AppDelegate.swift */,
 				2E8C7D60275289C00015E582 /* FastmateApplication.h */,
 				2E8C7D61275289C00015E582 /* FastmateApplication.m */,
 				5D6EF779212E018700C84B4A /* MainWindowController.h */,
@@ -126,6 +125,7 @@
 				5D39BEE22122383900693D7E /* main.m */,
 				5D39BEE42122383900693D7E /* Fastmate.entitlements */,
 				5D14A8EA22C425B400A5ACE9 /* Credits.rtf */,
+				5D1DDBD027897C4C00244F04 /* Fastmate-Bridging-Header.h */,
 			);
 			path = Fastmate;
 			sourceTree = "<group>";
@@ -160,6 +160,7 @@
 				TargetAttributes = {
 					5D39BED52122383800693D7E = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1320;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 1;
@@ -205,6 +206,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D1DDBD227897C4D00244F04 /* AppDelegate.swift in Sources */,
 				5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */,
 				5DC5E5952457F96D00C30171 /* NotificationCenter.m in Sources */,
 				5D6EF77B212E018700C84B4A /* MainWindowController.m in Sources */,
@@ -214,7 +216,6 @@
 				5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */,
 				5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */,
 				2E8C7D62275289C00015E582 /* FastmateApplication.m in Sources */,
-				5D39BEDB2122383800693D7E /* AppDelegate.m in Sources */,
 				5DC2AF2D225933BE004C94E5 /* VersionChecker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,6 +349,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Fastmate/Fastmate.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -360,10 +362,13 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.ekstrom.Fastmate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Fastmate/Fastmate-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -371,6 +376,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Fastmate/Fastmate.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -383,10 +389,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.ekstrom.Fastmate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Fastmate/Fastmate-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

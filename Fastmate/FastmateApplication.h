@@ -1,4 +1,5 @@
 #import <Cocoa/Cocoa.h>
+#import "Fastmate-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
