@@ -2,6 +2,17 @@ import Foundation
 import AppKit
 import Carbon.HIToolbox
 
+class FastmateApplication: NSApplication {
+    override func sendEvent(_ event: NSEvent) {
+        if event.type == .keyDown {
+            if (delegate as? AppDelegate)?.handleKey(event) == true {
+                return // if the appDelegate handled the key, eat the event
+            }
+        }
+        super.sendEvent(event)
+    }
+}
+
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var workspaceDidWakeObserver: Any?
     private var statusBarIconObserver: KVOBlockObserver?

@@ -6,10 +6,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Application-->
+        <!--Fastmate Application-->
         <scene sceneID="JPo-4y-FX3">
             <objects>
-                <application id="hnw-xV-0zn" sceneMemberID="viewController">
+                <application id="hnw-xV-0zn" customClass="FastmateApplication" customModule="Fastmate" customModuleProvider="target" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
                             <menuItem title="Fastmate" id="1Xt-HY-uBw">
