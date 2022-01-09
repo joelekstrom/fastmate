@@ -123,7 +123,7 @@
 }
 
 - (void)updateStatusBarIndicator {
-    self.statusItem.image = [NSImage imageNamed:[self shouldShowStatusBarIndicator] ? @"status-bar-unread" : @"status-bar"];
+    self.statusItem.button.image = [NSImage imageNamed:[self shouldShowStatusBarIndicator] ? @"status-bar-unread" : @"status-bar"];
 }
 
 - (void)setStatusItem:(NSStatusItem *)statusItem {

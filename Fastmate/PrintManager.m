@@ -2,6 +2,9 @@
 @import WebKit;
 @import PDFKit;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 @interface PrintManager() <WebFrameLoadDelegate, WebUIDelegate>
 
 @property (nonatomic, strong) WebView *webView;
@@ -143,3 +146,5 @@
 }
 
 @end
+
+#pragma clang diagnostic pop

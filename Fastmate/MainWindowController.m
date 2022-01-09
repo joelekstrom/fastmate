@@ -22,7 +22,7 @@
     AppDelegate *appDelegate = (AppDelegate *)NSApplication.sharedApplication.delegate;
     appDelegate.mainWebViewController = (WebViewController *)self.contentViewController;
 
-    NSColor *windowColor = [NSKeyedUnarchiver unarchiveObjectWithData:[NSUserDefaults.standardUserDefaults dataForKey:WindowBackgroundColorKey]];
+    NSColor *windowColor = [NSKeyedUnarchiver unarchivedObjectOfClass:NSColor.class fromData:[NSUserDefaults.standardUserDefaults dataForKey:WindowBackgroundColorKey] error:nil];
     self.window.backgroundColor = windowColor ?: [NSColor colorWithRed:0.27 green:0.34 blue:0.49 alpha:1.0];
 
     NSString *lastWindowFrame = [NSUserDefaults.standardUserDefaults objectForKey:MainWindowFrameKey];
