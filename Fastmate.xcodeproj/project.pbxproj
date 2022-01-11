@@ -11,11 +11,12 @@
 		5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5D14A8EA22C425B400A5ACE9 /* Credits.rtf */; };
 		5D18D5022685E2EC002999F0 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D18D5012685E2EC002999F0 /* PDFKit.framework */; };
 		5D1DDBD227897C4D00244F04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1DDBD127897C4D00244F04 /* AppDelegate.swift */; };
+		5D1DDBD4278B718000244F04 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1DDBD3278B718000244F04 /* UserDefaults.swift */; };
+		5D1DDBD6278C483400244F04 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1DDBD5278C483400244F04 /* MainWindowController.swift */; };
 		5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D39BEDC2122383900693D7E /* Assets.xcassets */; };
 		5D39BEE32122383900693D7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D39BEE22122383900693D7E /* main.m */; };
 		5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6E3B362122FF9E00ED16C9 /* WebViewController.m */; };
 		5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3A212824AF00ED16C9 /* Fastmate.js */; };
-		5D6EF77B212E018700C84B4A /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6EF77A212E018700C84B4A /* MainWindowController.m */; };
 		5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8DDE29244399BD00747135 /* KVOBlockObserver.m */; };
 		5DA21A162128617900C765BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DA21A142128617900C765BF /* Main.storyboard */; };
 		5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA21A18212865F000C765BF /* UnreadCountObserver.m */; };
@@ -31,6 +32,8 @@
 		5D18D5012685E2EC002999F0 /* PDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PDFKit.framework; path = System/Library/Frameworks/PDFKit.framework; sourceTree = SDKROOT; };
 		5D1DDBD027897C4C00244F04 /* Fastmate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Fastmate-Bridging-Header.h"; sourceTree = "<group>"; };
 		5D1DDBD127897C4D00244F04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5D1DDBD3278B718000244F04 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		5D1DDBD5278C483400244F04 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		5D39BED62122383800693D7E /* Fastmate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fastmate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D39BEDC2122383900693D7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D39BEE12122383900693D7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -39,8 +42,6 @@
 		5D6E3B352122FF9E00ED16C9 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		5D6E3B362122FF9E00ED16C9 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		5D6E3B3A212824AF00ED16C9 /* Fastmate.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fastmate.js; sourceTree = "<group>"; };
-		5D6EF779212E018700C84B4A /* MainWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindowController.h; sourceTree = "<group>"; };
-		5D6EF77A212E018700C84B4A /* MainWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainWindowController.m; sourceTree = "<group>"; };
 		5D8DDE28244399BD00747135 /* KVOBlockObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KVOBlockObserver.h; sourceTree = "<group>"; };
 		5D8DDE29244399BD00747135 /* KVOBlockObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KVOBlockObserver.m; sourceTree = "<group>"; };
 		5D8DDE2B2443AD4800747135 /* UserDefaultsKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserDefaultsKeys.h; sourceTree = "<group>"; };
@@ -96,8 +97,8 @@
 			isa = PBXGroup;
 			children = (
 				5D1DDBD127897C4D00244F04 /* AppDelegate.swift */,
-				5D6EF779212E018700C84B4A /* MainWindowController.h */,
-				5D6EF77A212E018700C84B4A /* MainWindowController.m */,
+				5D1DDBD3278B718000244F04 /* UserDefaults.swift */,
+				5D1DDBD5278C483400244F04 /* MainWindowController.swift */,
 				5D6E3B352122FF9E00ED16C9 /* WebViewController.h */,
 				5D6E3B362122FF9E00ED16C9 /* WebViewController.m */,
 				5D0F8E93240B910A00287BD1 /* PrintManager.h */,
@@ -203,8 +204,9 @@
 			files = (
 				5D1DDBD227897C4D00244F04 /* AppDelegate.swift in Sources */,
 				5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */,
+				5D1DDBD6278C483400244F04 /* MainWindowController.swift in Sources */,
 				5DC5E5952457F96D00C30171 /* NotificationCenter.m in Sources */,
-				5D6EF77B212E018700C84B4A /* MainWindowController.m in Sources */,
+				5D1DDBD4278B718000244F04 /* UserDefaults.swift in Sources */,
 				5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */,
 				5D39BEE32122383900693D7E /* main.m in Sources */,
 				5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */,

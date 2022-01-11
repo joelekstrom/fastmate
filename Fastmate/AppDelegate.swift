@@ -1,6 +1,7 @@
 import Foundation
 import AppKit
 import Carbon.HIToolbox
+import Combine
 
 class FastmateApplication: NSApplication {
     override func sendEvent(_ event: NSEvent) {
@@ -14,9 +15,8 @@ class FastmateApplication: NSApplication {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    private var workspaceDidWakeObserver: Any?
-    private var statusBarIconObserver: KVOBlockObserver?
     private var isAutomaticUpdateCheck = false
+    private var subscriptions = Set<AnyCancellable>()
 
     lazy var unreadCountObserver = UnreadCountObserver()
 
@@ -27,17 +27,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        workspaceDidWakeObserver = NSWorkspace.shared.notificationCenter.addObserver(
-            forName: NSWorkspace.didWakeNotification,
-            object: nil,
-            queue: .main
-        ) { _ in
-            self.mainWebViewController?.reload()
-        }
+        NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didWakeNotification, object: nil)
+            .sink { _ in self.mainWebViewController?.reload() }
+            .store(in: &subscriptions)
 
-        statusBarIconObserver = .observeUserDefaultsKey(ShouldShowStatusBarIconKey) {
-            self.statusItemVisible = $0
-        }
+        UserDefaults.standard.publisher(for: \.shouldShowStatusBarIcon)
+            .assign(to: \.statusItemVisible, on: self)
+            .store(in: &subscriptions)
 
         DispatchQueue.global().async {
             self.createUserScriptsFolderIfNeeded()
@@ -45,19 +41,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         FastmateNotificationCenter.sharedInstance().delegate = self
         FastmateNotificationCenter.sharedInstance().registerForNotifications()
+
+        UserDefaults.standard.registerFastmateDefaults()
     }
 
     func applicationDidBecomeActive(_ notification: Notification) {
-        UserDefaults.standard.register(defaults: [
-            ArrowNavigatesMessageListKey: false,
-            AutomaticUpdateChecksKey: true,
-            ShouldShowUnreadMailIndicatorKey: true,
-            ShouldShowUnreadMailInDockKey: true,
-            ShouldShowUnreadMailCountInDockKey: true,
-            ShouldUseFastmailBetaKey: false,
-            ShouldUseTransparentTitleBarKey: true
-        ])
-
         performAutomaticUpdateCheckIfNeeded()
     }
 
@@ -125,7 +113,7 @@ extension AppDelegate: FastmateNotificationCenterDelegate {
 // MARK: Update checks
 extension AppDelegate: VersionCheckerDelegate {
     func performAutomaticUpdateCheckIfNeeded() {
-        guard UserDefaults.standard.bool(forKey: AutomaticUpdateChecksKey) == true else {
+        guard UserDefaults.standard.automaticUpdateChecks else {
             return
         }
 
@@ -165,7 +153,7 @@ extension AppDelegate: VersionCheckerDelegate {
             }
 
             if alert.suppressionButton?.state == .off {
-                UserDefaults.standard.set(false, forKey: AutomaticUpdateChecksKey)
+                UserDefaults.standard.automaticUpdateChecks = false
             }
         }
     }
@@ -211,14 +199,14 @@ extension AppDelegate {
     @objc func handleKey(_ event: NSEvent) -> Bool {
         switch Int(event.keyCode) {
         case kVK_UpArrow:
-            if UserDefaults.standard.bool(forKey: ArrowNavigatesMessageListKey) {
+            if UserDefaults.standard.arrowNavigatesMessageList {
                 return mainWebViewController?.nextMessage() ?? false
             } else {
                 return false
             }
 
         case kVK_DownArrow:
-            if UserDefaults.standard.bool(forKey: ArrowNavigatesMessageListKey) {
+            if UserDefaults.standard.arrowNavigatesMessageList {
                 return mainWebViewController?.previousMessage() ?? false
             } else {
                 return false

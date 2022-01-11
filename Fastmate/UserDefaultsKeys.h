@@ -1,24 +1,16 @@
 #ifndef UserDefaultsKeys_h
 #define UserDefaultsKeys_h
+#import "Fastmate-Swift.h"
 
-typedef NS_ENUM(NSUInteger, WatchedFolderType) {
-    WatchedFolderTypeDefault,
-    WatchedFolderTypeAll,
-    WatchedFolderTypeSpecific
-};
-
-#define ArrowNavigatesMessageListKey        @"arrowNavigatesMessageList"
-#define AutomaticUpdateChecksKey            @"automaticUpdateChecks"
-#define ShouldShowStatusBarIconKey          @"shouldShowStatusBarIcon"
-#define ShouldShowUnreadMailIndicatorKey    @"shouldShowUnreadMailIndicator"
-#define ShouldShowUnreadMailInDockKey       @"shouldShowUnreadMailInDock"
-#define ShouldShowUnreadMailCountInDockKey  @"shouldShowUnreadMailCountInDock"
-#define ShouldShowUnreadMailInStatusBarKey  @"shouldShowUnreadMailInStatusBar"
-#define ShouldUseFastmailBetaKey            @"shouldUseFastmailBeta"
-#define ShouldUseTransparentTitleBarKey     @"shouldUseTransparentTitleBar"
-#define WatchedFolderTypeKey                @"watchedFolderType"
-#define WatchedFoldersKey                   @"watchedFolders"
-#define WindowBackgroundColorKey            @"lastUsedWindowColor"
-#define MainWindowFrameKey                  @"mainWindowFrame"
+#define ArrowNavigatesMessageListKey        NSStringFromSelector(@selector(arrowNavigatesMessageList))
+#define ShouldShowStatusBarIconKey          NSStringFromSelector(@selector(shouldShowStatusBarIcon))
+#define ShouldShowUnreadMailIndicatorKey    NSStringFromSelector(@selector(shouldShowUnreadMailIndicator))
+#define ShouldShowUnreadMailInDockKey       NSStringFromSelector(@selector(shouldShowUnreadMailInDock))
+#define ShouldShowUnreadMailCountInDockKey  NSStringFromSelector(@selector(shouldShowUnreadMailCountInDock))
+#define ShouldShowUnreadMailInStatusBarKey  NSStringFromSelector(@selector(shouldShowUnreadMailInStatusBar))
+#define ShouldUseFastmailBetaKey            NSStringFromSelector(@selector(shouldUseFastmailBeta))
+#define WatchedFolderTypeKey                NSStringFromSelector(@selector(watchedFolderType))
+#define WatchedFoldersKey                   NSStringFromSelector(@selector(watchedFolders))
+#define WindowBackgroundColorKey            NSStringFromSelector(@selector(lastUsedWindowColor))
 
 #endif /* UserDefaultsKeys_h */
