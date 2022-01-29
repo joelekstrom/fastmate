@@ -18,15 +18,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var isAutomaticUpdateCheck = false
     private var subscriptions = Set<AnyCancellable>()
 
-    lazy var unreadCountObserver = UnreadCountObserver()
-
-    @objc var mainWebViewController: WebViewController? {
-        didSet {
-            unreadCountObserver.webViewController = mainWebViewController
-        }
-    }
+    @Published var mainWebViewController: WebViewController?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        UserDefaults.standard.registerFastmateDefaults()
+
+        FastmateNotificationCenter.sharedInstance().delegate = self
+        FastmateNotificationCenter.sharedInstance().registerForNotifications()
+
+        DispatchQueue.global().async {
+            self.createUserScriptsFolderIfNeeded()
+        }
+
         NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didWakeNotification, object: nil)
             .sink { _ in self.mainWebViewController?.reload() }
             .store(in: &subscriptions)
@@ -35,14 +38,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .assign(to: \.statusItemVisible, on: self)
             .store(in: &subscriptions)
 
-        DispatchQueue.global().async {
-            self.createUserScriptsFolderIfNeeded()
-        }
+        let unreadCountPublisher = $mainWebViewController
+            .compactMap(\.?.unreadCountPublisher)
+            .switchToLatest()
+            .share()
 
-        FastmateNotificationCenter.sharedInstance().delegate = self
-        FastmateNotificationCenter.sharedInstance().registerForNotifications()
+        dockBadgeLabelPublisher(with: unreadCountPublisher.eraseToAnyPublisher())
+            .assign(to: \.badgeLabel, on: NSApplication.shared.dockTile)
+            .store(in: &subscriptions)
 
-        UserDefaults.standard.registerFastmateDefaults()
+        statusItemImagePublisher(with: unreadCountPublisher.eraseToAnyPublisher())
+            .sink { self.statusItem?.button?.image = $0 }
+            .store(in: &subscriptions)
     }
 
     func applicationDidBecomeActive(_ notification: Notification) {
@@ -56,7 +63,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
                 self.statusItem?.button?.target = self
                 self.statusItem?.button?.action = #selector(statusItemSelected(sender:))
-                self.unreadCountObserver.statusItem = self.statusItem
             } else if let item = statusItem {
                 NSStatusBar.system.removeStatusItem(item)
             }
@@ -101,6 +107,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else if url.scheme == "mailto" {
             mainWebViewController?.handleMailtoURL(url)
         }
+    }
+
+    func dockBadgeLabelPublisher(with unreadCount: AnyPublisher<Int, Never>) -> AnyPublisher<String?, Never> {
+        unreadCount
+            .combineLatest(
+                UserDefaults.standard.publisher(for: \.shouldShowUnreadMailInDock),
+                UserDefaults.standard.publisher(for: \.shouldShowUnreadMailCountInDock)
+            ).map { count, shouldShowBadge, shouldShowCountInBadge in
+                guard count > 0, shouldShowBadge else { return nil }
+                return shouldShowCountInBadge ? String(count) : " "
+            }.eraseToAnyPublisher()
+    }
+
+    func statusItemImagePublisher(with unreadCount: AnyPublisher<Int, Never>) -> AnyPublisher<NSImage?, Never> {
+        unreadCount
+            .map { $0 > 0 }
+            .combineLatest(
+                UserDefaults.standard.publisher(for: \.shouldShowUnreadMailInStatusBar),
+                UserDefaults.standard.publisher(for: \.shouldShowUnreadMailIndicator)
+            )
+            .map { $0 && $1 && $2 ? "status-bar-unread" : "status-bar" }
+            .map(NSImage.init(imageLiteralResourceName:))
+            .eraseToAnyPublisher()
     }
 }
 

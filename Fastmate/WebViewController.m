@@ -27,6 +27,13 @@
 
 @implementation WebViewController
 
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    if (self = [super initWithCoder:coder]) {
+        _mailboxes = @{};
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureUserContentController];
@@ -177,7 +184,7 @@
         if ([response isKindOfClass:NSDictionary.class]) {
             self.mailboxes = response;
         } else {
-            self.mailboxes = nil;
+            self.mailboxes = @{};
         }
     }];
 }

@@ -1,6 +1,5 @@
 #import "WebViewController.h"
 #import "KVOBlockObserver.h"
 #import "NotificationCenter.h"
-#import "UnreadCountObserver.h"
 #import "VersionChecker.h"
 #import "PrintManager.h"

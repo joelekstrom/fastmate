@@ -21,7 +21,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
             return
         }
 
-        webViewController.webView.publisher(for: \.title)
+        webViewController.publisher(for: \.webView?.title)
             .replaceNil(with: "Fastmate")
             .assign(to: \.title, on: window)
             .store(in: &subscriptions)

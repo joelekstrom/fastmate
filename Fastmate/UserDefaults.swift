@@ -13,7 +13,7 @@ extension UserDefaults {
             #keyPath(shouldShowUnreadMailInStatusBar): true,
             #keyPath(shouldUseFastmailBeta): false,
             #keyPath(shouldUseTransparentTitleBar): true,
-            #keyPath(watchedFolderType): WatchedFolderType.default.rawValue,
+            #keyPath(watchedFolderType): WatchedFolderType.selected.rawValue,
             #keyPath(watchedFolders): "",
         ])
     }
@@ -52,7 +52,7 @@ extension UserDefaults {
 }
 
 @objc enum WatchedFolderType: UInt {
-    case `default`
+    case selected
     case all
     case specific
 }

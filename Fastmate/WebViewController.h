@@ -1,10 +1,12 @@
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class WKWebView;
 
 @interface WebViewController : NSViewController
 
-@property (nonatomic, readonly) WKWebView *webView;
+@property (nonatomic, readonly, nullable) WKWebView *webView;
 
 - (void)composeNewEmail;
 - (void)focusSearchField;
@@ -17,6 +19,8 @@
 - (void)reload;
 
 @property (nonatomic, strong) NSDictionary<NSString *, NSNumber *> *mailboxes; // Name -> unreadCount
-@property (nonatomic, strong) NSURL *currentlyViewedAttachment;
+@property (nonatomic, strong, nullable) NSURL *currentlyViewedAttachment;
 
 @end
+
+NS_ASSUME_NONNULL_END

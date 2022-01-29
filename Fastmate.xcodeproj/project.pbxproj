@@ -19,10 +19,10 @@
 		5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */ = {isa = PBXBuildFile; fileRef = 5D6E3B3A212824AF00ED16C9 /* Fastmate.js */; };
 		5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8DDE29244399BD00747135 /* KVOBlockObserver.m */; };
 		5DA21A162128617900C765BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DA21A142128617900C765BF /* Main.storyboard */; };
-		5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA21A18212865F000C765BF /* UnreadCountObserver.m */; };
 		5DC2AF2D225933BE004C94E5 /* VersionChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC2AF2C225933BE004C94E5 /* VersionChecker.m */; };
 		5DC5E5952457F96D00C30171 /* NotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC5E5942457F96D00C30171 /* NotificationCenter.m */; };
 		5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCFE8782258CEC5006B1A21 /* SettingsViewController.m */; };
+		5DF817F52790B9B700D765E4 /* UnreadCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF817F42790B9B700D765E4 /* UnreadCount.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,14 +46,13 @@
 		5D8DDE29244399BD00747135 /* KVOBlockObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KVOBlockObserver.m; sourceTree = "<group>"; };
 		5D8DDE2B2443AD4800747135 /* UserDefaultsKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserDefaultsKeys.h; sourceTree = "<group>"; };
 		5DA21A152128617900C765BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		5DA21A17212865F000C765BF /* UnreadCountObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnreadCountObserver.h; sourceTree = "<group>"; };
-		5DA21A18212865F000C765BF /* UnreadCountObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnreadCountObserver.m; sourceTree = "<group>"; };
 		5DC2AF2B225933BE004C94E5 /* VersionChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VersionChecker.h; sourceTree = "<group>"; };
 		5DC2AF2C225933BE004C94E5 /* VersionChecker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VersionChecker.m; sourceTree = "<group>"; };
 		5DC5E5932457F96D00C30171 /* NotificationCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationCenter.h; sourceTree = "<group>"; };
 		5DC5E5942457F96D00C30171 /* NotificationCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationCenter.m; sourceTree = "<group>"; };
 		5DCFE8772258CEC5006B1A21 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		5DCFE8782258CEC5006B1A21 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		5DF817F42790B9B700D765E4 /* UnreadCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadCount.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,12 +98,11 @@
 				5D1DDBD127897C4D00244F04 /* AppDelegate.swift */,
 				5D1DDBD3278B718000244F04 /* UserDefaults.swift */,
 				5D1DDBD5278C483400244F04 /* MainWindowController.swift */,
+				5DF817F42790B9B700D765E4 /* UnreadCount.swift */,
 				5D6E3B352122FF9E00ED16C9 /* WebViewController.h */,
 				5D6E3B362122FF9E00ED16C9 /* WebViewController.m */,
 				5D0F8E93240B910A00287BD1 /* PrintManager.h */,
 				5D0F8E94240B910A00287BD1 /* PrintManager.m */,
-				5DA21A17212865F000C765BF /* UnreadCountObserver.h */,
-				5DA21A18212865F000C765BF /* UnreadCountObserver.m */,
 				5DCFE8772258CEC5006B1A21 /* SettingsViewController.h */,
 				5DCFE8782258CEC5006B1A21 /* SettingsViewController.m */,
 				5DC2AF2B225933BE004C94E5 /* VersionChecker.h */,
@@ -202,12 +200,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DF817F52790B9B700D765E4 /* UnreadCount.swift in Sources */,
 				5D1DDBD227897C4D00244F04 /* AppDelegate.swift in Sources */,
 				5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */,
 				5D1DDBD6278C483400244F04 /* MainWindowController.swift in Sources */,
 				5DC5E5952457F96D00C30171 /* NotificationCenter.m in Sources */,
 				5D1DDBD4278B718000244F04 /* UserDefaults.swift in Sources */,
-				5DA21A19212865F000C765BF /* UnreadCountObserver.m in Sources */,
 				5D39BEE32122383900693D7E /* main.m in Sources */,
 				5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */,
 				5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */,
