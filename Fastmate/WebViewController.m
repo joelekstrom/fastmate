@@ -302,7 +302,11 @@
 }
 
 - (void)postNotificationForMessage:(WKScriptMessage *)message {
-    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:[message.body dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    NSError *error = nil;
+    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:[message.body dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+    if (error) {
+        NSLog(@"Failed to decode notification with body: %@. Error: %@", message.body, error);
+    }
 
     [NotificationCenter.sharedInstance postNotificationWithIdentifier:[dictionary[@"notificationID"] stringValue]
                                                                 title:dictionary[@"title"]

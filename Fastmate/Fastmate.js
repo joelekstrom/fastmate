@@ -129,7 +129,7 @@ Notification = function(title, options) {
     ++notificationID;
     var n = new originalNotification(title, options);
     Object.defineProperty(n, "onclick", { set: function(value) { Fastmate.notificationClickHandlers[notificationID.toString()] = value; }});
-    window.webkit.messageHandlers.Fastmate.postMessage('{"title": "' + title + '", "options": ' + JSON.stringify(options) + ', "notificationID": ' + notificationID + '}');
+    window.webkit.messageHandlers.Fastmate.postMessage('{"title": ' + JSON.stringify(title) + ', "options": ' + JSON.stringify(options) + ', "notificationID": ' + notificationID + '}');
     return n;
 }
 
