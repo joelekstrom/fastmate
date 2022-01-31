@@ -19,6 +19,8 @@ A native [Fastmail](https://www.fastmail.com/)-wrapper for Mac.
 
 Pre-built binaries can be found on the [release page](https://github.com/joelekstrom/fastmate/releases). To build it yourself you need to have Xcode and either disable code signing or change the bundle identifier to something else prior to compiling.
 
+Fastmate requires macOS 10.15 (Catalina) or newer since version 1.8.1. If you're running an older macOS, please download [v1.8.0](https://github.com/joelekstrom/fastmate/releases/tag/v1.8.0).
+
 A Homebrew cask is available at [rajiv/homebrew-fastmate](https://github.com/rajiv/homebrew-fastmate). Fastmate can be installed using:
 
 ```shell-script
