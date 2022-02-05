@@ -93,6 +93,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Fastmate user scripts
 
             Put JavaScript files in this folder (.js), and Fastmate will load them at document end after loading the Fastmail website.
+
+            Example:
+
+            // fastmate.js
+            alert("Hello! I'm an alert within Fastmate!");
             """
         FileManager.default.createFile(atPath: readmeFilePath, contents: text.data(using: .utf8), attributes: nil)
     }
