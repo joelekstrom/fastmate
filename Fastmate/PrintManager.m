@@ -42,6 +42,17 @@
 - (void)printControllerContent:(WebViewController *)controller {
     WKWebView *sourceView = controller.webView;
 
+    // If current URL has 5 path components, assume we're viewing attachment. In this case we use WKWebView for print,
+    // which will handle printing PDF properly. Otherwise fall back to legacy WebView to print. WKWebView printing
+    // does not support headers and footers.
+    if (sourceView.URL.pathComponents.count >= 5) {
+        NSPrintOperation *printOperation = [self printOperationForWKWebView:sourceView];
+        if (printOperation) {
+            [self runPrintOperation:printOperation];
+            return;
+        }
+    }
+
     NSRect webViewFrame = NSMakeRect(0, 0, self.printInfo.paperSize.width, self.printInfo.paperSize.height);
     self.webView = [[WebView alloc] initWithFrame:webViewFrame frameName:@"printFrame" groupName:@"printGroup"];
     self.webView.shouldUpdateWhileOffscreen = true;
@@ -95,6 +106,8 @@
 - (void)runPrintOperation:(NSPrintOperation *)printOperation
 {
     printOperation.jobTitle = self.emailTitle;
+    printOperation.showsPrintPanel = YES;
+    printOperation.showsProgressPanel = YES;
     self.currentOperation = printOperation;
     NSWindow *window = NSApp.mainWindow ?: NSApp.windows.firstObject;
     [printOperation runOperationModalForWindow:window delegate:self didRunSelector:@selector(printOperationDidFinish) contextInfo:nil];
@@ -143,6 +156,23 @@
     CGRect pageRect = CGRectMake(CGRectGetMaxX(rect) - pageSize.width, rect.origin.y + verticalOffset, pageSize.width, pageSize.height);
 
     [currentPageString drawWithRect:pageRect options:0 attributes:fontAttributes];
+}
+
+- (NSPrintOperation *)printOperationForWKWebView:(WKWebView *)webView
+{
+    NSPrintOperation *operation = nil;
+    if (@available(macOS 11.0, *)) {
+        operation = [webView printOperationWithPrintInfo:_printInfo];
+    } else {
+        SEL printSelector = NSSelectorFromString(@"_printOperationWithPrintInfo:");
+        if ([webView respondsToSelector:printSelector]) {
+            IMP imp = [webView methodForSelector:printSelector];
+            NSPrintOperation *(*func)(id, SEL, NSPrintInfo *) = (void *)imp;
+            operation = func(webView, printSelector, _printInfo);
+        }
+    }
+    operation.view.frame = webView.bounds;
+    return operation;
 }
 
 @end
