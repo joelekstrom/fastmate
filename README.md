@@ -30,6 +30,9 @@ brew install rajiv/fastmate/fastmate
 ## Enabling push notifications
 For Fastmate to receive push notifications for new e-mail, it has to be enabled within the _Fastmail_ settings from within Fastmate. It's disabled by default. Click the Fastmail logo in the top left of the window -> Settings -> Notifications -> check "Show a notification" for new messages.
 
+## Enabling Status Bar and Dock Notifications
+Upon installation, Fastmate should prompt you to allow notifications.  If this was missed, or you find your status bar and dock notifications are not working, please check the Fastmate-specific notification settings within MacOS by going to System Preferences->Notifications & Focus and ensure that "Allow Notifications" is enabled for Fastmate.  For more information on this features, please see https://github.com/joelekstrom/fastmate/discussions/60
+
 ## Setting as default e-mail software
 If you want Fastmate to be the handler of `mailto://`-links, follow the guide at https://support.apple.com/en-us/HT201607 and choose Fastmate as "Default e-mail reader".
 
