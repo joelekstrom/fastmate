@@ -18,8 +18,8 @@ var Fastmate = {
     },
 
     deleteMessage: function() {
-        var deleteButton = document.getElementById("v34");
-        var content = document.getElementById("v54");
+        var deleteButton = document.getElementById("v22");
+        var content = document.getElementById("v45");
         if (deleteButton != null && deleteButton.textContent == 'Delete' &&
             document.activeElement == content) {
             deleteButton.click();
@@ -33,7 +33,7 @@ var Fastmate = {
     },
 
     nextMessage: function() {
-        var content = document.getElementById("v54");
+        var content = document.getElementById("v45");
         if (document.activeElement == content) {
             Fastmate.simulateKeyPress("k");
             return "true";
@@ -42,7 +42,7 @@ var Fastmate = {
     },
         
     previousMessage: function() {
-        var content = document.getElementById("v54");
+        var content = document.getElementById("v45");
         if (document.activeElement == content) {
             Fastmate.simulateKeyPress("j");
             return "true";
