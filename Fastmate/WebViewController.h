@@ -2,7 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class WKWebView;
+@class WKWebView, WKScriptMessage;
 
 @interface WebViewController : NSViewController
 
@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSDictionary<NSString *, NSNumber *> *mailboxes; // Name -> unreadCount
 @property (nonatomic, strong, nullable) NSURL *currentlyViewedAttachment;
+
+@property (nonatomic, copy, nullable) void (^notificationHandler)(WKScriptMessage *);
 
 @end
 

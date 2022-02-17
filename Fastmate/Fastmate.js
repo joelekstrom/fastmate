@@ -87,7 +87,7 @@ var Fastmate = {
     },
 
     documentDidChange: function() {
-        window.webkit.messageHandlers.Fastmate.postMessage('documentDidChange');
+        window.webkit.messageHandlers.DocumentDidChange.postMessage();
         Fastmate.addLinkMouseListeners()
     },
 
@@ -112,7 +112,7 @@ var Fastmate = {
 };
 
 // Catch the print function so we can forward it to PrintManager
-print = function() { window.webkit.messageHandlers.Fastmate.postMessage("print"); };
+print = function() { window.webkit.messageHandlers.Print.postMessage(); };
 
 /**
  Web Notification observering
@@ -129,7 +129,12 @@ Notification = function(title, options) {
     ++notificationID;
     var n = new originalNotification(title, options);
     Object.defineProperty(n, "onclick", { set: function(value) { Fastmate.notificationClickHandlers[notificationID.toString()] = value; }});
-    window.webkit.messageHandlers.Fastmate.postMessage('{"title": ' + JSON.stringify(title) + ', "options": ' + JSON.stringify(options) + ', "notificationID": ' + notificationID + '}');
+    var message = {
+        "title": title,
+        "options": options,
+        "notificationID": notificationID
+    };
+    window.webkit.messageHandlers.Notification.postMessage(JSON.stringify(message));
     return n;
 }
 

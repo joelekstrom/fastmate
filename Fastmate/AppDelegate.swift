@@ -17,18 +17,16 @@ class FastmateApplication: NSApplication {
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var isAutomaticUpdateCheck = false
     private var subscriptions = Set<AnyCancellable>()
+    private var notificationCenter = FastmateNotificationCenter()
 
-    @Published var mainWebViewController: WebViewController?
+    @Published var mainWebViewController: WebViewController? {
+        didSet { mainWebViewController?.notificationHandler = notificationCenter.postNotifification(for:) }
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         UserDefaults.standard.registerFastmateDefaults()
-
-        FastmateNotificationCenter.sharedInstance().delegate = self
-        FastmateNotificationCenter.sharedInstance().registerForNotifications()
-
-        DispatchQueue.global().async {
-            self.createUserScriptsFolderIfNeeded()
-        }
+        notificationCenter.registerForNotifications()
+        notificationCenter.clickHandler = { self.mainWebViewController?.handleNotificationClick(withIdentifier: $0) }
 
         NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didWakeNotification, object: nil)
             .sink { _ in self.mainWebViewController?.reload() }
@@ -50,6 +48,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItemImagePublisher(with: unreadCountPublisher.eraseToAnyPublisher())
             .sink { self.statusItem?.button?.image = $0 }
             .store(in: &subscriptions)
+
+        DispatchQueue.global().async {
+            self.createUserScriptsFolderIfNeeded()
+        }
     }
 
     func applicationDidBecomeActive(_ notification: Notification) {
@@ -135,12 +137,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .map { $0 && $1 && $2 ? "status-bar-unread" : "status-bar" }
             .map(NSImage.init(imageLiteralResourceName:))
             .eraseToAnyPublisher()
-    }
-}
-
-extension AppDelegate: FastmateNotificationCenterDelegate {
-    func notificationCenter(_ center: FastmateNotificationCenter, notificationClickedWithIdentifier identifier: String) {
-        mainWebViewController?.handleNotificationClick(withIdentifier: identifier)
     }
 }
 

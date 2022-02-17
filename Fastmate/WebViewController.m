@@ -1,5 +1,4 @@
 #import "WebViewController.h"
-#import "NotificationCenter.h"
 #import "KVOBlockObserver.h"
 #import "UserDefaultsKeys.h"
 #import "PrintManager.h"
@@ -213,8 +212,10 @@
 
 - (void)configureUserContentController {
     self.userContentController = [WKUserContentController new];
-    [self.userContentController addScriptMessageHandler:self name:@"Fastmate"];
+    [self.userContentController addScriptMessageHandler:self name:@"Notification"];
     [self.userContentController addScriptMessageHandler:self name:@"LinkHover"];
+    [self.userContentController addScriptMessageHandler:self name:@"DocumentDidChange"];
+    [self.userContentController addScriptMessageHandler:self name:@"Print"];
 
     NSString *fastmateSource = [NSString stringWithContentsOfURL:[NSBundle.mainBundle URLForResource:@"Fastmate" withExtension:@"js"] encoding:NSUTF8StringEncoding error:nil];
     WKUserScript *fastmateScript = [[WKUserScript alloc] initWithSource:fastmateSource injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
@@ -238,17 +239,15 @@
 }
 
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
-    if ([message.name isEqualToString:@"LinkHover"]) {
+    if ([message.name isEqualToString:@"Notification"]) {
+        [self postNotificationForMessage:message];
+    } else if ([message.name isEqualToString:@"LinkHover"]) {
         [self handleLinkHoverMessage:message];
-    }
-
-    else if ([message.body isEqualToString:@"documentDidChange"]) {
+    } else if ([message.name isEqualToString:@"DocumentDidChange"]) {
         [self queryToolbarColor];
         [self updateUnreadCounts];
-    } else if ([message.body isEqualToString:@"print"]) {
+    } else if ([message.name isEqualToString:@"Print"]) {
         [PrintManager.sharedInstance printControllerContent:self];
-    } else {
-        [self postNotificationForMessage:message];
     }
 }
 
@@ -302,19 +301,15 @@
 }
 
 - (void)postNotificationForMessage:(WKScriptMessage *)message {
-    NSError *error = nil;
-    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:[message.body dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
-    if (error) {
-        NSLog(@"Failed to decode notification with body: %@. Error: %@", message.body, error);
+    if (self.notificationHandler) {
+        self.notificationHandler(message);
     }
-
-    [NotificationCenter.sharedInstance postNotificationWithIdentifier:[dictionary[@"notificationID"] stringValue]
-                                                                title:dictionary[@"title"]
-                                                                 body:[dictionary valueForKeyPath:@"options.body"]];
 }
 
 - (void)handleNotificationClickWithIdentifier:(NSString *)identifier {
-    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"Fastmate.handleNotificationClick(\"%@\")", identifier] completionHandler:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"Fastmate.handleNotificationClick(\"%@\")", identifier] completionHandler:nil];
+    });
 }
 
 - (void)webView:(WKWebView *)webView runOpenPanelWithParameters:(WKOpenPanelParameters *)parameters initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSArray<NSURL *> *URLs))completionHandler {
