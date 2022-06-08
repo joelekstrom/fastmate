@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAppleScriptEnabled</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -49,6 +51,8 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>Fastmate.FastmateApplication</string>
+	<key>OSAScriptingDefinition</key>
+	<string>Fastmate.sdef</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict/>

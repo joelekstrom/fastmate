@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+
+<dictionary title="Fastmate">
+    <suite name="Fastmate Suite" code="fmSu" description="Fastmate Scripts">
+
+        <command name="javascript" code="fmSuJaSc" description="Evaluate JavaScript">
+            <cocoa class="Fastmate.JavaScriptCommand"/>
+            <direct-parameter description="JavaScript to evaluate">
+                <type type="text"/>
+            </direct-parameter>
+        </command>
+
+        <class name="application" code="capp" description="Fastmate top-level scripting object">
+            <cocoa class="NSApplication"/>
+            <property name="url" code="fmUr" description="Current Fastmate URL" type="text" access="r">
+                <cocoa key="currentURL"/>
+            </property>
+            <property name="title" code="fmTi" description="Current Fastmate title" type="text" access="r">
+                <cocoa key="currentTitle"/>
+            </property>
+        </class>
+
+
+    </suite>
+</dictionary>
