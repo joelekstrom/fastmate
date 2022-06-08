@@ -23,6 +23,8 @@
 		5DC2AF2D225933BE004C94E5 /* VersionChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC2AF2C225933BE004C94E5 /* VersionChecker.m */; };
 		5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCFE8782258CEC5006B1A21 /* SettingsViewController.m */; };
 		5DF817F52790B9B700D765E4 /* UnreadCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF817F42790B9B700D765E4 /* UnreadCount.swift */; };
+		6B819F7A284D154A00D444FF /* Fastmate.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 6B819F79284D154A00D444FF /* Fastmate.sdef */; };
+		6B819F7F284D167400D444FF /* JavaScriptCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B819F7E284D167400D444FF /* JavaScriptCommand.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,8 @@
 		5DCFE8772258CEC5006B1A21 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		5DCFE8782258CEC5006B1A21 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		5DF817F42790B9B700D765E4 /* UnreadCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadCount.swift; sourceTree = "<group>"; };
+		6B819F79284D154A00D444FF /* Fastmate.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Fastmate.sdef; sourceTree = "<group>"; };
+		6B819F7E284D167400D444FF /* JavaScriptCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaScriptCommand.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				5D1DDBD127897C4D00244F04 /* AppDelegate.swift */,
+				6B819F7E284D167400D444FF /* JavaScriptCommand.swift */,
 				5D1DDBD3278B718000244F04 /* UserDefaults.swift */,
 				5D1DDBD5278C483400244F04 /* MainWindowController.swift */,
 				5DF817F42790B9B700D765E4 /* UnreadCount.swift */,
@@ -111,6 +116,7 @@
 				5D8DDE28244399BD00747135 /* KVOBlockObserver.h */,
 				5D8DDE29244399BD00747135 /* KVOBlockObserver.m */,
 				5D6E3B3A212824AF00ED16C9 /* Fastmate.js */,
+				6B819F79284D154A00D444FF /* Fastmate.sdef */,
 				5D39BEDC2122383900693D7E /* Assets.xcassets */,
 				5DA21A142128617900C765BF /* Main.storyboard */,
 				5D39BEE12122383900693D7E /* Info.plist */,
@@ -148,7 +154,7 @@
 		5D39BECE2122383700693D7E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					5D39BED52122383800693D7E = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -187,6 +193,7 @@
 				5D39BEDD2122383900693D7E /* Assets.xcassets in Resources */,
 				5DA21A162128617900C765BF /* Main.storyboard in Resources */,
 				5D6E3B3B212824AF00ED16C9 /* Fastmate.js in Resources */,
+				6B819F7A284D154A00D444FF /* Fastmate.sdef in Resources */,
 				5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,6 +205,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B819F7F284D167400D444FF /* JavaScriptCommand.swift in Sources */,
 				5DBB973827BC4EE7002A2EFE /* Notifications.swift in Sources */,
 				5DF817F52790B9B700D765E4 /* UnreadCount.swift in Sources */,
 				5D1DDBD227897C4D00244F04 /* AppDelegate.swift in Sources */,
@@ -334,6 +342,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
 		};
@@ -347,7 +356,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5RNJHF933P;
+				DEVELOPMENT_TEAM = D3S5M885YQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Fastmate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -374,7 +383,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5RNJHF933P;
+				DEVELOPMENT_TEAM = D3S5M885YQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Fastmate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
