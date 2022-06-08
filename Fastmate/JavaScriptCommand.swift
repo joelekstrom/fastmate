@@ -11,8 +11,8 @@ class JavaScriptCommand : NSScriptCommand {
     override func performDefaultImplementation() -> Any? {
         var javascriptString = ""
         
-        if ((self.evaluatedArguments?.count) != nil) {
-            javascriptString = self.evaluatedArguments?[""] as! String
+        if ((self.directParameter) != nil) {
+            javascriptString = self.directParameter as! String
         } else {
             self.scriptErrorNumber = -50;
             self.scriptErrorString = "Provide a JavaScript string to evaluate"
