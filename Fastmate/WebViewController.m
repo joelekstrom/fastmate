@@ -92,11 +92,14 @@
         decisionHandler(WKNavigationActionPolicyCancel);
         self.temporaryWebView = nil;
     } else if ([navigationAction.request.URL.host hasSuffix:@".fastmailusercontent.com"]) {
-        if ([self isDownloadRequest:navigationAction.request]) {
-            [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
+        NSURLComponents *components = [NSURLComponents componentsWithURL:navigationAction.request.URL resolvingAgainstBaseURL:NO];
+        BOOL shouldDownload = [components.queryItems indexOfObjectPassingTest:^BOOL(NSURLQueryItem *item, NSUInteger index, BOOL *stop) {
+            return [item.name isEqualToString:@"download"] && [item.value isEqualToString:@"1"];
+        }] != NSNotFound;
+        if (shouldDownload || ![components.path.lastPathComponent hasSuffix:@".pdf"]) {
+            [self downloadFileFromURL:navigationAction.request.URL completion:^(NSString *filepath) {}];
             decisionHandler(WKNavigationActionPolicyCancel);
         } else {
-            self.lastViewedUserContent = navigationAction.request.URL;
             decisionHandler(WKNavigationActionPolicyAllow);
         }
     } else if (isFastmailLink) {
@@ -113,6 +116,79 @@
         }
         decisionHandler(WKNavigationActionPolicyCancel);
     }
+}
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
+    NSHTTPURLResponse *response = (NSHTTPURLResponse *)navigationResponse.response;
+    NSArray *cookies =[NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:response.URL];
+
+    for (NSHTTPCookie *cookie in cookies) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    }
+
+    decisionHandler(WKNavigationResponsePolicyAllow);
+}
+
+- (void)downloadFileFromURL:(NSURL *)url completion:(void (^)(NSString *filepath))completion {
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (!error) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                    // FIXME: download directory should be user configurable in settings?
+                    NSString *downloadsDir = [[NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"/Attachments/"];
+                    NSString *availableFilename = [self nextAvailableFilenameAtPath:downloadsDir proposedFilename:response.suggestedFilename];
+                    NSString *downloadsPath = [downloadsDir stringByAppendingPathComponent:availableFilename];
+                    
+                    NSFileManager *fileManager = [NSFileManager defaultManager];
+                    if (![fileManager fileExistsAtPath:downloadsPath]) {
+                        [data writeToFile:downloadsPath atomically:YES];
+                    } else {
+                        NSError *err = nil;
+                        NSDate *now = [NSDate date];
+                        NSDictionary *modificationDateAttr = [NSDictionary dictionaryWithObjectsAndKeys: now, NSFileModificationDate, nil];
+                        [fileManager setAttributes:modificationDateAttr ofItemAtPath:downloadsPath error:&err];
+                        if(err != nil) {
+                            // FIXME: this should be communicated differently?
+                            NSLog(@"Error downloading file %@=", err);
+                         }
+                    }
+                    
+                    // Automatically open these file extensions
+                    // FIXME: this should be configurable in settings? OR this should be skipped?
+                    NSSet *extSet = [NSSet setWithObjects:@"doc",@"docx",@"ppt",@"pptx",@"xls",@"xlsx",@"pdf",@"png",@"jpg",nil];
+                    if ([extSet containsObject:downloadsPath.pathExtension]) {
+                        [NSWorkspace.sharedWorkspace openFile:downloadsPath];
+                    }
+                    
+                    completion(downloadsPath);
+                });
+            }
+            else {
+                NSLog(@"ERROR: %@",error);
+                completion([NSString string]);
+            }
+    }];
+    [postDataTask resume];
+}
+
+- (NSString *)nextAvailableFilenameAtPath:(NSString *)aPath proposedFilename:(NSString *)aName{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if (![fm fileExistsAtPath:[aPath stringByAppendingPathComponent:aName]])
+        return aName;
+    unsigned int i = 1;
+    NSString *extension = [aName pathExtension];
+    NSString *filenameNoSuffix = [aName stringByDeletingPathExtension];
+    for (;;){
+        NSString *filename = [[NSString stringWithFormat:@"%@-%d", filenameNoSuffix, i++]
+            stringByAppendingPathExtension:extension];
+        if (![fm fileExistsAtPath:[aPath stringByAppendingPathComponent:filename]])
+            return filename;
+    }
+    return nil;
 }
 
 /**
