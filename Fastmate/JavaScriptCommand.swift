@@ -9,19 +9,16 @@ import Foundation
 
 class JavaScriptCommand : NSScriptCommand {
     override func performDefaultImplementation() -> Any? {
-        var javascriptString = ""
         
-        if ((self.directParameter) != nil) {
-            javascriptString = self.directParameter as! String
+        if let directParameter = directParameter as? String {
+            let appDelegate = NSApplication.shared.delegate as? AppDelegate
+            let mainWebViewController = appDelegate?.mainWebViewController as? WebViewController
+            mainWebViewController?.webView?.evaluateJavaScript(directParameter)
         } else {
             self.scriptErrorNumber = -50;
             self.scriptErrorString = "Provide a JavaScript string to evaluate"
         }
         
-        let appDelegate = NSApplication.shared.delegate as? AppDelegate
-        let mainWebViewController = appDelegate?.mainWebViewController as? WebViewController
-        mainWebViewController?.webView?.evaluateJavaScript(javascriptString)
-    
         return nil
 
     }
