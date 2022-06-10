@@ -1,6 +1,6 @@
-#import "DownloadFileManager.h"
+#import "FileDownloadTask.h"
 
-@implementation DownloadFileManager
+@implementation FileDownloadTask
 
 + (BOOL)fileExists:(NSString *)filePath {
     return [[NSFileManager defaultManager] fileExistsAtPath:filePath];
@@ -20,12 +20,6 @@
 + (BOOL)removeFile:(NSString *)filePath {
     if (![self fileExists:filePath]) return YES;
     return [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-}
-
-+ (BOOL)createDirection:(NSString *)directPath {
-    BOOL isExisted = [self fileExists:directPath];
-    if (isExisted) return YES;
-    return [[NSFileManager defaultManager] createDirectoryAtPath:directPath withIntermediateDirectories:YES attributes:NULL error:NULL];
 }
 
 + (NSString *)nextAvailableFilenameAtPath:(NSString *)aPath proposedFilename:(NSString *)aName{
