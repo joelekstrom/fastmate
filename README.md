@@ -41,7 +41,7 @@ Click Fastmate -> Preferences... -> User Scripts...
 
 this will open a Finder-window with a folder where you can put `.js` files with your custom scripts.
 
-# AppleScript support
+## AppleScript support
 
 Fastmate understands basic AppleScript commands: `get title` (current title), `get url` (current URL) and `javascript <string>` (execute arbitrary JavaScript in the webView):
 
