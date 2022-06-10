@@ -2,7 +2,7 @@
 #import "KVOBlockObserver.h"
 #import "UserDefaultsKeys.h"
 #import "PrintManager.h"
-#import "DownloadManager.h"
+#import "FileDownloadTask.h"
 @import WebKit;
 
 @interface WKWebView (SyncBridge)
@@ -81,7 +81,7 @@
     BOOL isFastmailLink = [navigationAction.request.URL.host hasSuffix:@".fastmail.com"];
     self.lastViewedUserContent = nil;
 
-    DownloadManager *downLoadManager = [[DownloadManager alloc] init];
+    FileDownloadTask *downloadTask = [[FileDownloadTask alloc] init];
     
     if (webView == self.temporaryWebView) {
         // A temporary web view means we caught a link URL which Fastmail wants to open externally (like a new tab).
@@ -96,8 +96,7 @@
         self.temporaryWebView = nil;
     } else if ([navigationAction.request.URL.host hasSuffix:@".fastmailusercontent.com"]) {
         if ([self isDownloadRequest:navigationAction.request]) {
-            //[self downloadFileFromURL:navigationAction.request.URL];
-            [downLoadManager downloadWithURL:navigationAction.request.URL];
+            [downloadTask downloadWithURL:navigationAction.request.URL];
             decisionHandler(WKNavigationActionPolicyCancel);
         } else {
             self.lastViewedUserContent = navigationAction.request.URL;
