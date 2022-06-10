@@ -3,8 +3,6 @@
 @interface FileDownloadTask : NSObject
 
 - (void)downloadWithURL:(NSURL *)url;
-- (void)cancel;
-- (void)pause;
-- (void)resume ;
+- (void)clean;
 
 @end
