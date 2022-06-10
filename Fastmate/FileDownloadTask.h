@@ -2,10 +2,9 @@
 
 @interface FileDownloadTask : NSObject
 
-+ (BOOL)fileExists:(NSString *)filePath;
-+ (long long)getFileSize:(NSString *)filePath ;
-+ (BOOL)moveFile:(NSString *)fromPath toPath:(NSString *)toPath;
-+ (BOOL)removeFile:(NSString *)filePath;
-+ (NSString *)nextAvailableFilenameAtPath:(NSString *)aPath proposedFilename:(NSString *)aName;
+- (void)downloadWithURL:(NSURL *)url;
+- (void)cancel;
+- (void)pause;
+- (void)resume ;
 
 @end
