@@ -41,6 +41,20 @@ Click Fastmate -> Preferences... -> User Scripts...
 
 this will open a Finder-window with a folder where you can put `.js` files with your custom scripts.
 
+# AppleScript support
+
+Fastmate understands basic AppleScript commands: `get title` (current title), `get url` (current URL) and `javascript <string>` (execute arbitrary JavaScript in the webView):
+
+ ```applescript
+ tell application id "io.ekstrom.Fastmate"
+     set theURL to get url
+     set theTitle to get title
+     javascript "alert('URL: " & theURL & "/ Title: " & theTitle & "')"
+ end tell
+ ```
+ 
+You can use the `javascript` call to e.g. create your own `click` events (or anything you'd like) inside the Fastmail UI.
+
 ## Troubleshooting
 
 ### Fastmate crashes on launch

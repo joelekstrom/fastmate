@@ -138,6 +138,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .map(NSImage.init(imageLiteralResourceName:))
             .eraseToAnyPublisher()
     }
+    
+    @objc func currentURL() -> String? {
+        return self.mainWebViewController?.webView?.url?.absoluteString
+    }
+    
+    @objc func currentTitle() -> String? {
+        return self.mainWebViewController?.webView?.title
+    }
+    
+    @objc func application(_ sender: NSApplication, delegateHandlesKey key: String) -> Bool {
+        return ["currentURL","currentTitle"].contains(key)
+    }
+    
+    
 }
 
 // MARK: Update checks
