@@ -87,7 +87,7 @@ var Fastmate = {
     },
 
     documentDidChange: function() {
-        window.webkit.messageHandlers.DocumentDidChange.postMessage();
+        window.webkit.messageHandlers.DocumentDidChange.postMessage(null);
         Fastmate.addLinkMouseListeners()
     },
 
