@@ -2,7 +2,7 @@
 #import "KVOBlockObserver.h"
 #import "UserDefaultsKeys.h"
 #import "PrintManager.h"
-#import "FileDownloadTask.h"
+#import "FileDownloadManager.h"
 @import WebKit;
 
 @interface WKWebView (SyncBridge)
@@ -16,9 +16,11 @@
 @property (nonatomic, strong) WKUserContentController *userContentController;
 @property (nonatomic, strong) id baseURLObserver;
 @property (nonatomic, strong) id currentURLObserver;
+@property (nonatomic, strong) FileDownloadManager *fileDownloadManager;
 @property (nonatomic, strong) NSURL *baseURL;
 @property (nonatomic, strong) NSTextField *linkPreviewTextField;
 @property (nonatomic, assign) CGFloat zoomLevel;
+
 
 // If the user is for example viewing a PDF inline, this value will point to the actual file
 @property (nonatomic, strong) NSURL *lastViewedUserContent;
@@ -62,6 +64,8 @@
         NSURL *mailURL = [weakSelf.baseURL URLByAppendingPathComponent:@"mail" isDirectory:YES];
         [weakSelf.webView loadRequest:[NSURLRequest requestWithURL:mailURL]];
     }];
+    
+    self.fileDownloadManager = [[FileDownloadManager alloc] init];
 }
 
 - (NSURL *)currentlyViewedAttachment
@@ -80,8 +84,6 @@
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     BOOL isFastmailLink = [navigationAction.request.URL.host hasSuffix:@".fastmail.com"];
     self.lastViewedUserContent = nil;
-
-    FileDownloadTask *downloadTask = [[FileDownloadTask alloc] init];
     
     if (webView == self.temporaryWebView) {
         // A temporary web view means we caught a link URL which Fastmail wants to open externally (like a new tab).
@@ -96,7 +98,7 @@
         self.temporaryWebView = nil;
     } else if ([navigationAction.request.URL.host hasSuffix:@".fastmailusercontent.com"]) {
         if ([self isDownloadRequest:navigationAction.request]) {
-            [downloadTask downloadWithURL:navigationAction.request.URL];
+            [self.fileDownloadManager addDownloadWithURL:navigationAction.request.URL];
             decisionHandler(WKNavigationActionPolicyCancel);
         } else {
             self.lastViewedUserContent = navigationAction.request.URL;

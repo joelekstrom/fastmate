@@ -1,5 +1,7 @@
 #import "FileDownloadTask.h"
+#import "FileDownloadManager.h"
 #import "FileDownloadUtil.h"
+#import "UserDefaultsKeys.h"
 @import WebKit;
 
 @interface FileDownloadTask () <NSURLSessionDataDelegate>
@@ -7,12 +9,15 @@
     long long _totalBytes;
     long long _receivedBytes;
     int64_t _lastReceivedBytes;
+
 }
 
 @property (nonatomic, strong) NSURLSession *session ;
 @property (nonatomic, strong) NSOutputStream *outStream;
-@property (nonatomic, weak) NSURLSessionTask *task;
 @property (nonatomic, strong) NSProgress *progress;
+@property (nonatomic, strong) FileDownloadManager *fileDownloadManager;
+@property (nonatomic, strong) NSURL *url;
+@property (nonatomic, strong) NSString *fileName;
 @property (nonatomic, strong) NSString *downloadedPath;
 @property (nonatomic, strong) NSString *downloadingPath;
 
@@ -20,35 +25,71 @@
 
 @implementation FileDownloadTask
 
-- (void)downloadWithURL:(NSURL *)url {
-    NSString *fileName = url.lastPathComponent;
-    // FIXME: this should be made user configurable in settings
-    NSString *downloadsPath = [[NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES) firstObject] stringByResolvingSymlinksInPath];
-    NSString *availableFilename = [FileDownloadUtil nextAvailableFilenameAtPath:downloadsPath proposedFilename:fileName];
-    self.downloadedPath = [downloadsPath stringByAppendingPathComponent:availableFilename];
-    self.downloadingPath = [self.downloadedPath stringByAppendingString:@".fmdownload"];
-
-    if([FileDownloadUtil fileExists:self.downloadedPath]) {
-        NSLog(@"File already exists");
-        return;
+- (instancetype)initWithURL:(NSURL *)url fileDownloadManager:(FileDownloadManager *)fileDownloadManager {
+    self.url = url;
+    self.fileName = url.lastPathComponent;
+    self.fileDownloadManager = fileDownloadManager;
+    
+    NSString *downloadsPath = [NSUserDefaults.standardUserDefaults stringForKey:DownloadsPathKey];
+    
+    NSURLSessionConfiguration *conf = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:self.fileName];
+    self.session = [NSURLSession sessionWithConfiguration:conf delegate:self delegateQueue:nil];
+    
+    DownloadBehaviorType downloadBehaviorType = [NSUserDefaults.standardUserDefaults integerForKey:DownloadBehaviorKey];
+    if(downloadBehaviorType == DownloadBehaviorTypeAsk) {
+        self.downloadedPath = [downloadsPath stringByAppendingPathComponent:self.fileName];
+        if([FileDownloadUtil fileExists:self.downloadedPath]) {
+            NSAlert *alert = [NSAlert new];
+            alert.messageText = [NSString stringWithFormat:@"File \"%@\" already exists", self.fileName];
+            alert.window.defaultButtonCell = [alert addButtonWithTitle:@"Keep"].cell;
+            [alert addButtonWithTitle:@"Overwrite"];
+            alert.alertStyle = NSAlertStyleInformational;
+            NSModalResponse result = [alert runModal];
+            if (result == NSAlertFirstButtonReturn) {
+                downloadBehaviorType = DownloadBehaviorTypeKeep;
+            } else {
+                downloadBehaviorType = DownloadBehaviorTypeOverwrite;
+            }
+        }
     }
+
+    if(downloadBehaviorType == DownloadBehaviorTypeKeep) {
+        NSString *availableFilename = [FileDownloadUtil nextAvailableFilenameAtPath:downloadsPath proposedFilename:self.fileName];
+        self.downloadedPath = [downloadsPath stringByAppendingPathComponent:availableFilename];
+    } else if(downloadBehaviorType == DownloadBehaviorTypeOverwrite) {
+        self.downloadedPath = [downloadsPath stringByAppendingPathComponent:self.fileName];
+    }
+        
+    self.downloadingPath = [self.downloadedPath stringByAppendingString:@".fmdownload"];
     
     _receivedBytes = [FileDownloadUtil getFileSize:self.downloadingPath];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:0];
     [request setValue:[NSString stringWithFormat:@"bytes=%lld-",self->_receivedBytes] forHTTPHeaderField:@"Range"];
 
-    NSURLSessionConfiguration *conf = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:fileName];
-    self.session = [NSURLSession sessionWithConfiguration:conf delegate:self delegateQueue:nil];
-    
-    NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request];
-    self.task = dataTask ;
     self.outStream = [NSOutputStream outputStreamToFileAtPath:self.downloadingPath append:YES];
-        
-    [dataTask resume];
+    [[self.session dataTaskWithRequest:request] resume];
 
     _lastReceivedBytes = 0;
 
+    return self;
+}
+
+- (void)finish {
+    [self.session finishTasksAndInvalidate];
+    [self clean];
+}
+
+- (void)cancel {
+    [self.session invalidateAndCancel];
+    [self clean];
+}
+
+- (void)clean {
+    [self.outStream close];
+    [self.progress unpublish];
+    self.session = nil;
+    [self.fileDownloadManager removeDownloadWithURL:self.url];
 }
 
 #pragma mark - NSURLSessionDataDelegate
@@ -62,16 +103,13 @@
     }
     if (_receivedBytes == _totalBytes) {
         [FileDownloadUtil moveFile:self.downloadingPath toPath:self.downloadedPath];
-        NSLog(@"Already downloaded file - not doing anything");
         completionHandler(NSURLSessionResponseCancel);
         return;
     }
     if (_receivedBytes > _totalBytes) {
-        // FIXME: not sure what's the way to go here... re-download directly?
         [FileDownloadUtil removeFile:self.downloadingPath];
         completionHandler(NSURLSessionResponseCancel);
-        NSLog(@"Something went wrong, we should download this file again");
-        [self downloadWithURL:dataTask.originalRequest.URL];
+        NSLog(@"Something went wrong - more bytes received than expected");
         return;
     }
     
@@ -82,7 +120,7 @@
     
     self.progress = [[NSProgress alloc] initWithParent:nil userInfo:info];
     [self.progress setKind:@"NSProgressKindFile"];
-    [self.progress setPausable:YES];
+    [self.progress setPausable:NO];
     [self.progress setCancellable:YES];
     [self.progress setTotalUnitCount:_totalBytes];
     [self.progress publish];
@@ -94,7 +132,6 @@
         [weakSelf clean];
     };
         
-    self.outStream = [NSOutputStream outputStreamToFileAtPath:self.downloadingPath append:YES];
     [self.outStream open];
     
     completionHandler(NSURLSessionResponseAllow);
@@ -108,33 +145,27 @@
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error {
 
-    // alwasy clean up
-    [self clean];
-    
     if(error) {
         if(error.code == NSURLErrorCancelled) {
             NSLog(@"Download cancelled");
         } else {
             NSLog(@"Something went wrong: %@", error);
         }
+        [self cancel];
         return;
     }
     
+    [self finish];
+    
     [FileDownloadUtil moveFile:self.downloadingPath toPath:self.downloadedPath];
     
-    // FIXME: this should be configurable in settings? OR this should be skipped?
-    NSSet *extSet = [NSSet setWithObjects:@"doc",@"docx",@"ppt",@"pptx",@"xls",@"xlsx",@"pdf",@"png",@"jpg",nil];
-    if ([extSet containsObject:self.downloadedPath.pathExtension]) {
-        [NSWorkspace.sharedWorkspace openFile:self.downloadedPath];
+    if ([NSUserDefaults.standardUserDefaults boolForKey:@"shouldOpenSafeDownloads"]) {
+        NSSet *extSet = [NSSet setWithObjects:@"doc",@"docx",@"ppt",@"pptx",@"xls",@"xlsx",@"pdf",@"png",@"jpg",nil];
+        if ([extSet containsObject:self.downloadedPath.pathExtension]) {
+            [NSWorkspace.sharedWorkspace openFile:self.downloadedPath];
+        }
     }
 
-}
-
-- (void)clean {
-    [self.session invalidateAndCancel];
-    [self.outStream close];
-    [self.progress unpublish];
-    self.session = nil;
 }
 
 @end

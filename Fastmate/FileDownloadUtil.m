@@ -24,8 +24,9 @@
 
 + (NSString *)nextAvailableFilenameAtPath:(NSString *)aPath proposedFilename:(NSString *)aName{
     NSFileManager *fm = [NSFileManager defaultManager];
-    if (![fm fileExistsAtPath:[aPath stringByAppendingPathComponent:aName]])
+    if (![fm fileExistsAtPath:[aPath stringByAppendingPathComponent:aName]]) {
         return aName;
+    }
     unsigned int i = 1;
     NSString *extension = [aName pathExtension];
     NSString *filenameNoSuffix = [aName stringByDeletingPathExtension];
