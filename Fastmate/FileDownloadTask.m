@@ -2,7 +2,6 @@
 #import "FileDownloadManager.h"
 #import "FileDownloadUtil.h"
 #import "UserDefaultsKeys.h"
-@import WebKit;
 
 @interface FileDownloadTask () <NSURLSessionDataDelegate>
 {
