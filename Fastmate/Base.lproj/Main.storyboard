@@ -426,11 +426,11 @@
             <objects>
                 <viewController title="Fastmate Settings" showSeguePresentationStyle="single" id="Tjh-E4-m7V" customClass="SettingsViewController" sceneMemberID="viewController">
                     <view key="view" id="F1O-1e-Ohl">
-                        <rect key="frame" x="0.0" y="0.0" width="535" height="253"/>
+                        <rect key="frame" x="0.0" y="0.0" width="535" height="266"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="kKl-dg-XhU">
-                                <rect key="frame" x="13" y="10" width="509" height="229"/>
+                                <rect key="frame" x="13" y="10" width="509" height="242"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="" id="hnf-kG-bEx">
@@ -851,14 +851,14 @@
                                     </tabViewItem>
                                     <tabViewItem label="Download" identifier="" id="8T0-RE-GYc">
                                         <view key="view" id="6m5-4g-FyX">
-                                            <rect key="frame" x="10" y="33" width="489" height="183"/>
+                                            <rect key="frame" x="10" y="33" width="489" height="196"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SAm-us-M3i">
-                                                    <rect key="frame" x="20" y="58" width="457" height="109"/>
+                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="13" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SAm-us-M3i">
+                                                    <rect key="frame" x="20" y="85" width="457" height="95"/>
                                                     <subviews>
                                                         <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wQY-hJ-GQk">
-                                                            <rect key="frame" x="0.0" y="93" width="457" height="16"/>
+                                                            <rect key="frame" x="0.0" y="79" width="457" height="16"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="75h-cc-HUr">
                                                                     <rect key="frame" x="-2" y="0.0" width="134" height="16"/>
@@ -913,7 +913,7 @@
                                                             </customSpacing>
                                                         </stackView>
                                                         <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ca0-MO-xOh">
-                                                            <rect key="frame" x="0.0" y="54" width="290" height="19"/>
+                                                            <rect key="frame" x="0.0" y="47" width="290" height="19"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fim-ZT-Mbs">
                                                                     <rect key="frame" x="-2" y="1" width="134" height="16"/>
