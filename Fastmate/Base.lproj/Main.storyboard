@@ -426,11 +426,11 @@
             <objects>
                 <viewController title="Fastmate Settings" showSeguePresentationStyle="single" id="Tjh-E4-m7V" customClass="SettingsViewController" sceneMemberID="viewController">
                     <view key="view" id="F1O-1e-Ohl">
-                        <rect key="frame" x="0.0" y="0.0" width="535" height="266"/>
+                        <rect key="frame" x="0.0" y="0.0" width="535" height="253"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="kKl-dg-XhU">
-                                <rect key="frame" x="13" y="10" width="509" height="242"/>
+                                <rect key="frame" x="13" y="10" width="509" height="229"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="" id="hnf-kG-bEx">
@@ -792,11 +792,11 @@
                                     </tabViewItem>
                                     <tabViewItem label="Navigation" identifier="" id="de2-gj-Roa">
                                         <view key="view" id="H85-Jl-7b6">
-                                            <rect key="frame" x="10" y="33" width="489" height="183"/>
+                                            <rect key="frame" x="10" y="33" width="489" height="196"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aEB-uq-hnD">
-                                                    <rect key="frame" x="20" y="151" width="416" height="16"/>
+                                                    <rect key="frame" x="20" y="164" width="416" height="16"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rFl-It-twE">
                                                             <rect key="frame" x="-2" y="0.0" width="101" height="16"/>
@@ -851,25 +851,25 @@
                                     </tabViewItem>
                                     <tabViewItem label="Download" identifier="" id="8T0-RE-GYc">
                                         <view key="view" id="6m5-4g-FyX">
-                                            <rect key="frame" x="10" y="33" width="489" height="196"/>
+                                            <rect key="frame" x="10" y="33" width="489" height="183"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SAm-us-M3i">
-                                                    <rect key="frame" x="19" y="87" width="454" height="93"/>
+                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SAm-us-M3i">
+                                                    <rect key="frame" x="20" y="58" width="457" height="109"/>
                                                     <subviews>
                                                         <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wQY-hJ-GQk">
-                                                            <rect key="frame" x="0.0" y="77" width="454" height="16"/>
+                                                            <rect key="frame" x="0.0" y="93" width="457" height="16"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="75h-cc-HUr">
-                                                                    <rect key="frame" x="-2" y="0.0" width="131" height="16"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Duplicate downloads" id="rh8-pt-JZh">
+                                                                    <rect key="frame" x="-2" y="0.0" width="134" height="16"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Duplicate downloads:" id="rh8-pt-JZh">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h5E-1r-rfb">
-                                                                    <rect key="frame" x="145" y="-1" width="88" height="18"/>
+                                                                    <rect key="frame" x="148" y="-1" width="88" height="18"/>
                                                                     <buttonCell key="cell" type="radio" title="Keep both" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="zYc-eG-5RJ">
                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -879,7 +879,7 @@
                                                                     </connections>
                                                                 </button>
                                                                 <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="ifo-pW-k7A">
-                                                                    <rect key="frame" x="251" y="-1" width="136" height="18"/>
+                                                                    <rect key="frame" x="254" y="-1" width="136" height="18"/>
                                                                     <buttonCell key="cell" type="radio" title="Overwrite existing" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="hpr-QO-tPN">
                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -889,7 +889,7 @@
                                                                     </connections>
                                                                 </button>
                                                                 <button verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="6X8-3e-kxL">
-                                                                    <rect key="frame" x="405" y="-1" width="49" height="18"/>
+                                                                    <rect key="frame" x="408" y="-1" width="49" height="18"/>
                                                                     <buttonCell key="cell" type="radio" title="Ask" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="FuE-uy-eix">
                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -913,18 +913,18 @@
                                                             </customSpacing>
                                                         </stackView>
                                                         <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ca0-MO-xOh">
-                                                            <rect key="frame" x="0.0" y="46" width="272" height="19"/>
+                                                            <rect key="frame" x="0.0" y="54" width="290" height="19"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fim-ZT-Mbs">
-                                                                    <rect key="frame" x="-2" y="1" width="116" height="16"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Download location" id="m8n-de-pAk">
+                                                                    <rect key="frame" x="-2" y="1" width="134" height="16"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Download location:" id="m8n-de-pAk">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <pathControl verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1gz-pK-Tf2">
-                                                                    <rect key="frame" x="129" y="-4" width="146" height="25"/>
+                                                                    <rect key="frame" x="147" y="-4" width="146" height="25"/>
                                                                     <pathCell key="cell" selectable="YES" editable="YES" alignment="left" pathStyle="popUp" id="lBs-kQ-u0Y">
                                                                         <font key="font" metaFont="system"/>
                                                                         <url key="url" string="file:///Users/mdbraber/Downloads/"/>
@@ -945,7 +945,7 @@
                                                             </customSpacing>
                                                         </stackView>
                                                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XWZ-Rv-TMx">
-                                                            <rect key="frame" x="0.0" y="0.0" width="315" height="34"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="312" height="34"/>
                                                             <subviews>
                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WqB-wu-nv4">
                                                                     <rect key="frame" x="-2" y="17" width="242" height="18"/>
@@ -958,8 +958,8 @@
                                                                     </connections>
                                                                 </button>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7pe-88-2Nr">
-                                                                    <rect key="frame" x="16" y="0.0" width="301" height="14"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="&quot;Safe&quot; files include Office documents , PDFs and images" id="v5U-b5-TUB">
+                                                                    <rect key="frame" x="16" y="0.0" width="298" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="&quot;Safe&quot; files include Office documents, PDFs and images" id="v5U-b5-TUB">
                                                                         <font key="font" metaFont="message" size="11"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -979,6 +979,9 @@
                                                             </customSpacing>
                                                         </stackView>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="1gz-pK-Tf2" firstAttribute="leading" secondItem="h5E-1r-rfb" secondAttribute="leading" id="QDK-Im-ZCr"/>
+                                                    </constraints>
                                                     <visibilityPriorities>
                                                         <integer value="1000"/>
                                                         <integer value="1000"/>
@@ -991,6 +994,10 @@
                                                     </customSpacing>
                                                 </stackView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="SAm-us-M3i" firstAttribute="top" secondItem="6m5-4g-FyX" secondAttribute="top" constant="16" id="SsX-eL-uFn"/>
+                                                <constraint firstItem="SAm-us-M3i" firstAttribute="leading" secondItem="6m5-4g-FyX" secondAttribute="leading" constant="20" id="wRC-UD-I5p"/>
+                                            </constraints>
                                         </view>
                                     </tabViewItem>
                                 </tabViewItems>
