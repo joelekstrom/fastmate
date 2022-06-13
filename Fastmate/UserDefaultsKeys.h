@@ -10,7 +10,7 @@
 #define ShouldShowUnreadMailInDockKey       NSStringFromSelector(@selector(shouldShowUnreadMailInDock))
 #define ShouldShowUnreadMailCountInDockKey  NSStringFromSelector(@selector(shouldShowUnreadMailCountInDock))
 #define ShouldShowUnreadMailInStatusBarKey  NSStringFromSelector(@selector(shouldShowUnreadMailInStatusBar))
-#define ShouldOpenSafeDownloadsKey          NSStringFromSelector(@selector(shouldOpenSafeDownloadsKey))
+#define ShouldOpenSafeDownloadsKey          NSStringFromSelector(@selector(shouldOpenSafeDownloads))
 #define ShouldUseFastmailBetaKey            NSStringFromSelector(@selector(shouldUseFastmailBeta))
 #define WatchedFolderTypeKey                NSStringFromSelector(@selector(watchedFolderType))
 #define WatchedFoldersKey                   NSStringFromSelector(@selector(watchedFolders))

@@ -159,7 +159,7 @@
     
     [FileDownloadUtil moveFile:self.downloadingPath toPath:self.downloadedPath];
     
-    if ([NSUserDefaults.standardUserDefaults boolForKey:@"shouldOpenSafeDownloads"]) {
+    if ([NSUserDefaults.standardUserDefaults boolForKey:ShouldOpenSafeDownloadsKey]) {
         NSSet *extSet = [NSSet setWithObjects:@"doc",@"docx",@"ppt",@"pptx",@"xls",@"xlsx",@"pdf",@"png",@"jpg",nil];
         if ([extSet containsObject:self.downloadedPath.pathExtension]) {
             [NSWorkspace.sharedWorkspace openFile:self.downloadedPath];
