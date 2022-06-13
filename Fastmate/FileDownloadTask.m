@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *fileName;
 @property (nonatomic, strong) NSString *downloadedPath;
 @property (nonatomic, strong) NSString *downloadingPath;
+@property (nonatomic) DownloadBehaviorType downloadBehavior;
 
 @end
 
@@ -34,8 +35,8 @@
     NSURLSessionConfiguration *conf = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:self.fileName];
     self.session = [NSURLSession sessionWithConfiguration:conf delegate:self delegateQueue:nil];
     
-    DownloadBehaviorType downloadBehaviorType = [NSUserDefaults.standardUserDefaults integerForKey:DownloadBehaviorKey];
-    if(downloadBehaviorType == DownloadBehaviorTypeAsk) {
+    self.downloadBehavior = [NSUserDefaults.standardUserDefaults integerForKey:DownloadBehaviorKey];
+    if(self.downloadBehavior == DownloadBehaviorTypeAsk) {
         self.downloadedPath = [downloadsPath stringByAppendingPathComponent:self.fileName];
         if([FileDownloadUtil fileExists:self.downloadedPath]) {
             NSAlert *alert = [NSAlert new];
@@ -45,17 +46,17 @@
             alert.alertStyle = NSAlertStyleInformational;
             NSModalResponse result = [alert runModal];
             if (result == NSAlertFirstButtonReturn) {
-                downloadBehaviorType = DownloadBehaviorTypeKeep;
+                self.downloadBehavior = DownloadBehaviorTypeKeep;
             } else {
-                downloadBehaviorType = DownloadBehaviorTypeOverwrite;
+                self.downloadBehavior = DownloadBehaviorTypeOverwrite;
             }
         }
     }
 
-    if(downloadBehaviorType == DownloadBehaviorTypeKeep) {
+    if(self.downloadBehavior == DownloadBehaviorTypeKeep) {
         NSString *availableFilename = [FileDownloadUtil nextAvailableFilenameAtPath:downloadsPath proposedFilename:self.fileName];
         self.downloadedPath = [downloadsPath stringByAppendingPathComponent:availableFilename];
-    } else if(downloadBehaviorType == DownloadBehaviorTypeOverwrite) {
+    } else if(self.downloadBehavior == DownloadBehaviorTypeOverwrite) {
         self.downloadedPath = [downloadsPath stringByAppendingPathComponent:self.fileName];
     }
         
@@ -155,9 +156,15 @@
     }
     
     [self finish];
-    
+
+    if(self.downloadBehavior == DownloadBehaviorTypeOverwrite) {
+        // Remove current file at download path (if exists), otherwise move will fail
+        // Not sure if there's a more safe (atomic) way to do this
+        [FileDownloadUtil removeFile:self.downloadedPath];
+    }
     [FileDownloadUtil moveFile:self.downloadingPath toPath:self.downloadedPath];
-    
+
+        
     if ([NSUserDefaults.standardUserDefaults boolForKey:ShouldOpenSafeDownloadsKey]) {
         NSSet *extSet = [NSSet setWithObjects:@"doc",@"docx",@"ppt",@"pptx",@"xls",@"xlsx",@"pdf",@"png",@"jpg",nil];
         if ([extSet containsObject:self.downloadedPath.pathExtension]) {
