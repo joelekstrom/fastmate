@@ -226,6 +226,11 @@
     [self.webView loadRequest:[NSURLRequest requestWithURL:components.URL]];
 }
 
+- (void)handleHttpsURL:(NSURL *)URL {
+    [self.webView loadRequest:[NSURLRequest requestWithURL:URL]];
+}
+
+
 - (void)configureUserContentController {
     self.userContentController = [WKUserContentController new];
     [self.userContentController addScriptMessageHandler:self name:@"Notification"];
