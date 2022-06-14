@@ -109,7 +109,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        if url.scheme == "fastmate" {
+        if url.scheme == "https" {
+            mainWebViewController?.handleHttpsURL(url)
+        } else if url.scheme == "fastmate" {
             mainWebViewController?.handleFastmateURL(url)
         } else if url.scheme == "mailto" {
             mainWebViewController?.handleMailtoURL(url)
