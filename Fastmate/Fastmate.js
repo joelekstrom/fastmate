@@ -62,6 +62,9 @@ var Fastmate = {
         var result = {};
         for (var i = 0; i < mailboxes.length; ++i) {
             var mailbox = mailboxes[i];
+            if (mailbox.classList.contains("v-MailboxSource--drafts")) {
+                continue; // Exclude drafts folder in count
+            }
             var labelElement = mailbox.getElementsByClassName("app-source-name")[0];
             var badgeElement = mailbox.getElementsByClassName("v-MailboxSource-badge")[0];
             var name = labelElement.innerHTML;
