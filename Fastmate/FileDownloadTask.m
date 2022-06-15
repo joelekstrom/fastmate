@@ -115,7 +115,7 @@
     
     NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:
         @"NSProgressFileOperationKindDownloading", @"NSProgressFileOperationKindKey",
-        [NSURL fileURLWithPath:self.downloadingPath], @"NSProgressFileURLKey",
+        [[NSURL fileURLWithPath:self.downloadingPath] URLByResolvingSymlinksInPath], @"NSProgressFileURLKey",
         nil];
     
     self.progress = [[NSProgress alloc] initWithParent:nil userInfo:info];
@@ -129,7 +129,7 @@
     __weak typeof(self) weakSelf = self;
     self.progress.cancellationHandler = ^{
         [FileDownloadUtil removeFile:[weakSelf downloadingPath]];
-        [weakSelf clean];
+        [weakSelf cancel];
     };
         
     [self.outStream open];
