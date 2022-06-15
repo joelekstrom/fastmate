@@ -194,6 +194,10 @@
     self.view.window.backgroundColor = color;
 }
 
+- (void)handleHttpsURL:(NSURL *)URL {
+    [self.webView loadRequest:[NSURLRequest requestWithURL:URL]];
+}
+
 - (void)handleMailtoURL:(NSURL *)URL {
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.baseURL resolvingAgainstBaseURL:NO];
     components.path = @"/action/compose/";

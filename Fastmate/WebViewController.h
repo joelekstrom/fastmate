@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteMessage;
 - (BOOL)nextMessage;
 - (BOOL)previousMessage;
+- (void)handleHttpsURL:(NSURL *)URL;
 - (void)handleMailtoURL:(NSURL *)URL;
 - (void)handleFastmateURL:(NSURL *)URL;
 - (void)handleNotificationClickWithIdentifier:(NSString *)identifier;
