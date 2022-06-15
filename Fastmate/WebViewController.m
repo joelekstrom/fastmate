@@ -41,6 +41,7 @@
     WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
     configuration.applicationNameForUserAgent = @"Fastmate";
     configuration.userContentController = self.userContentController;
+    [configuration.preferences setValue:@YES forKey:@"developerExtrasEnabled"];
 
     self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
     self.webView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
