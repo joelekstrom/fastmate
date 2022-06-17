@@ -44,6 +44,11 @@ extension UserDefaults {
         set { set(NSStringFromRect(newValue), forKey: #keyPath(mainWindowFrame)) }
     }
 
+    @objc dynamic var composeWindowFrame: NSRect {
+        get { NSRectFromString(string(forKey: #keyPath(composeWindowFrame)) ?? "") }
+        set { set(NSStringFromRect(newValue), forKey: #keyPath(composeWindowFrame)) }
+    }
+
     @objc dynamic var lastUsedWindowColor: NSColor {
         data(forKey: #keyPath(lastUsedWindowColor))
             .flatMap { try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: $0) }

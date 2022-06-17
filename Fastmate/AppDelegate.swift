@@ -259,6 +259,10 @@ extension AppDelegate {
         case kVK_Delete:
             return mainWebViewController?.deleteMessage() ?? false
 
+        case kVK_ANSI_C:
+            NSLog("Pressed c");
+            return mainWebViewController?.composeNewEmail() ?? false
+            
         default:
             return false
         }

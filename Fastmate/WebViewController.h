@@ -8,11 +8,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, nullable) WKWebView *webView;
 
-- (void)composeNewEmail;
 - (void)focusSearchField;
 - (BOOL)deleteMessage;
 - (BOOL)nextMessage;
 - (BOOL)previousMessage;
+- (BOOL)composeNewEmail;
+- (void)openComposeWindow;
 - (void)handleMailtoURL:(NSURL *)URL;
 - (void)handleFastmateURL:(NSURL *)URL;
 - (void)handleNotificationClickWithIdentifier:(NSString *)identifier;
@@ -22,6 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSURL *currentlyViewedAttachment;
 
 @property (nonatomic, copy, nullable) void (^notificationHandler)(WKScriptMessage *);
+
+@end
+
+@interface ComposeViewController : WebViewController
 
 @end
 

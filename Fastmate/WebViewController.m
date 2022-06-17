@@ -41,6 +41,7 @@
     WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
     configuration.applicationNameForUserAgent = @"Fastmate";
     configuration.userContentController = self.userContentController;
+    [configuration.preferences setValue:@YES forKey:@"developerExtrasEnabled"];
 
     self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
     self.webView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
@@ -142,8 +143,15 @@
     return self.temporaryWebView;
 }
 
-- (void)composeNewEmail {
-    [self.webView evaluateJavaScript:@"Fastmate.compose()" completionHandler:nil];
+- (void)openComposeWindow {
+    NSStoryboard *storyboard = [NSStoryboard mainStoryboard];
+    ComposeWindowController *composeWindowController = [storyboard instantiateControllerWithIdentifier:@"ComposeWindowController"];
+    [composeWindowController showWindow:nil];
+}
+
+- (BOOL)composeNewEmail {
+    NSLog(@"Calling composeNewEmail in JS");
+    return [self.webView evaluateJavaScript:@"Fastmate.composeNewEmail()"];
 }
 
 - (BOOL)deleteMessage {
@@ -216,6 +224,7 @@
     [self.userContentController addScriptMessageHandler:self name:@"LinkHover"];
     [self.userContentController addScriptMessageHandler:self name:@"DocumentDidChange"];
     [self.userContentController addScriptMessageHandler:self name:@"Print"];
+    [self.userContentController addScriptMessageHandler:self name:@"OpenComposeWindow"];
 
     NSString *fastmateSource = [NSString stringWithContentsOfURL:[NSBundle.mainBundle URLForResource:@"Fastmate" withExtension:@"js"] encoding:NSUTF8StringEncoding error:nil];
     WKUserScript *fastmateScript = [[WKUserScript alloc] initWithSource:fastmateSource injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
@@ -248,7 +257,10 @@
         [self updateUnreadCounts];
     } else if ([message.name isEqualToString:@"Print"]) {
         [PrintManager.sharedInstance printControllerContent:self];
+    } else if ([message.name isEqualToString:@"OpenComposeWindow"]) {
+        [self openComposeWindow];
     }
+
 }
 
 - (void)handleLinkHoverMessage:(WKScriptMessage *)message {
@@ -389,14 +401,54 @@
 
 @end
 
+@implementation ComposeViewController
+
+- (void)viewDidLoad {
+    [super configureUserContentController];
+    self.zoomLevel = 1.0;
+
+    WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
+    configuration.applicationNameForUserAgent = @"Fastmate";
+    configuration.userContentController = self.userContentController;
+    [configuration.preferences setValue:@YES forKey:@"developerExtrasEnabled"];
+
+    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
+    self.webView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    self.webView.navigationDelegate = self;
+    self.webView.UIDelegate = self;
+    [self.view addSubview:self.webView];
+
+    __weak typeof(self) weakSelf = self;
+    self.currentURLObserver = [KVOBlockObserver observe:self keyPath:@"webView.URL" block:^(id _Nonnull value) {
+        [weakSelf queryToolbarColor];
+        [weakSelf adjustV67Width];
+        [weakSelf hideSidebar];
+    }];
+
+    self.baseURLObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldUseFastmailBetaKey block:^(BOOL useBeta) {
+        NSString *baseURLString = useBeta ? @"https://beta.fastmail.com" : @"https://www.fastmail.com";
+        weakSelf.baseURL = [NSURL URLWithString:baseURLString];
+        NSURL *mailURL = [weakSelf.baseURL URLByAppendingPathComponent:@"mail/compose" isDirectory:YES];
+        [weakSelf.webView loadRequest:[NSURLRequest requestWithURL:mailURL]];
+    }];
+}
+
+- (void)hideSidebar {
+    [self.webView evaluateJavaScript:@"Fastmate.hideSidebar()" completionHandler:nil];
+}
+
+@end
+
 // based on code found in this answer:
 // https://stackoverflow.com/a/68434118
 
 @implementation WKWebView (SyncBridge)
 - (BOOL)evaluateJavaScript:(NSString *)script {
+    NSLog(@"Running evaluateJavaScript");
     BOOL __block waiting = YES;
     id __block retVal = nil;
     [self evaluateJavaScript: script completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        NSLog(@"Getting result: %@ / error: %@", result, error);
         if (error == nil) {
             retVal = result;
         }
@@ -406,7 +458,7 @@
     while (waiting) {
         [NSRunLoop.currentRunLoop acceptInputForMode:NSDefaultRunLoopMode beforeDate:NSDate.distantFuture];
     }
-    return [retVal isEqual: @"true"];
+    return [retVal isEqual:@"true"];
 }
 @end
 

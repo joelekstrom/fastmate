@@ -28,6 +28,21 @@ var Fastmate = {
         return "false";
     },
 
+    composeNewEmail: function() {
+        console.log("Compose new email");
+        var composeButton = document.getElementById("v130");
+        var content = document.getElementById("v48");
+        var page = document.getElementById("v269");
+        var selected = document.getElementById("v437");
+        var v187 = document.getElementById("v187");
+        if (composeButton != null && (document.activeElement == content || document.activeElement == page || document.activeElement == selected || document.activeElement == v187)) {
+            window.webkit.messageHandlers.OpenComposeWindow.postMessage(null);
+            return "true";
+        }
+        return "false";
+    },
+    
+    
     focusSearch: function() {
         Fastmate.simulateKeyPress("/");
     },
@@ -52,9 +67,12 @@ var Fastmate = {
     
     getToolbarColor: function() {
         var toolbar = document.getElementsByClassName("v-PageHeader")[0];
-        var style = window.getComputedStyle(toolbar);
-        var color = style.getPropertyValue('background-color');
-        return color;
+        if (toolbar) {
+            var style = window.getComputedStyle(toolbar);
+            var color = style.getPropertyValue('background-color');
+            return color;
+        }
+        return "rgb(36, 57, 89)";
     },
 
     getMailboxUnreadCounts: function() {
@@ -83,11 +101,23 @@ var Fastmate = {
     },
     
     adjustV67Width: function() {
-        document.getElementById("v67").style.maxWidth = "100%";
+        var v67 = document.getElementById("v67")
+        if(v67) v67.style.maxWidth = "100%";
+    },
+
+    hideSidebar: function() {
+        document.querySelector(".v-Split--left").style.display = "none";
+        document.querySelector(".v-Split--right").style.left = "0";
+        let v219 = document.querySelector('#v219');
+        let v219_clone = v219.cloneNode(true);
+        let v145 = document.querySelector('#v145');
+        v145.appendChild(v219_clone);
+        document.querySelector("#v220").style.display = "none";
+        document.removeChild(v219);
     },
 
     documentDidChange: function() {
-        window.webkit.messageHandlers.DocumentDidChange.postMessage();
+        window.webkit.messageHandlers.DocumentDidChange.postMessage(null);
         Fastmate.addLinkMouseListeners()
     },
 

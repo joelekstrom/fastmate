@@ -1,11 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Window Controller-->
+        <scene sceneID="k30-rJ-hhZ">
+            <objects>
+                <windowController storyboardIdentifier="ComposeWindowController" id="n96-r8-e5w" customClass="ComposeWindowController" customModule="Fastmate" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Compose" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="coY-Z6-MsS">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="686" y="528" width="805" height="1082"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="3840" height="1575"/>
+                        <view key="contentView" id="CDX-d7-D59">
+                            <rect key="frame" x="0.0" y="0.0" width="805" height="1082"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="n96-r8-e5w" id="fda-7t-Tch"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="OGI-Iy-FJw" kind="relationship" relationship="window.shadowedContentViewController" id="rJF-LN-Cro"/>
+                    </connections>
+                </windowController>
+                <customObject id="ZJy-qk-rWI" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-15" y="-983"/>
+        </scene>
+        <!--Compose View Controller-->
+        <scene sceneID="wPc-KB-uUn">
+            <objects>
+                <viewController id="OGI-Iy-FJw" customClass="ComposeViewController" sceneMemberID="viewController">
+                    <view key="view" id="nq5-39-Bgh">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="yyu-ed-i3j" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="701" y="-412"/>
+        </scene>
         <!--Fastmate Application-->
         <scene sceneID="JPo-4y-FX3">
             <objects>
@@ -72,7 +110,7 @@
                                     <items>
                                         <menuItem title="New mail" keyEquivalent="n" id="Was-JA-tGl">
                                             <connections>
-                                                <action selector="newDocument:" target="Ady-hI-5gd" id="4Si-XN-c54"/>
+                                                <segue destination="n96-r8-e5w" kind="show" identifier="" id="bgl-zk-Sri"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
@@ -502,7 +540,7 @@
                                                             </constraints>
                                                         </customView>
                                                         <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A5m-hB-YIt">
-                                                            <rect key="frame" x="165" y="30" width="119" height="32"/>
+                                                            <rect key="frame" x="165" y="30" width="120" height="32"/>
                                                             <buttonCell key="cell" type="push" title="User scripts..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="D1o-Zq-KvC">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                 <font key="font" metaFont="system"/>
