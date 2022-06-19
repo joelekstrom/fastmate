@@ -267,24 +267,30 @@ extension AppDelegate {
         
         switch Int(event.keyCode) {
         case kVK_UpArrow:
-            if UserDefaults.standard.arrowNavigatesMessageList {
+            if UserDefaults.standard.arrowNavigatesMessageList && event.modifierFlags.rawValue == 256 {
                 return currentWebViewController.nextMessage()
             } else {
                 return false
             }
 
         case kVK_DownArrow:
-            if UserDefaults.standard.arrowNavigatesMessageList {
+            if UserDefaults.standard.arrowNavigatesMessageList && event.modifierFlags.rawValue == 256 {
                 return currentWebViewController.previousMessage()
             } else {
                 return false
             }
 
         case kVK_Delete:
-            return currentWebViewController.deleteMessage()
+            if event.modifierFlags.rawValue == 256 {
+                return currentWebViewController.deleteMessage()
+            }
+            return false
 
         case kVK_ANSI_C:
-            return currentWebViewController.composeNewEmail()
+            if event.modifierFlags.rawValue == 256 {
+                return currentWebViewController.composeNewEmail()
+            }
+            return false
             
         default:
             return false
