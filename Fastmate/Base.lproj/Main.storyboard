@@ -10,13 +10,13 @@
         <scene sceneID="k30-rJ-hhZ">
             <objects>
                 <windowController storyboardIdentifier="ComposeWindowController" id="n96-r8-e5w" customClass="ComposeWindowController" customModule="Fastmate" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Compose" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="coY-Z6-MsS">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                    <window key="window" title="Compose" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="coY-Z6-MsS">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="686" y="528" width="805" height="1082"/>
+                        <rect key="contentRect" x="686" y="528" width="800" height="1000"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="3840" height="1575"/>
                         <view key="contentView" id="CDX-d7-D59">
-                            <rect key="frame" x="0.0" y="0.0" width="805" height="1082"/>
+                            <rect key="frame" x="0.0" y="0.0" width="800" height="1000"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </view>
                         <connections>
@@ -31,18 +31,18 @@
             </objects>
             <point key="canvasLocation" x="-15" y="-983"/>
         </scene>
-        <!--Compose View Controller-->
+        <!--ComposeWebViewController-->
         <scene sceneID="wPc-KB-uUn">
             <objects>
-                <viewController id="OGI-Iy-FJw" customClass="ComposeViewController" sceneMemberID="viewController">
-                    <view key="view" id="nq5-39-Bgh">
+                <viewController title="ComposeWebViewController" id="OGI-Iy-FJw" customClass="ComposeWebViewController" sceneMemberID="viewController">
+                    <view key="view" wantsLayer="YES" id="nq5-39-Bgh">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
                 </viewController>
                 <customObject id="yyu-ed-i3j" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="701" y="-412"/>
+            <point key="canvasLocation" x="809" y="-989"/>
         </scene>
         <!--Fastmate Application-->
         <scene sceneID="JPo-4y-FX3">
@@ -110,7 +110,7 @@
                                     <items>
                                         <menuItem title="New mail" keyEquivalent="n" id="Was-JA-tGl">
                                             <connections>
-                                                <segue destination="n96-r8-e5w" kind="show" identifier="" id="bgl-zk-Sri"/>
+                                                <segue destination="n96-r8-e5w" kind="show" identifier="OpenComposeWindow" id="bgl-zk-Sri"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
@@ -540,7 +540,7 @@
                                                             </constraints>
                                                         </customView>
                                                         <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="A5m-hB-YIt">
-                                                            <rect key="frame" x="165" y="30" width="120" height="32"/>
+                                                            <rect key="frame" x="165" y="30" width="119" height="32"/>
                                                             <buttonCell key="cell" type="push" title="User scripts..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="D1o-Zq-KvC">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                 <font key="font" metaFont="system"/>

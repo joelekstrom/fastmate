@@ -26,6 +26,8 @@
 		6B09A514285B9FA700C4C6AA /* ComposeWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B09A513285B9FA700C4C6AA /* ComposeWindowController.swift */; };
 		6B819F7A284D154A00D444FF /* Fastmate.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 6B819F79284D154A00D444FF /* Fastmate.sdef */; };
 		6B819F7F284D167400D444FF /* JavaScriptCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B819F7E284D167400D444FF /* JavaScriptCommand.swift */; };
+		6B8CFE44285C961900578A22 /* ComposeWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CFE43285C961900578A22 /* ComposeWindow.swift */; };
+		6B8CFE46285F2B0C00578A22 /* DraggableWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CFE45285F2B0C00578A22 /* DraggableWebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		6B09A513285B9FA700C4C6AA /* ComposeWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeWindowController.swift; sourceTree = "<group>"; };
 		6B819F79284D154A00D444FF /* Fastmate.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Fastmate.sdef; sourceTree = "<group>"; };
 		6B819F7E284D167400D444FF /* JavaScriptCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaScriptCommand.swift; sourceTree = "<group>"; };
+		6B8CFE43285C961900578A22 /* ComposeWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeWindow.swift; sourceTree = "<group>"; };
+		6B8CFE45285F2B0C00578A22 /* DraggableWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableWebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,8 @@
 			isa = PBXGroup;
 			children = (
 				5D1DDBD127897C4D00244F04 /* AppDelegate.swift */,
+				6B8CFE43285C961900578A22 /* ComposeWindow.swift */,
+				6B8CFE45285F2B0C00578A22 /* DraggableWebView.swift */,
 				6B819F7E284D167400D444FF /* JavaScriptCommand.swift */,
 				5D1DDBD3278B718000244F04 /* UserDefaults.swift */,
 				5D1DDBD5278C483400244F04 /* MainWindowController.swift */,
@@ -211,12 +217,14 @@
 				6B819F7F284D167400D444FF /* JavaScriptCommand.swift in Sources */,
 				5DBB973827BC4EE7002A2EFE /* Notifications.swift in Sources */,
 				5DF817F52790B9B700D765E4 /* UnreadCount.swift in Sources */,
+				6B8CFE46285F2B0C00578A22 /* DraggableWebView.swift in Sources */,
 				5D1DDBD227897C4D00244F04 /* AppDelegate.swift in Sources */,
 				5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */,
 				5D1DDBD6278C483400244F04 /* MainWindowController.swift in Sources */,
 				6B09A514285B9FA700C4C6AA /* ComposeWindowController.swift in Sources */,
 				5D1DDBD4278B718000244F04 /* UserDefaults.swift in Sources */,
 				5D39BEE32122383900693D7E /* main.m in Sources */,
+				6B8CFE44285C961900578A22 /* ComposeWindow.swift in Sources */,
 				5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */,
 				5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */,
 				5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */,

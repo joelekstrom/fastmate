@@ -18,8 +18,8 @@ var Fastmate = {
     },
 
     deleteMessage: function() {
-        var deleteButton = document.getElementById("v22");
-        var content = document.getElementById("v45");
+        var deleteButton = document.getElementById("v24");
+        var content = document.getElementById("v48");
         if (deleteButton != null && deleteButton.textContent == 'Delete' &&
             document.activeElement == content) {
             deleteButton.click();
@@ -27,15 +27,18 @@ var Fastmate = {
         }
         return "false";
     },
-
+    
     composeNewEmail: function() {
+        if(Fastmate.composeMode == true) return "false";
+        
         console.log("Compose new email");
         var composeButton = document.getElementById("v130");
         var content = document.getElementById("v48");
         var page = document.getElementById("v269");
         var selected = document.getElementById("v437");
         var v187 = document.getElementById("v187");
-        if (composeButton != null && (document.activeElement == content || document.activeElement == page || document.activeElement == selected || document.activeElement == v187)) {
+        var v271 = document.getElementById("v271");
+        if (composeButton != null && (document.activeElement == content || document.activeElement == page || document.activeElement == selected || document.activeElement == v187 || document.activeElement == v271)) {
             window.webkit.messageHandlers.OpenComposeWindow.postMessage(null);
             return "true";
         }
@@ -48,7 +51,7 @@ var Fastmate = {
     },
 
     nextMessage: function() {
-        var content = document.getElementById("v45");
+        var content = document.getElementById("v48");
         if (document.activeElement == content) {
             Fastmate.simulateKeyPress("k");
             return "true";
@@ -57,7 +60,7 @@ var Fastmate = {
     },
         
     previousMessage: function() {
-        var content = document.getElementById("v45");
+        var content = document.getElementById("v48");
         if (document.activeElement == content) {
             Fastmate.simulateKeyPress("j");
             return "true";
@@ -105,15 +108,48 @@ var Fastmate = {
         if(v67) v67.style.maxWidth = "100%";
     },
 
+    composeMode: false,
+
     hideSidebar: function() {
-        document.querySelector(".v-Split--left").style.display = "none";
-        document.querySelector(".v-Split--right").style.left = "0";
-        let v219 = document.querySelector('#v219');
-        let v219_clone = v219.cloneNode(true);
-        let v145 = document.querySelector('#v145');
-        v145.appendChild(v219_clone);
-        document.querySelector("#v220").style.display = "none";
-        document.removeChild(v219);
+        if(Fastmate.composeMode == true) return "false";
+        
+        const observer = new MutationObserver((mutations, obs) => {
+          const sidebar_left = document.querySelector(".v-Split--left");
+          const sidebar_right = document.querySelector(".v-Split--right");
+          const page_header = document.querySelectorAll('.v-PageHeader');
+          const search = document.querySelector('.v-MailToolbar-search');
+          console.log("Start");
+
+          if (sidebar_left && sidebar_right && page_header.length > 0) {
+              console.log("DOM is loaded");
+              sidebar_left.style.display = "none";
+              sidebar_right.style.left = "0";
+              search.style.display = "none";
+              /*
+              page_header.forEach(h => { h.style.display = "none"} )
+              var toolbar = document.querySelector('#v145');
+              var button = document.querySelector('.v-Button--sidebar');
+              if(toolbar && button) {
+                  console.log("Found it!");
+                  var button_clone = button.cloneNode(true);
+                  toolbar.appendChild(button_clone);
+                  button.remove();
+              }
+              */
+              console.log("Setting compose mode to true");
+              Fastmate.composeMode = true;
+              obs.disconnect();
+          }
+            
+        
+        });
+        
+        observer.observe(document, {
+          childList: true,
+          subtree: true
+        });
+        
+        return "true";
     },
 
     documentDidChange: function() {

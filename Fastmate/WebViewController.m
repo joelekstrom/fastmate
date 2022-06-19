@@ -13,6 +13,7 @@
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) WKWebView *temporaryWebView;
 @property (nonatomic, strong) WKUserContentController *userContentController;
+@property (nonatomic, strong) ComposeWindowController *composeWindowController;
 @property (nonatomic, strong) id baseURLObserver;
 @property (nonatomic, strong) id currentURLObserver;
 @property (nonatomic, strong) NSURL *baseURL;
@@ -143,14 +144,7 @@
     return self.temporaryWebView;
 }
 
-- (void)openComposeWindow {
-    NSStoryboard *storyboard = [NSStoryboard mainStoryboard];
-    ComposeWindowController *composeWindowController = [storyboard instantiateControllerWithIdentifier:@"ComposeWindowController"];
-    [composeWindowController showWindow:nil];
-}
-
 - (BOOL)composeNewEmail {
-    NSLog(@"Calling composeNewEmail in JS");
     return [self.webView evaluateJavaScript:@"Fastmate.composeNewEmail()"];
 }
 
@@ -258,7 +252,8 @@
     } else if ([message.name isEqualToString:@"Print"]) {
         [PrintManager.sharedInstance printControllerContent:self];
     } else if ([message.name isEqualToString:@"OpenComposeWindow"]) {
-        [self openComposeWindow];
+        AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+        [appDelegate openComposeWindow];
     }
 
 }
@@ -377,6 +372,10 @@
     [self.webView evaluateJavaScript:@"Fastmate.adjustV67Width()" completionHandler:nil];
 }
 
+- (void)hideSidebar {
+    [self.webView evaluateJavaScript:@"Fastmate.hideSidebar()" completionHandler:nil];
+}
+
 - (NSTextField *)linkPreviewTextField {
     if (!_linkPreviewTextField) {
         _linkPreviewTextField = [NSTextField labelWithString:@""];
@@ -401,18 +400,18 @@
 
 @end
 
-@implementation ComposeViewController
+@implementation ComposeWebViewController
 
 - (void)viewDidLoad {
     [super configureUserContentController];
     self.zoomLevel = 1.0;
 
     WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
-    configuration.applicationNameForUserAgent = @"Fastmate";
+    configuration.applicationNameForUserAgent = @"Fastmate compose";
     configuration.userContentController = self.userContentController;
     [configuration.preferences setValue:@YES forKey:@"developerExtrasEnabled"];
 
-    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
+    self.webView = [[DraggableWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
     self.webView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     self.webView.navigationDelegate = self;
     self.webView.UIDelegate = self;
@@ -433,10 +432,6 @@
     }];
 }
 
-- (void)hideSidebar {
-    [self.webView evaluateJavaScript:@"Fastmate.hideSidebar()" completionHandler:nil];
-}
-
 @end
 
 // based on code found in this answer:
@@ -444,11 +439,10 @@
 
 @implementation WKWebView (SyncBridge)
 - (BOOL)evaluateJavaScript:(NSString *)script {
-    NSLog(@"Running evaluateJavaScript");
+    //NSLog(@"Running evaluateJavaScript");
     BOOL __block waiting = YES;
     id __block retVal = nil;
     [self evaluateJavaScript: script completionHandler:^(id _Nullable result, NSError * _Nullable error) {
-        NSLog(@"Getting result: %@ / error: %@", result, error);
         if (error == nil) {
             retVal = result;
         }

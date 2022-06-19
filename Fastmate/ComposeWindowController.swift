@@ -8,15 +8,21 @@ class ComposeWindowController: NSWindowController, NSWindowDelegate {
     override func windowDidLoad() {
         super.windowDidLoad()
         setupSubscribers()
+
+        // Fixes that we can't trust that the main window exists in applicationDidFinishLaunching:.
+        // Here we always know that this content view controller will be the main web view controller,
+        // so inform the app delegate
+        let appDelegate = NSApplication.shared.delegate as? AppDelegate
+        appDelegate?.composeWebViewController = contentViewController as? ComposeWebViewController
     }
 
     func setupSubscribers() {
-        guard let composeViewController = contentViewController as? WebViewController, let window = window else {
+        guard let composeWebViewController = contentViewController as? ComposeWebViewController, let window = window else {
             return
         }
-
-        composeViewController.publisher(for: \.webView?.title)
-            .replaceNil(with: "Fastmate")
+        
+        composeWebViewController.publisher(for: \.webView?.title)
+            .replaceNil(with: "Compose")
             .assign(to: \.title, on: window)
             .store(in: &subscriptions)
 
@@ -44,9 +50,5 @@ class ComposeWindowController: NSWindowController, NSWindowDelegate {
             .store(in: &subscriptions)
     }
 
-    func windowShouldClose(_ sender: NSWindow) -> Bool {
-        NSApp.hide(sender)
-        return false
-    }
 }
 

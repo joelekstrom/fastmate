@@ -18,11 +18,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var isAutomaticUpdateCheck = false
     private var subscriptions = Set<AnyCancellable>()
     private var notificationCenter = FastmateNotificationCenter()
-
+    private var composeWindows = Set<ComposeWindowController>()
+    
     @Published var mainWebViewController: WebViewController? {
         didSet { mainWebViewController?.notificationHandler = notificationCenter.postNotifification(for:) }
     }
 
+    @Published var composeWebViewController: ComposeWebViewController? {
+        didSet { composeWebViewController?.notificationHandler = notificationCenter.postNotifification(for:) }
+    }
+    
     func applicationDidFinishLaunching(_ notification: Notification) {
         UserDefaults.standard.registerFastmateDefaults()
         notificationCenter.registerForNotifications()
@@ -139,6 +144,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .eraseToAnyPublisher()
     }
     
+    @objc func openComposeWindow() -> Void {
+        let composeWindowController = NSStoryboard.main?.instantiateController(withIdentifier: "ComposeWindowController") as! ComposeWindowController
+        self.composeWindows.insert(composeWindowController)
+        composeWindowController.showWindow(nil)
+    }
+    
     @objc func currentURL() -> String? {
         return self.mainWebViewController?.webView?.url?.absoluteString
     }
@@ -226,42 +237,54 @@ extension AppDelegate {
     }
 
     @IBAction func newDocument(_ sender: Any?) {
-        mainWebViewController?.composeNewEmail()
+        guard let currentWebViewController = NSApplication.shared.keyWindow?.contentViewController as? WebViewController else {
+            return
+        }
+        
+        currentWebViewController.composeNewEmail()
     }
 
     @IBAction func performFindPanelAction(_ sender: Any?) {
-        mainWebViewController?.focusSearchField()
+        guard let currentWebViewController = NSApplication.shared.keyWindow?.contentViewController as? WebViewController else {
+            return
+        }
+
+        currentWebViewController.focusSearchField()
     }
 
     @IBAction func print(_ sender: Any?) {
-        guard let webViewController = mainWebViewController else {
+        guard let currentWebViewController = NSApplication.shared.keyWindow?.contentViewController as? WebViewController else {
             return
         }
-        PrintManager.sharedInstance().printControllerContent(webViewController)
+
+        PrintManager.sharedInstance().printControllerContent(currentWebViewController)
     }
 
     @objc func handleKey(_ event: NSEvent) -> Bool {
+        guard let currentWebViewController = NSApplication.shared.keyWindow?.contentViewController as? WebViewController else {
+            return false
+        }
+        
         switch Int(event.keyCode) {
         case kVK_UpArrow:
             if UserDefaults.standard.arrowNavigatesMessageList {
-                return mainWebViewController?.nextMessage() ?? false
+                return currentWebViewController.nextMessage()
             } else {
                 return false
             }
 
         case kVK_DownArrow:
             if UserDefaults.standard.arrowNavigatesMessageList {
-                return mainWebViewController?.previousMessage() ?? false
+                return currentWebViewController.previousMessage()
             } else {
                 return false
             }
 
         case kVK_Delete:
-            return mainWebViewController?.deleteMessage() ?? false
+            return currentWebViewController.deleteMessage()
 
         case kVK_ANSI_C:
-            NSLog("Pressed c");
-            return mainWebViewController?.composeNewEmail() ?? false
+            return currentWebViewController.composeNewEmail()
             
         default:
             return false
