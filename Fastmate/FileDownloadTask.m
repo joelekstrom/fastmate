@@ -113,16 +113,12 @@
         return;
     }
     
-    NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:
-        @"NSProgressFileOperationKindDownloading", @"NSProgressFileOperationKindKey",
-        [[NSURL fileURLWithPath:self.downloadingPath] URLByResolvingSymlinksInPath], @"NSProgressFileURLKey",
-        nil];
-    
-    self.progress = [[NSProgress alloc] initWithParent:nil userInfo:info];
-    [self.progress setKind:@"NSProgressKindFile"];
-    [self.progress setPausable:NO];
-    [self.progress setCancellable:YES];
-    [self.progress setTotalUnitCount:_totalBytes];
+    self.progress = [NSProgress progressWithTotalUnitCount:_totalBytes];
+    self.progress.fileOperationKind = NSProgressFileOperationKindDownloading;
+    self.progress.fileURL = [[NSURL fileURLWithPath:self.downloadingPath] URLByResolvingSymlinksInPath];
+    self.progress.kind = NSProgressKindFile;
+    self.progress.pausable = NO;
+    self.progress.cancellable = YES;
     [self.progress publish];
     
     // Add handlers
