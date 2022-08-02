@@ -15,5 +15,6 @@
 #define WatchedFolderTypeKey                NSStringFromSelector(@selector(watchedFolderType))
 #define WatchedFoldersKey                   NSStringFromSelector(@selector(watchedFolders))
 #define WindowBackgroundColorKey            NSStringFromSelector(@selector(lastUsedWindowColor))
+#define ShouldDownloadUsingExternalBrowserKey  NSStringFromSelector(@selector(shouldDownloadInExternalBrowser))
 
 #endif /* UserDefaultsKeys_h */

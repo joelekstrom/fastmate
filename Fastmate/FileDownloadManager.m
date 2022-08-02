@@ -11,8 +11,13 @@
 @implementation FileDownloadManager
 
 - (void)addDownloadWithURL:(NSURL *)url {
+    if ([NSUserDefaults.standardUserDefaults boolForKey:ShouldDownloadUsingExternalBrowserKey]) {
+        [NSWorkspace.sharedWorkspace openURL:url];
+        return;
+    }
+
     NSString *fileName = url.lastPathComponent;
-    
+
     // lazy loading
     if(self.sessions == nil) {
         self.sessions = [[NSMutableDictionary alloc] init];
