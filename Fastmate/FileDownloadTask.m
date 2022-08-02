@@ -162,8 +162,8 @@
 
         
     if ([NSUserDefaults.standardUserDefaults boolForKey:ShouldOpenSafeDownloadsKey]) {
-        NSSet *extSet = [NSSet setWithObjects:@"doc",@"docx",@"ppt",@"pptx",@"xls",@"xlsx",@"pdf",@"png",@"jpg",nil];
-        if ([extSet containsObject:self.downloadedPath.pathExtension]) {
+        NSSet *safeExtensions = [NSSet setWithArray:@[@"doc",@"docx",@"ppt",@"pptx",@"xls",@"xlsx",@"pdf",@"png",@"jpg",@"jpeg"]];
+        if ([safeExtensions containsObject:[self.downloadedPath.pathExtension lowercaseString]]) {
             [NSWorkspace.sharedWorkspace openFile:self.downloadedPath];
         }
     }
