@@ -2,6 +2,7 @@
 #import "KVOBlockObserver.h"
 #import "UserDefaultsKeys.h"
 #import "PrintManager.h"
+#import "FileDownloadManager.h"
 @import WebKit;
 
 @interface WKWebView (SyncBridge)
@@ -15,9 +16,11 @@
 @property (nonatomic, strong) WKUserContentController *userContentController;
 @property (nonatomic, strong) id baseURLObserver;
 @property (nonatomic, strong) id currentURLObserver;
+@property (nonatomic, strong) FileDownloadManager *fileDownloadManager;
 @property (nonatomic, strong) NSURL *baseURL;
 @property (nonatomic, strong) NSTextField *linkPreviewTextField;
 @property (nonatomic, assign) CGFloat zoomLevel;
+
 
 // If the user is for example viewing a PDF inline, this value will point to the actual file
 @property (nonatomic, strong) NSURL *lastViewedUserContent;
@@ -61,6 +64,8 @@
         NSURL *mailURL = [weakSelf.baseURL URLByAppendingPathComponent:@"mail" isDirectory:YES];
         [weakSelf.webView loadRequest:[NSURLRequest requestWithURL:mailURL]];
     }];
+    
+    self.fileDownloadManager = [[FileDownloadManager alloc] init];
 }
 
 - (NSURL *)currentlyViewedAttachment
@@ -79,7 +84,7 @@
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     BOOL isFastmailLink = [navigationAction.request.URL.host hasSuffix:@".fastmail.com"];
     self.lastViewedUserContent = nil;
-
+    
     if (webView == self.temporaryWebView) {
         // A temporary web view means we caught a link URL which Fastmail wants to open externally (like a new tab).
         // However, if  it's a user-added link to an e-mail, prefer to open it within Fastmate itself
@@ -93,7 +98,7 @@
         self.temporaryWebView = nil;
     } else if ([navigationAction.request.URL.host hasSuffix:@".fastmailusercontent.com"]) {
         if ([self isDownloadRequest:navigationAction.request]) {
-            [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
+            [self.fileDownloadManager addDownloadWithURL:navigationAction.request.URL];
             decisionHandler(WKNavigationActionPolicyCancel);
         } else {
             self.lastViewedUserContent = navigationAction.request.URL;
@@ -113,6 +118,17 @@
         }
         decisionHandler(WKNavigationActionPolicyCancel);
     }
+}
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
+    NSHTTPURLResponse *response = (NSHTTPURLResponse *)navigationResponse.response;
+    NSArray *cookies =[NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:response.URL];
+
+    for (NSHTTPCookie *cookie in cookies) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    }
+
+    decisionHandler(WKNavigationResponsePolicyAllow);
 }
 
 /**

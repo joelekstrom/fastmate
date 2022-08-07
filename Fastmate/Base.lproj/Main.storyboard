@@ -426,11 +426,11 @@
             <objects>
                 <viewController title="Fastmate Settings" showSeguePresentationStyle="single" id="Tjh-E4-m7V" customClass="SettingsViewController" sceneMemberID="viewController">
                     <view key="view" id="F1O-1e-Ohl">
-                        <rect key="frame" x="0.0" y="0.0" width="535" height="266"/>
+                        <rect key="frame" x="0.0" y="0.0" width="535" height="253"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="kKl-dg-XhU">
-                                <rect key="frame" x="13" y="10" width="509" height="242"/>
+                                <rect key="frame" x="13" y="10" width="509" height="229"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="" id="hnf-kG-bEx">
@@ -849,6 +849,192 @@
                                             </constraints>
                                         </view>
                                     </tabViewItem>
+                                    <tabViewItem label="Downloads" identifier="" id="8T0-RE-GYc" userLabel="Downloads">
+                                        <view key="view" id="6m5-4g-FyX">
+                                            <rect key="frame" x="10" y="33" width="489" height="183"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="13" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SAm-us-M3i">
+                                                    <rect key="frame" x="20" y="25" width="457" height="142"/>
+                                                    <subviews>
+                                                        <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ca0-MO-xOh">
+                                                            <rect key="frame" x="0.0" y="123" width="274" height="19"/>
+                                                            <subviews>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fim-ZT-Mbs">
+                                                                    <rect key="frame" x="-2" y="3" width="129" height="16"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Download location:" id="m8n-de-pAk">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <pathControl verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1gz-pK-Tf2">
+                                                                    <rect key="frame" x="142" y="-4" width="135" height="25"/>
+                                                                    <pathCell key="cell" selectable="YES" editable="YES" alignment="left" placeholderString="" pathStyle="popUp" id="lBs-kQ-u0Y">
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </pathCell>
+                                                                    <connections>
+                                                                        <action selector="downloadsPathClicked:" target="Tjh-E4-m7V" id="BKY-7F-dLh"/>
+                                                                        <outlet property="delegate" destination="Tjh-E4-m7V" id="4rx-Dq-RKT"/>
+                                                                    </connections>
+                                                                </pathControl>
+                                                            </subviews>
+                                                            <visibilityPriorities>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                            </visibilityPriorities>
+                                                            <customSpacing>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                            </customSpacing>
+                                                        </stackView>
+                                                        <stackView distribution="fill" orientation="horizontal" alignment="firstBaseline" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wQY-hJ-GQk">
+                                                            <rect key="frame" x="0.0" y="94" width="457" height="16"/>
+                                                            <subviews>
+                                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="75h-cc-HUr">
+                                                                    <rect key="frame" x="-2" y="0.0" width="134" height="16"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Duplicate downloads:" id="rh8-pt-JZh">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h5E-1r-rfb">
+                                                                    <rect key="frame" x="148" y="-1" width="88" height="18"/>
+                                                                    <buttonCell key="cell" type="radio" title="Keep both" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="zYc-eG-5RJ">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <action selector="downloadBehaviorButtonSelected:" target="Tjh-E4-m7V" id="HuK-fL-Z8i"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="ifo-pW-k7A">
+                                                                    <rect key="frame" x="254" y="-1" width="136" height="18"/>
+                                                                    <buttonCell key="cell" type="radio" title="Overwrite existing" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="hpr-QO-tPN">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <action selector="downloadBehaviorButtonSelected:" target="Tjh-E4-m7V" id="Z12-ea-vi1"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <button verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="6X8-3e-kxL">
+                                                                    <rect key="frame" x="408" y="-1" width="49" height="18"/>
+                                                                    <buttonCell key="cell" type="radio" title="Ask" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="FuE-uy-eix">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <action selector="downloadBehaviorButtonSelected:" target="Tjh-E4-m7V" id="SaW-lq-BHm"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <visibilityPriorities>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                            </visibilityPriorities>
+                                                            <customSpacing>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                            </customSpacing>
+                                                        </stackView>
+                                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XWZ-Rv-TMx">
+                                                            <rect key="frame" x="0.0" y="47" width="314" height="34"/>
+                                                            <subviews>
+                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WqB-wu-nv4">
+                                                                    <rect key="frame" x="-2" y="17" width="242" height="18"/>
+                                                                    <buttonCell key="cell" type="check" title="Open &quot;safe&quot; files after downloading" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="2a2-lV-2rR">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldOpenSafeDownloads" id="Das-2c-8Dg"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7pe-88-2Nr">
+                                                                    <rect key="frame" x="18" y="0.0" width="298" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="&quot;Safe&quot; files include Office documents, PDFs and images" id="v5U-b5-TUB">
+                                                                        <font key="font" metaFont="message" size="11"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="7pe-88-2Nr" firstAttribute="leading" secondItem="WqB-wu-nv4" secondAttribute="leading" constant="20" id="1PC-Ce-LdP"/>
+                                                            </constraints>
+                                                            <visibilityPriorities>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                            </visibilityPriorities>
+                                                            <customSpacing>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                            </customSpacing>
+                                                        </stackView>
+                                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ab5-Xh-ciS">
+                                                            <rect key="frame" x="0.0" y="0.0" width="394" height="34"/>
+                                                            <subviews>
+                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QQv-aC-kcG">
+                                                                    <rect key="frame" x="-2" y="17" width="227" height="18"/>
+                                                                    <buttonCell key="cell" type="check" title="Download using external browser" bezelStyle="regularSquare" imagePosition="left" inset="2" id="DgH-yy-e3e">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <binding destination="aLa-hz-uMh" name="value" keyPath="values.shouldDownloadInExternalBrowser" id="g2R-m3-9uY"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NmY-yb-Cgn">
+                                                                    <rect key="frame" x="18" y="0.0" width="378" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="If there are problems downloading files from Fastmate, try enabling this" id="f3F-d0-7Hd">
+                                                                        <font key="font" metaFont="message" size="11"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="NmY-yb-Cgn" firstAttribute="leading" secondItem="QQv-aC-kcG" secondAttribute="leading" constant="20" id="Ysj-oA-gtP"/>
+                                                            </constraints>
+                                                            <visibilityPriorities>
+                                                                <integer value="1000"/>
+                                                                <integer value="1000"/>
+                                                            </visibilityPriorities>
+                                                            <customSpacing>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                                <real value="3.4028234663852886e+38"/>
+                                                            </customSpacing>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="1gz-pK-Tf2" firstAttribute="leading" secondItem="h5E-1r-rfb" secondAttribute="leading" constant="-5" id="QDK-Im-ZCr"/>
+                                                    </constraints>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="SAm-us-M3i" firstAttribute="top" secondItem="6m5-4g-FyX" secondAttribute="top" constant="16" id="SsX-eL-uFn"/>
+                                                <constraint firstItem="SAm-us-M3i" firstAttribute="leading" secondItem="6m5-4g-FyX" secondAttribute="leading" constant="20" id="wRC-UD-I5p"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
                                 </tabViewItems>
                             </tabView>
                         </subviews>
@@ -861,14 +1047,18 @@
                     </view>
                     <connections>
                         <outlet property="allWatchedFoldersButton" destination="Wyb-wk-zdl" id="x37-Mi-41X"/>
+                        <outlet property="askDownloadBehaviorButton" destination="6X8-3e-kxL" id="VM9-Q6-4lG"/>
                         <outlet property="defaultWatchedFoldersButton" destination="9rs-iI-JCy" id="ODZ-40-oYP"/>
+                        <outlet property="downloadsPathControl" destination="1gz-pK-Tf2" id="BTN-Jd-pE6"/>
+                        <outlet property="keepDownloadBehaviorButton" destination="h5E-1r-rfb" id="pUg-u8-r8x"/>
+                        <outlet property="overwriteDownloadBehaviorButton" destination="ifo-pW-k7A" id="29y-bG-YEl"/>
                         <outlet property="specificWatchedFoldersButton" destination="uiF-Xi-0cQ" id="8FS-7c-2mX"/>
                     </connections>
                 </viewController>
                 <customObject id="yva-Kj-meo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="aLa-hz-uMh"/>
             </objects>
-            <point key="canvasLocation" x="693.5" y="855"/>
+            <point key="canvasLocation" x="693.5" y="853"/>
         </scene>
     </scenes>
 </document>

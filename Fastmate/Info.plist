@@ -67,5 +67,24 @@
 	<array>
 		<dict/>
 	</array>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>fmdownload</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Fastmate download</string>
+			<key>CFBundleTypeIconFile</key>
+			<string></string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>NSDocumentClass</key>
+			<string>BrowserDocument</string>
+		</dict>
+	</array>
 </dict>
 </plist>

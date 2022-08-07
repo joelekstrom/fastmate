@@ -23,6 +23,9 @@
 		5DC2AF2D225933BE004C94E5 /* VersionChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC2AF2C225933BE004C94E5 /* VersionChecker.m */; };
 		5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCFE8782258CEC5006B1A21 /* SettingsViewController.m */; };
 		5DF817F52790B9B700D765E4 /* UnreadCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF817F42790B9B700D765E4 /* UnreadCount.swift */; };
+		6B1451D8285782A00046CFA0 /* FileDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1451D7285782A00046CFA0 /* FileDownloadManager.m */; };
+		6B6D1F1C2853CCA100DA1186 /* FileDownloadUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6D1F182853CCA100DA1186 /* FileDownloadUtil.m */; };
+		6B6D1F1D2853CCA100DA1186 /* FileDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6D1F1B2853CCA100DA1186 /* FileDownloadTask.m */; };
 		6B819F7A284D154A00D444FF /* Fastmate.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 6B819F79284D154A00D444FF /* Fastmate.sdef */; };
 		6B819F7F284D167400D444FF /* JavaScriptCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B819F7E284D167400D444FF /* JavaScriptCommand.swift */; };
 /* End PBXBuildFile section */
@@ -54,6 +57,12 @@
 		5DCFE8772258CEC5006B1A21 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		5DCFE8782258CEC5006B1A21 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		5DF817F42790B9B700D765E4 /* UnreadCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadCount.swift; sourceTree = "<group>"; };
+		6B1451D7285782A00046CFA0 /* FileDownloadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileDownloadManager.m; sourceTree = "<group>"; };
+		6B1451D9285782B20046CFA0 /* FileDownloadManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloadManager.h; sourceTree = "<group>"; };
+		6B6D1F182853CCA100DA1186 /* FileDownloadUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDownloadUtil.m; sourceTree = "<group>"; };
+		6B6D1F192853CCA100DA1186 /* FileDownloadUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDownloadUtil.h; sourceTree = "<group>"; };
+		6B6D1F1A2853CCA100DA1186 /* FileDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDownloadTask.h; sourceTree = "<group>"; };
+		6B6D1F1B2853CCA100DA1186 /* FileDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDownloadTask.m; sourceTree = "<group>"; };
 		6B819F79284D154A00D444FF /* Fastmate.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Fastmate.sdef; sourceTree = "<group>"; };
 		6B819F7E284D167400D444FF /* JavaScriptCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaScriptCommand.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +124,12 @@
 				5D8DDE2B2443AD4800747135 /* UserDefaultsKeys.h */,
 				5D8DDE28244399BD00747135 /* KVOBlockObserver.h */,
 				5D8DDE29244399BD00747135 /* KVOBlockObserver.m */,
+				6B1451D9285782B20046CFA0 /* FileDownloadManager.h */,
+				6B1451D7285782A00046CFA0 /* FileDownloadManager.m */,
+				6B6D1F1A2853CCA100DA1186 /* FileDownloadTask.h */,
+				6B6D1F1B2853CCA100DA1186 /* FileDownloadTask.m */,
+				6B6D1F192853CCA100DA1186 /* FileDownloadUtil.h */,
+				6B6D1F182853CCA100DA1186 /* FileDownloadUtil.m */,
 				5D6E3B3A212824AF00ED16C9 /* Fastmate.js */,
 				6B819F79284D154A00D444FF /* Fastmate.sdef */,
 				5D39BEDC2122383900693D7E /* Assets.xcassets */,
@@ -207,10 +222,13 @@
 			files = (
 				6B819F7F284D167400D444FF /* JavaScriptCommand.swift in Sources */,
 				5DBB973827BC4EE7002A2EFE /* Notifications.swift in Sources */,
+				6B6D1F1C2853CCA100DA1186 /* FileDownloadUtil.m in Sources */,
 				5DF817F52790B9B700D765E4 /* UnreadCount.swift in Sources */,
+				6B6D1F1D2853CCA100DA1186 /* FileDownloadTask.m in Sources */,
 				5D1DDBD227897C4D00244F04 /* AppDelegate.swift in Sources */,
 				5D8DDE2A244399BD00747135 /* KVOBlockObserver.m in Sources */,
 				5D1DDBD6278C483400244F04 /* MainWindowController.swift in Sources */,
+				6B1451D8285782A00046CFA0 /* FileDownloadManager.m in Sources */,
 				5D1DDBD4278B718000244F04 /* UserDefaults.swift in Sources */,
 				5D39BEE32122383900693D7E /* main.m in Sources */,
 				5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */,
