@@ -48,7 +48,8 @@ willPerformHTTPRedirection:(NSHTTPURLResponse *)response
         newRequest:(NSURLRequest *)request
  completionHandler:(void (^)(NSURLRequest *))completionHandler;
 {
-    [task cancel];
+    completionHandler(nil); // Refuse redirect, will return the redirect response in the response handler instead of following
+
     [NSUserDefaults.standardUserDefaults setObject:[NSDate date] forKey:NSStringFromSelector(@selector(lastUpdateCheckDate))];
 
     NSString *currentVersion = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
