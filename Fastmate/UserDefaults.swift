@@ -19,7 +19,8 @@ extension UserDefaults {
             #keyPath(shouldUseTransparentTitleBar): true,
             #keyPath(watchedFolderType): WatchedFolderType.selected.rawValue,
             #keyPath(watchedFolders): "",
-            #keyPath(shouldDownloadInExternalBrowser): false
+            #keyPath(shouldDownloadInExternalBrowser): false,
+            #keyPath(zoomLevel): 1.0
         ])
     }
 
@@ -36,6 +37,7 @@ extension UserDefaults {
     @objc dynamic var watchedFolderType: WatchedFolderType { .init(rawValue: UInt(integer(forKey: #keyPath(watchedFolderType))))! }
     @objc dynamic var watchedFolders: String { string(forKey: #keyPath(watchedFolders)) ?? "" }
     @objc dynamic var shouldDownloadInExternalBrowser: Bool { bool(forKey: #keyPath(shouldDownloadInExternalBrowser)) }
+    @objc dynamic var zoomLevel: Double { double(forKey: #keyPath(zoomLevel)) }
 
     @objc dynamic var arrowNavigatesMessageList: Bool {
         get { bool(forKey: #keyPath(arrowNavigatesMessageList)) }

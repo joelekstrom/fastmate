@@ -39,7 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureUserContentController];
-    self.zoomLevel = 1.0;
+    _zoomLevel = 1.0;
 
     WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
     configuration.applicationNameForUserAgent = @"Fastmate";
@@ -267,6 +267,11 @@
     } else if ([message.name isEqualToString:@"DocumentDidChange"]) {
         [self queryToolbarColor];
         [self updateUnreadCounts];
+
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            self.zoomLevel = [NSUserDefaults.standardUserDefaults doubleForKey:NSStringFromSelector(@selector(zoomLevel))];
+        });
     } else if ([message.name isEqualToString:@"Print"]) {
         [PrintManager.sharedInstance printControllerContent:self];
     }
@@ -308,6 +313,7 @@
 - (void)setZoomLevel:(CGFloat)zoomLevel {
     _zoomLevel = zoomLevel;
     [self.webView evaluateJavaScript:[NSString stringWithFormat:@"document.body.style.zoom = %f;", self.zoomLevel]];
+    [NSUserDefaults.standardUserDefaults setDouble:zoomLevel forKey:NSStringFromSelector(@selector(zoomLevel))];
 }
 
 - (void)copyURLToPasteboard:(NSURL *)URL {
