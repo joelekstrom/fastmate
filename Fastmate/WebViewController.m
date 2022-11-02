@@ -14,7 +14,6 @@
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) WKWebView *temporaryWebView;
 @property (nonatomic, strong) WKUserContentController *userContentController;
-@property (nonatomic, strong) id baseURLObserver;
 @property (nonatomic, strong) id currentURLObserver;
 @property (nonatomic, strong) FileDownloadManager *fileDownloadManager;
 @property (nonatomic, strong) NSURL *baseURL;
@@ -58,14 +57,14 @@
         [weakSelf adjustV67Width];
     }];
 
-    self.baseURLObserver = [KVOBlockObserver observeUserDefaultsKey:ShouldUseFastmailBetaKey block:^(BOOL useBeta) {
-        NSString *baseURLString = useBeta ? @"https://beta.fastmail.com" : @"https://www.fastmail.com";
-        weakSelf.baseURL = [NSURL URLWithString:baseURLString];
-        NSURL *mailURL = [weakSelf.baseURL URLByAppendingPathComponent:@"mail" isDirectory:YES];
-        [weakSelf.webView loadRequest:[NSURLRequest requestWithURL:mailURL]];
-    }];
-    
     self.fileDownloadManager = [[FileDownloadManager alloc] init];
+}
+
+- (void)setBaseURL:(NSURL *)baseURL
+{
+    _baseURL = baseURL;
+    NSURL *mailURL = [baseURL URLByAppendingPathComponent:@"mail" isDirectory:YES];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:mailURL]];
 }
 
 - (NSURL *)currentlyViewedAttachment
@@ -209,26 +208,6 @@
     NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:color requiringSecureCoding:YES error:nil];
     [NSUserDefaults.standardUserDefaults setObject:colorData forKey:WindowBackgroundColorKey];
     self.view.window.backgroundColor = color;
-}
-
-- (void)handleHttpsURL:(NSURL *)URL {
-    [self.webView loadRequest:[NSURLRequest requestWithURL:URL]];
-}
-
-- (void)handleMailtoURL:(NSURL *)URL {
-    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.baseURL resolvingAgainstBaseURL:NO];
-    components.path = @"/action/compose/";
-    NSString *mailtoString = [URL.absoluteString stringByReplacingOccurrencesOfString:@"mailto:" withString:@""];
-    components.percentEncodedQueryItems = @[[NSURLQueryItem queryItemWithName:@"mailto" value:mailtoString]];
-    NSURL *actionURL = components.URL;
-    [self.webView loadRequest:[NSURLRequest requestWithURL:actionURL]];
-}
-
-- (void)handleFastmateURL:(NSURL *)URL {
-    NSURLComponents *components = [NSURLComponents componentsWithURL:URL resolvingAgainstBaseURL:NO];
-    components.scheme = @"https";
-    components.host = self.baseURL.host;
-    [self.webView loadRequest:[NSURLRequest requestWithURL:components.URL]];
 }
 
 - (void)configureUserContentController {

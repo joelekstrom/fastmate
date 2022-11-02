@@ -18,6 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var isAutomaticUpdateCheck = false
     private var subscriptions = Set<AnyCancellable>()
     private var notificationCenter = FastmateNotificationCenter()
+    private var router = URLRouter()
 
     @Published var mainWebViewController: WebViewController? {
         didSet { mainWebViewController?.notificationHandler = notificationCenter.postNotifification(for:) }
@@ -47,6 +48,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         statusItemImagePublisher(with: unreadCountPublisher.eraseToAnyPublisher())
             .sink { self.statusItem?.button?.image = $0 }
+            .store(in: &subscriptions)
+
+        router.$baseURL
+            .sink { self.mainWebViewController?.setBaseURL($0) }
             .store(in: &subscriptions)
 
         DispatchQueue.global().async {
@@ -105,16 +110,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func application(_ application: NSApplication, open urls: [URL]) {
-        guard let url = urls.first else {
-            return
-        }
-
-        if url.scheme == "https" {
-            mainWebViewController?.handleHttpsURL(url)
-        } else if url.scheme == "fastmate" {
-            mainWebViewController?.handleFastmateURL(url)
-        } else if url.scheme == "mailto" {
-            mainWebViewController?.handleMailtoURL(url)
+        if let route = router.route(for: urls.first) {
+            mainWebViewController?.webView?.load(URLRequest(url: route))
         }
     }
 

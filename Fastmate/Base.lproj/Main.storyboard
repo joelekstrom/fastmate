@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -426,11 +426,11 @@
             <objects>
                 <viewController title="Fastmate Settings" showSeguePresentationStyle="single" id="Tjh-E4-m7V" customClass="SettingsViewController" sceneMemberID="viewController">
                     <view key="view" id="F1O-1e-Ohl">
-                        <rect key="frame" x="0.0" y="0.0" width="535" height="253"/>
+                        <rect key="frame" x="0.0" y="0.0" width="535" height="266"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="kKl-dg-XhU">
-                                <rect key="frame" x="13" y="10" width="509" height="229"/>
+                                <rect key="frame" x="13" y="10" width="509" height="242"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="" id="hnf-kG-bEx">
@@ -465,8 +465,8 @@
                                                             <rect key="frame" x="0.0" y="78" width="417" height="34"/>
                                                             <subviews>
                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="am0-9G-NfW">
-                                                                    <rect key="frame" x="-2" y="17" width="161" height="18"/>
-                                                                    <buttonCell key="cell" type="check" title="Use beta.fastmail.com" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MDM-GW-3pA">
+                                                                    <rect key="frame" x="-2" y="17" width="184" height="18"/>
+                                                                    <buttonCell key="cell" type="check" title="Use betaapp.fastmail.com" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MDM-GW-3pA">
                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                         <font key="font" metaFont="system"/>
                                                                     </buttonCell>

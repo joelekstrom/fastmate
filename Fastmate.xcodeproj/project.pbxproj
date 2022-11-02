@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D1C3E422912EC5B00D3609F /* URLRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1C3E412912EC5B00D3609F /* URLRouter.swift */; };
 		5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0F8E94240B910A00287BD1 /* PrintManager.m */; };
 		5D14A8EB22C425B400A5ACE9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5D14A8EA22C425B400A5ACE9 /* Credits.rtf */; };
 		5D18D5022685E2EC002999F0 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D18D5012685E2EC002999F0 /* PDFKit.framework */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D1C3E412912EC5B00D3609F /* URLRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRouter.swift; sourceTree = "<group>"; };
 		5D0F8E93240B910A00287BD1 /* PrintManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrintManager.h; sourceTree = "<group>"; };
 		5D0F8E94240B910A00287BD1 /* PrintManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrintManager.m; sourceTree = "<group>"; };
 		5D14A8EA22C425B400A5ACE9 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				5D1DDBD5278C483400244F04 /* MainWindowController.swift */,
 				5DF817F42790B9B700D765E4 /* UnreadCount.swift */,
 				5DBB973727BC4EE7002A2EFE /* Notifications.swift */,
+				1D1C3E412912EC5B00D3609F /* URLRouter.swift */,
 				5D6E3B352122FF9E00ED16C9 /* WebViewController.h */,
 				5D6E3B362122FF9E00ED16C9 /* WebViewController.m */,
 				5D0F8E93240B910A00287BD1 /* PrintManager.h */,
@@ -234,6 +237,7 @@
 				5DCFE8792258CEC5006B1A21 /* SettingsViewController.m in Sources */,
 				5D6E3B372122FF9E00ED16C9 /* WebViewController.m in Sources */,
 				5D0F8E95240B910A00287BD1 /* PrintManager.m in Sources */,
+				1D1C3E422912EC5B00D3609F /* URLRouter.swift in Sources */,
 				5DC2AF2D225933BE004C94E5 /* VersionChecker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
