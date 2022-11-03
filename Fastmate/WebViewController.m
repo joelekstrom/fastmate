@@ -1,5 +1,4 @@
 #import "WebViewController.h"
-#import "KVOBlockObserver.h"
 #import "UserDefaultsKeys.h"
 #import "PrintManager.h"
 #import "FileDownloadManager.h"
@@ -51,13 +50,22 @@
     self.webView.UIDelegate = self;
     [self.view addSubview:self.webView];
 
-    __weak typeof(self) weakSelf = self;
-    self.currentURLObserver = [KVOBlockObserver observe:self keyPath:@"webView.URL" block:^(id _Nonnull value) {
-        [weakSelf queryToolbarColor];
-        [weakSelf adjustV67Width];
-    }];
-
+    [self.webView addObserver:self forKeyPath:@"URL" options:NSKeyValueObservingOptionNew context:nil];
     self.fileDownloadManager = [[FileDownloadManager alloc] init];
+}
+
+- (void)dealloc
+{
+    [self.webView removeObserver:self forKeyPath:@"URL"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if (object == self.webView && [keyPath isEqualToString:@"URL"]) {
+        [self queryToolbarColor];
+        [self adjustV67Width];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 - (void)setBaseURL:(NSURL *)baseURL
