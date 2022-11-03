@@ -121,10 +121,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func dockBadgeLabelPublisher(with unreadCount: AnyPublisher<Int, Never>) -> AnyPublisher<String?, Never> {
         unreadCount
             .combineLatest(
+                UserDefaults.standard.publisher(for: \.shouldShowUnreadMailIndicator),
                 UserDefaults.standard.publisher(for: \.shouldShowUnreadMailInDock),
                 UserDefaults.standard.publisher(for: \.shouldShowUnreadMailCountInDock)
-            ).map { count, shouldShowBadge, shouldShowCountInBadge in
-                guard count > 0, shouldShowBadge else { return nil }
+            ).map { count, shouldShowAnyIndicator, shouldShowBadgeInDock, shouldShowCountInBadge in
+                guard count > 0, shouldShowAnyIndicator, shouldShowBadgeInDock else { return nil }
                 return shouldShowCountInBadge ? String(count) : " "
             }.eraseToAnyPublisher()
     }
