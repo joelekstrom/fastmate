@@ -8,10 +8,10 @@
 - (BOOL)evaluateJavaScript:(NSString *)script;
 @end
 
-@interface WebViewController () <WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler>
+@interface WebViewController () <WKNavigationDelegate, WKScriptMessageHandler>
 
 @property (nonatomic, strong) WKWebView *webView;
-@property (nonatomic, strong) WKWebView *temporaryWebView;
+@property (nonatomic, strong) WebViewDelegate *uiDelegate;
 @property (nonatomic, strong) WKUserContentController *userContentController;
 @property (nonatomic, strong) id currentURLObserver;
 @property (nonatomic, strong) FileDownloadManager *fileDownloadManager;
@@ -44,13 +44,19 @@
     configuration.userContentController = self.userContentController;
     [configuration.preferences setValue:@YES forKey:@"developerExtrasEnabled"];
 
-    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
-    self.webView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-    self.webView.navigationDelegate = self;
-    self.webView.UIDelegate = self;
-    [self.view addSubview:self.webView];
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
+    webView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    webView.navigationDelegate = self;
+    [self.view addSubview:webView];
+    self.webView = webView;
 
-    [self.webView addObserver:self forKeyPath:@"URL" options:NSKeyValueObservingOptionNew context:nil];
+    self.uiDelegate = [[WebViewDelegate alloc] init];
+    self.uiDelegate.requestHandler = ^(NSURLRequest *request) {
+        [webView loadRequest:request];
+    };
+    webView.UIDelegate = self.uiDelegate;
+
+    [webView addObserver:self forKeyPath:@"URL" options:NSKeyValueObservingOptionNew context:nil];
     self.fileDownloadManager = [[FileDownloadManager alloc] init];
 }
 
@@ -89,21 +95,9 @@
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    BOOL isFastmailLink = [navigationAction.request.URL.host hasSuffix:@".fastmail.com"];
     self.lastViewedUserContent = nil;
     
-    if (webView == self.temporaryWebView) {
-        // A temporary web view means we caught a link URL which Fastmail wants to open externally (like a new tab).
-        // However, if  it's a user-added link to an e-mail, prefer to open it within Fastmate itself
-        BOOL isEmailLink = isFastmailLink && [navigationAction.request.URL.path hasPrefix:@"/mail/"];
-        if (isEmailLink) {
-            [self.webView loadRequest:[NSURLRequest requestWithURL:navigationAction.request.URL]];
-        } else {
-            [NSWorkspace.sharedWorkspace openURL:navigationAction.request.URL];
-        }
-        decisionHandler(WKNavigationActionPolicyCancel);
-        self.temporaryWebView = nil;
-    } else if ([navigationAction.request.URL.host hasSuffix:@".fastmailusercontent.com"]) {
+    if ([navigationAction.request.URL.host hasSuffix:@".fastmailusercontent.com"]) {
         if ([self isDownloadRequest:navigationAction.request]) {
             [self.fileDownloadManager addDownloadWithURL:navigationAction.request.URL];
             decisionHandler(WKNavigationActionPolicyCancel);
@@ -111,7 +105,7 @@
             self.lastViewedUserContent = navigationAction.request.URL;
             decisionHandler(WKNavigationActionPolicyAllow);
         }
-    } else if (isFastmailLink) {
+    } else if ([navigationAction.request.URL.host hasSuffix:@".fastmail.com"]) {
         decisionHandler(WKNavigationActionPolicyAllow);
     } else {
         // Link isn't within fastmail.com, open externally
@@ -158,12 +152,6 @@
     }
 
     return [components.path hasPrefix:@"/jmap/download/"];
-}
-
-- (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
-    self.temporaryWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
-    self.temporaryWebView.navigationDelegate = self;
-    return self.temporaryWebView;
 }
 
 - (void)composeNewEmail {
@@ -324,55 +312,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.webView evaluateJavaScript:[NSString stringWithFormat:@"Fastmate.handleNotificationClick(\"%@\")", identifier] completionHandler:nil];
     });
-}
-
-- (void)webView:(WKWebView *)webView runOpenPanelWithParameters:(WKOpenPanelParameters *)parameters initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSArray<NSURL *> *URLs))completionHandler {
-    NSOpenPanel *panel = [NSOpenPanel openPanel];
-    if (@available(macOS 10.13.4, *)) {
-        panel.canChooseDirectories = parameters.allowsDirectories;
-    } else {
-        panel.canChooseDirectories = NO;
-    }
-    panel.allowsMultipleSelection = parameters.allowsMultipleSelection;
-    panel.canCreateDirectories = NO;
-    [panel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse result) {
-        completionHandler(result == NSModalResponseOK ? panel.URLs : nil);
-    }];
-}
-
-- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler {
-    NSAlert *alert = [NSAlert new];
-    alert.messageText = message;
-    [alert addButtonWithTitle:@"OK"];
-    [alert addButtonWithTitle:@"Cancel"];
-    alert.alertStyle = NSAlertStyleInformational;
-    [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
-        completionHandler(returnCode == NSAlertFirstButtonReturn);
-    }];
-}
-
-- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
-    NSAlert *alert = [NSAlert new];
-    alert.messageText = message;
-    [alert addButtonWithTitle:@"OK"];
-    alert.alertStyle = NSAlertStyleInformational;
-    [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
-        completionHandler();
-    }];
-}
-
-- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString *))completionHandler {
-    NSAlert *alert = [NSAlert new];
-    alert.messageText = prompt;
-    [alert addButtonWithTitle:@"OK"];
-    [alert addButtonWithTitle:@"Cancel"];
-    alert.alertStyle = NSAlertStyleInformational;
-    NSTextField *textField = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 200, 24)];
-    textField.stringValue = defaultText;
-    [alert setAccessoryView:textField];
-    [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
-        completionHandler(returnCode == NSAlertFirstButtonReturn ? textField.stringValue : defaultText);
-    }];
 }
 
 - (void)adjustV67Width {
