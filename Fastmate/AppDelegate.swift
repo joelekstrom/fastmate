@@ -47,7 +47,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .store(in: &subscriptions)
 
         statusItemImagePublisher(with: unreadCountPublisher.eraseToAnyPublisher())
-            .sink { self.statusItem?.button?.image = $0 }
+            .combineLatest($statusItem)
+            .sink { (image, statusItem) in statusItem?.button?.image = image }
             .store(in: &subscriptions)
 
         router.$baseURL
@@ -63,15 +64,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         performAutomaticUpdateCheckIfNeeded()
     }
 
-    private var statusItem: NSStatusItem?
+    @Published private var statusItem: NSStatusItem?
     private var statusItemVisible: Bool = false {
         didSet {
             if statusItemVisible {
-                self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-                self.statusItem?.button?.target = self
-                self.statusItem?.button?.action = #selector(statusItemSelected(sender:))
+                let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+                statusItem.button?.target = self
+                statusItem.button?.action = #selector(statusItemSelected(sender:))
+                self.statusItem = statusItem
             } else if let item = statusItem {
                 NSStatusBar.system.removeStatusItem(item)
+                statusItem = nil
             }
         }
     }
