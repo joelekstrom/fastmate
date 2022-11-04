@@ -11,7 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setBaseURL:(NSURL *)baseURL;
 - (void)composeNewEmail;
 - (void)focusSearchField;
-- (BOOL)deleteMessage;
 - (BOOL)nextMessage;
 - (BOOL)previousMessage;
 - (void)handleNotificationClickWithIdentifier:(NSString *)identifier;

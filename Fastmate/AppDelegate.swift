@@ -258,10 +258,6 @@ extension AppDelegate {
             } else {
                 return false
             }
-
-        case kVK_Delete:
-            return mainWebViewController?.deleteMessage() ?? false
-
         default:
             return false
         }

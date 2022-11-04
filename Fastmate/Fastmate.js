@@ -17,17 +17,6 @@ var Fastmate = {
         Fastmate.simulateKeyPress("c");
     },
 
-    deleteMessage: function() {
-        var deleteButton = document.getElementById("v24");
-        var content = document.getElementById("v48");
-        if (deleteButton != null && deleteButton.textContent == 'Delete' &&
-            document.activeElement == content) {
-            deleteButton.click();
-            return "true";
-        }
-        return "false";
-    },
-
     focusSearch: function() {
         Fastmate.simulateKeyPress("/");
     },

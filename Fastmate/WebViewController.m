@@ -158,10 +158,6 @@
     [self.webView evaluateJavaScript:@"Fastmate.compose()" completionHandler:nil];
 }
 
-- (BOOL)deleteMessage {
-    return [self.webView evaluateJavaScript:@"Fastmate.deleteMessage()"];
-}
-
 - (void)focusSearchField {
     [self.webView evaluateJavaScript:@"Fastmate.focusSearch()" completionHandler:nil];
 }
