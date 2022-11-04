@@ -349,13 +349,13 @@
         if (error == nil) {
             retVal = result;
         }
-        waiting = FALSE;
+        waiting = NO;
     }];
     
     while (waiting) {
         [NSRunLoop.currentRunLoop acceptInputForMode:NSDefaultRunLoopMode beforeDate:NSDate.distantFuture];
     }
-    return [retVal isEqual: @"true"];
+    return [retVal isEqual:@YES];
 }
 @end
 

@@ -1,42 +1,27 @@
 var Fastmate = {
 
     simulateKeyPress: function(key) {
-        var e = new Event("keydown");
-        e.key = key;
-        e.keyCode = e.key.charCodeAt(0);
-        e.which = e.keyCode;
-        e.altKey = false;
-        e.ctrlKey = false;
-        e.shiftKey = false;
-        e.metaKey = false;
-        e.bubbles = true;
-        document.dispatchEvent(e);
+        document.dispatchEvent(new KeyboardEvent('keydown', {'key': key}));
     },
 
     compose: function() {
-        Fastmate.simulateKeyPress("c");
+        Fastmate.simulateKeyPress('c')
+        return true
     },
 
     focusSearch: function() {
-        Fastmate.simulateKeyPress("/");
+        Fastmate.simulateKeyPress('/')
+        return true
     },
 
     nextMessage: function() {
-        var content = document.getElementById("v48");
-        if (document.activeElement == content) {
-            Fastmate.simulateKeyPress("k");
-            return "true";
-        }
-        return "false";
+        Fastmate.simulateKeyPress('k')
+        return true
     },
         
     previousMessage: function() {
-        var content = document.getElementById("v48");
-        if (document.activeElement == content) {
-            Fastmate.simulateKeyPress("j");
-            return "true";
-        }
-        return "false";
+        Fastmate.simulateKeyPress('j')
+        return true
     },
     
     getToolbarColor: function() {

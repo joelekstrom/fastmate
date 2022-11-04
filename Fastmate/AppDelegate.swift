@@ -244,22 +244,11 @@ extension AppDelegate {
     }
 
     @objc func handleKey(_ event: NSEvent) -> Bool {
+        guard UserDefaults.standard.arrowNavigatesMessageList else { return false }
         switch Int(event.keyCode) {
-        case kVK_UpArrow:
-            if UserDefaults.standard.arrowNavigatesMessageList {
-                return mainWebViewController?.nextMessage() ?? false
-            } else {
-                return false
-            }
-
-        case kVK_DownArrow:
-            if UserDefaults.standard.arrowNavigatesMessageList {
-                return mainWebViewController?.previousMessage() ?? false
-            } else {
-                return false
-            }
-        default:
-            return false
+        case kVK_UpArrow: return mainWebViewController?.nextMessage() ?? false
+        case kVK_DownArrow: return mainWebViewController?.previousMessage() ?? false
+        default: return false
         }
     }
 }
