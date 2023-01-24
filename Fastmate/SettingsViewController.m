@@ -26,6 +26,11 @@
     [NSWorkspace.sharedWorkspace openFile:[NSHomeDirectory() stringByAppendingPathComponent:@"userscripts"]];
 }
 
+- (IBAction)openUserStylesFolder:(id)sender {
+    [NSWorkspace.sharedWorkspace openFile:[NSHomeDirectory() stringByAppendingPathComponent:@"userstyles"]];
+}
+
+
 @end
 
 // This simply transforms the tag of a button to a bool, to check if the
