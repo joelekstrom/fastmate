@@ -57,6 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         DispatchQueue.global().async {
             self.createUserScriptsFolderIfNeeded()
+            self.createUserStylesFolderIfNeeded()
         }
     }
 
@@ -97,6 +98,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         addUserScriptsREADMEInFolder(path)
     }
 
+    func createUserStylesFolderIfNeeded() {
+        let path = (NSHomeDirectory() as NSString).appendingPathComponent("userstyles")
+        var folderExists: ObjCBool = false
+        FileManager.default.fileExists(atPath: path, isDirectory: &folderExists)
+
+        guard folderExists.boolValue == false else {
+            return
+        }
+
+        try? FileManager.default.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: nil)
+        addUserStylesREADMEInFolder(path)
+    }
+    
     func addUserScriptsREADMEInFolder(_ path: String) {
         let readmeFilePath = (path as NSString).appendingPathComponent("README.txt")
         let text = """
@@ -112,6 +126,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         FileManager.default.createFile(atPath: readmeFilePath, contents: text.data(using: .utf8), attributes: nil)
     }
 
+    func addUserStylesREADMEInFolder(_ path: String) {
+         let readmeFilePath = (path as NSString).appendingPathComponent("README.txt")
+         let text = """
+             Fastmate user styles
+
+             Put CSS files in this folder (.css), and Fastmate will load them after loading the Fastmail website.
+
+             Example:
+
+             // fastmate.css
+             body { background-color: yellow !important; }
+             """
+         FileManager.default.createFile(atPath: readmeFilePath, contents: text.data(using: .utf8), attributes: nil)
+    }
+    
     func application(_ application: NSApplication, open urls: [URL]) {
         if let route = router.route(for: urls.first) {
             mainWebViewController?.webView?.load(URLRequest(url: route))

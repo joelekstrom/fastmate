@@ -37,6 +37,10 @@
     [NSWorkspace.sharedWorkspace openFile:[NSHomeDirectory() stringByAppendingPathComponent:@"userscripts"]];
 }
 
+- (IBAction)openUserStylesFolder:(id)sender {
+   [NSWorkspace.sharedWorkspace openFile:[NSHomeDirectory() stringByAppendingPathComponent:@"userstyles"]];
+}
+
 - (IBAction)downloadBehaviorButtonSelected:(NSButton *)sender {
     [NSUserDefaults.standardUserDefaults setInteger:sender.tag forKey:DownloadBehaviorKey];
 }

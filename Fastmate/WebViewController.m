@@ -214,6 +214,7 @@
     [self.userContentController addUserScript:fastmateScript];
 
     [self loadUserScripts];
+    [self loadUserStyles];
 }
 
 - (void)loadUserScripts {
@@ -225,6 +226,21 @@
         }
 
         NSString *scriptContent = [NSString stringWithContentsOfFile:[userScriptsDirectoryPath stringByAppendingPathComponent:fileName] encoding:NSUTF8StringEncoding error:nil];
+        WKUserScript *script = [[WKUserScript alloc] initWithSource:scriptContent injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+        [self.userContentController addUserScript:script];
+    }
+}
+
+- (void)loadUserStyles {
+    NSString *userStylesDirectoryPath = [NSHomeDirectory() stringByAppendingPathComponent:@"userstyles"];
+    NSDirectoryEnumerator<NSString *> *enumerator = [NSFileManager.defaultManager enumeratorAtPath:userStylesDirectoryPath];
+    for (NSString *fileName in enumerator) {
+        if (![fileName.pathExtension isEqualToString:@"css"]) {
+            continue;
+        }
+
+        NSString *cssContent = [NSString stringWithContentsOfFile:[userStylesDirectoryPath stringByAppendingPathComponent:fileName] encoding:NSUTF8StringEncoding error:nil];
+        NSString *scriptContent = [NSString stringWithFormat:@"javascript:(function() { var parent = document.getElementsByTagName('head').item(0); var style = document.createElement('style'); style.type = 'text/css'; style.innerHTML = `%@`; parent.appendChild(style); })();", cssContent];
         WKUserScript *script = [[WKUserScript alloc] initWithSource:scriptContent injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
         [self.userContentController addUserScript:script];
     }
